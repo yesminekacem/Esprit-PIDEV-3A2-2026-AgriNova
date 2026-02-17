@@ -3,8 +3,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/22"
-            xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane xmlns="http://javafx.com/javafx/22"
+                xmlns:fx="http://javafx.com/fxml/1">
 
     <left>
         <VBox spacing="10" prefWidth="200" style="-fx-padding: 15;">
@@ -14,7 +14,7 @@
             <Button text="Crops"/>
             <Button text="Inventory"/>
             <Button text="Marketplace"/>
-            <Button text="Forum"/>
+            <Button text="Forum" />
         </VBox>
     </left>
 
