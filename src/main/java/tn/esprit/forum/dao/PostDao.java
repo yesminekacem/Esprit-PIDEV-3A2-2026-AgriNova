@@ -118,4 +118,17 @@ public class PostDao {
         }
     }
 
+    public void deleteOwned(int postId, int userId) throws SQLException {
+        String sql = "DELETE FROM post WHERE id_post = ? AND author_id = ?";
+        try (PreparedStatement st = cnx.prepareStatement(sql)) {
+            st.setInt(1, postId);
+            st.setInt(2, userId);
+            int affected = st.executeUpdate();
+            if (affected == 0) {
+                throw new SQLException("You are not allowed to delete this post.");
+            }
+        }
+    }
+
+
 }

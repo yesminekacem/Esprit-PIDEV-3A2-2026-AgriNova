@@ -1,15 +1,16 @@
 package tn.esprit.forum.controller;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import tn.esprit.forum.dao.PostDao;
 import tn.esprit.forum.entity.Post;
 import tn.esprit.navigation.Router;
 import tn.esprit.navigation.Routes;
-import javafx.collections.FXCollections;
-import java.sql.SQLException;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
+
+import java.sql.SQLException;
 
 public class CreateTopicController {
 
@@ -20,18 +21,14 @@ public class CreateTopicController {
     @FXML private Button btnPublish;
     @FXML private Label lblTitleCounter;
 
-
     private PostDao postDao;
-
-
 
     @FXML
     private void initialize() {
-
         try {
-            postDao = new PostDao();
+            postDao = new PostDao(); // ✅ FIX
         } catch (SQLException e) {
-            alert(Alert.AlertType.ERROR, "DB Error", "Cannot init PostDao: " + e.getMessage());
+            alert(Alert.AlertType.ERROR, "DB Error", "Cannot initialize PostDao: " + e.getMessage());
             btnPublish.setDisable(true);
             return;
         }
@@ -56,28 +53,20 @@ public class CreateTopicController {
         validateContent();
     }
 
-
     @FXML
     private void onPublish() {
         String title = txtTitle.getText() == null ? "" : txtTitle.getText().trim();
         String content = txtContent.getText() == null ? "" : txtContent.getText().trim();
-        String category = cbCategory.getValue(); // can be null
+        String category = cbCategory.getValue();
 
         if (title.isEmpty() || content.isEmpty()) {
             alert(Alert.AlertType.WARNING, "Missing fields", "Title and Content are required.");
             return;
         }
-        if (cbCategory.getValue() == null) {
+        if (category == null) {
             alert(Alert.AlertType.WARNING, "Missing fields", "Please choose a category.");
             return;
         }
-
-
-        Post p = new Post();
-        p.setTitle(title);
-        p.setContent(content);
-        p.setCategory(category);
-        p.setStatus("ACTIVE");
 
         User u = SessionManager.getInstance().getCurrentUser();
         if (u == null) {
@@ -85,6 +74,11 @@ public class CreateTopicController {
             return;
         }
 
+        Post p = new Post();
+        p.setTitle(title);
+        p.setContent(content);
+        p.setCategory(category);
+        p.setStatus("ACTIVE");
         p.setAuthor(u.getFullName());
         p.setAuthorId(u.getId());
 
@@ -95,7 +89,6 @@ public class CreateTopicController {
         } catch (SQLException e) {
             alert(Alert.AlertType.ERROR, "DB Error", e.getMessage());
         }
-
     }
 
     @FXML
@@ -110,6 +103,7 @@ public class CreateTopicController {
         a.setContentText(msg);
         a.show();
     }
+
     private boolean validateTitle() {
         String title = txtTitle.getText() == null ? "" : txtTitle.getText().trim();
         int min = 5;
@@ -122,28 +116,33 @@ public class CreateTopicController {
 
         if (title.length() < min) {
             txtTitle.getStyleClass().add("input-error");
-            btnPublish.setDisable(true); // optional
+            btnPublish.setDisable(true);
             return false;
         } else {
             txtTitle.getStyleClass().add("input-valid");
-            btnPublish.setDisable(false); // optional
+            btnPublish.setDisable(false);
             return true;
         }
     }
-
 
     private boolean validateContent() {
         String content = txtContent.getText() == null ? "" : txtContent.getText().trim();
         int min = 20;
 
-        lblContentCounter.setText(content.length() + " / " + min + " characters minimum");
+        if (lblContentCounter != null) {
+            lblContentCounter.setText(content.length() + " / " + min + " characters minimum");
+        }
 
         txtContent.getStyleClass().removeAll("input-error", "input-valid");
-        lblContentCounter.getStyleClass().remove("helper-error");
+        if (lblContentCounter != null) {
+            lblContentCounter.getStyleClass().remove("helper-error");
+        }
 
         if (content.length() < min) {
             txtContent.getStyleClass().add("input-error");
-            lblContentCounter.getStyleClass().add("helper-error");
+            if (lblContentCounter != null) {
+                lblContentCounter.getStyleClass().add("helper-error");
+            }
             btnPublish.setDisable(true);
             return false;
         } else {
@@ -152,5 +151,4 @@ public class CreateTopicController {
             return true;
         }
     }
-
 }

@@ -9,7 +9,7 @@ public class DbConnect {
     private static DbConnect instance;
     private Connection connection;
 
-    private final String url = "jdbc:mysql://localhost:3306/agrinova?useSSL=false&serverTimezone=UTC";
+    private final String url = "jdbc:mysql://127.0.0.1:3306/agrinova?useSSL=false&serverTimezone=UTC";
     private final String user = "root";
     private final String pass = "";
 
@@ -31,6 +31,7 @@ public class DbConnect {
     public synchronized Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(url, user, pass);
+            System.out.println("✅ DB connected to forum_db");
         }
         return connection;
     }

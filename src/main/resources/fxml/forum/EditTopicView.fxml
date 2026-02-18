@@ -47,10 +47,6 @@
                     <Label text="Category" styleClass="muted"/>
                     <ComboBox fx:id="cbCategory" promptText="Choose category"/>
 
-                    <!-- Status -->
-                    <Label text="Status" styleClass="muted"/>
-                    <ComboBox fx:id="cbStatus"/>
-
                     <!-- Content + counter -->
                     <Label text="Content" styleClass="muted"/>
                     <VBox spacing="4">

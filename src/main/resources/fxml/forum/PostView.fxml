@@ -61,12 +61,14 @@
                             </HBox>
                         </VBox>
 
-                        <MenuButton text="⋮" styleClass="btn-icon">
+                        <MenuButton fx:id="menuPostActions" text="⋮" styleClass="btn-icon"
+                                    visible="false" managed="false">
                             <items>
-                                <MenuItem text="Edit Topic" onAction="#onEditTopic"/>
-                                <MenuItem text="Delete Topic" onAction="#onDeleteTopic"/>
+                                <MenuItem fx:id="itemEditTopic" text="Edit Topic" onAction="#onEditTopic"/>
+                                <MenuItem fx:id="itemDeleteTopic" text="Delete Topic" onAction="#onDeleteTopic"/>
                             </items>
                         </MenuButton>
+
                     </HBox>
 
                     <!-- Content card -->
