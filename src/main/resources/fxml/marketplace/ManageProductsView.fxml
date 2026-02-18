@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.marketplace.controller.ProductListingController"
+      spacing="24"
+      style="-fx-background-color: #f8fafc; -fx-padding: 32; -fx-background-radius: 16;">
+
+    <!-- Header Section -->
+    <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding: 0 0 24 0;">
+        <Label text="📦 Manage My Products" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="createListingBtn" text="+ Create New Listing" onAction="#handleCreateListing"
+                style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 500; -fx-padding: 12 28; -fx-background-radius: 12;"/>
+    </HBox>
+
+    <!-- Main Content - ScrollPane with FlowPane -->
+    <ScrollPane fx:id="productsScrollPane"
+                fitToWidth="true"
+                VBox.vgrow="ALWAYS"
+                hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                style="-fx-background-color: transparent; -fx-border: none; -fx-background-radius: 12;">
+        <FlowPane fx:id="myProductsGrid"
+                  hgap="24" vgap="24"
+                  prefWrapLength="1000"
+                  alignment="TOP_LEFT"
+                  style="-fx-background-color: white; -fx-padding: 24; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);"/>
+    </ScrollPane>
+
+    <!-- Stats Row -->
+    <HBox spacing="24" alignment="CENTER_LEFT" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-width: 1;">
+        <VBox>
+            <Label fx:id="lblTotalProducts" text="Total Products" style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+            <Label fx:id="lblTotalCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <VBox>
+            <Label fx:id="lblAvailable" text="Active Listings" style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+            <Label fx:id="lblAvailableCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+        </VBox>
+    </HBox>
+
+</VBox>
