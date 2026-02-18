@@ -2,10 +2,12 @@ package tn.esprit.user.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
@@ -14,10 +16,14 @@ import tn.esprit.utils.TokenManager;
 import java.io.IOException;
 
 public class UserDashboardController {
+
+    @FXML private StackPane contentArea;
+
     @FXML private Label welcomeLabel;
     @FXML private Label nameLabel;
     @FXML private Label emailValueLabel;
     @FXML private Label roleValueLabel;
+
     @FXML private Button logoutButton;
 
     @FXML
@@ -27,32 +33,57 @@ public class UserDashboardController {
         if (currentUser != null) {
             nameLabel.setText(currentUser.getFullName());
             emailValueLabel.setText(currentUser.getEmail());
-            roleValueLabel.setText(currentUser.getRole().toString());
+            roleValueLabel.setText(String.valueOf(currentUser.getRole()));
         }
+        // Dashboard content is already the default content inside contentArea
+    }
+
+    // ✅ Loads any view into the center area
+    private void setContent(String fxmlPath) {
+        System.out.println("Loading view: " + fxmlPath);
+        System.out.println("Resolved URL: " + getClass().getResource(fxmlPath));
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent view = loader.load();
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error",
+                    "Cannot load view: " + fxmlPath + "\n" + e.getMessage());
+        }
+    }
+
+
+    // Sidebar: Dashboard (optional: if you later move dashboard card to its own FXML)
+    @FXML
+    private void openDashboard() {
+        // For now do nothing because dashboard is already visible by default.
+        // Later: setContent("/fxml/user/dashboard-content.fxml");
+    }
+
+    // Sidebar: Forum
+    @FXML
+    private void openForum() {
+        // ✅ CHANGE THIS PATH to your real ForumView.fxml location
+        setContent("/fxml/forum/ForumView.fxml");
     }
 
     @FXML
     private void handleLogout() {
         SessionManager.getInstance().logout();
-        TokenManager.clearToken(); // Clear token on logout
+        TokenManager.clearToken();
 
         try {
             Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.close();
-            loadScene("/fxml/user/login.fxml", "Login");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
+            Scene scene = new Scene(loader.load());
+            stage.setTitle("Digital Farm - Login");
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to logout: " + e.getMessage());
         }
-    }
-
-
-    private void loadScene(String fxmlPath, String title) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
-        stage.setTitle("Digital Farm - " + title);
-        stage.setScene(scene);
-        stage.show();
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {
