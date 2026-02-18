@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.crop.controller.TaskController"
+            style="-fx-background-color: linear-gradient(to bottom, #f5f7fa, #e4efe9); -fx-padding: 25;">
+
+    <!-- TOP -->
+    <top>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+
+            <Button style="-fx-background-color: linear-gradient(to right, #2e7d32, #43a047);
+                           -fx-text-fill: white;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 25;
+                           -fx-padding: 10 20;
+                           -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 3);"
+                    onAction="#handleOpenAddPage">
+
+                <graphic>
+                    <HBox spacing="8" alignment="CENTER">
+                        <Text text="+" style="-fx-fill: white; -fx-font-size: 16;"/>
+                        <Label text="Add New Task"
+                               style="-fx-text-fill: white; -fx-font-size: 14;"/>
+                    </HBox>
+                </graphic>
+
+            </Button>
+
+        </HBox>
+    </top>
+
+    <!-- CENTER KANBAN -->
+    <center>
+        <HBox spacing="25" alignment="CENTER">
+
+            <!-- Pending -->
+            <VBox fx:id="pendingBox"
+                  spacing="15"
+                  prefWidth="260"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 15;
+                         -fx-padding: 15;
+                         -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 5);">
+
+                <Label text="Pending"
+                       style="-fx-font-weight: bold;
+                              -fx-font-size: 15;
+                              -fx-text-fill: #f57c00;"/>
+            </VBox>
+
+            <!-- In Progress -->
+            <VBox fx:id="progressBox"
+                  spacing="15"
+                  prefWidth="260"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 15;
+                         -fx-padding: 15;
+                         -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 5);">
+
+                <Label text="In Progress"
+                       style="-fx-font-weight: bold;
+                              -fx-font-size: 15;
+                              -fx-text-fill: #1976d2;"/>
+            </VBox>
+
+            <!-- Completed -->
+            <VBox fx:id="completedBox"
+                  spacing="15"
+                  prefWidth="260"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 15;
+                         -fx-padding: 15;
+                         -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 5);">
+
+                <Label text="Completed"
+                       style="-fx-font-weight: bold;
+                              -fx-font-size: 15;
+                              -fx-text-fill: #2e7d32;"/>
+            </VBox>
+
+            <!-- Cancelled -->
+            <VBox fx:id="cancelledBox"
+                  spacing="15"
+                  prefWidth="260"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 15;
+                         -fx-padding: 15;
+                         -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 5);">
+
+                <Label text="Cancelled"
+                       style="-fx-font-weight: bold;
+                              -fx-font-size: 15;
+                              -fx-text-fill: #c62828;"/>
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>
