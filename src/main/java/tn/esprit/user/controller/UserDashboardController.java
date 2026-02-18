@@ -60,8 +60,10 @@ public class UserDashboardController {
     }
 //
     @FXML
-    private void openForum() {
-        setContent("/fxml/forum/ForumView.fxml");
+    private void openForum() {setContent("/fxml/forum/ForumView.fxml");}
+    @FXML
+    private void openMarketplace() {
+        setContent("/fxml/marketplace/MarketplaceView.fxml");
     }
 
     @FXML
