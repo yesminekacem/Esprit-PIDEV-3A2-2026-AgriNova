@@ -16,6 +16,9 @@ public class MainFX extends Application {
 
         Scene scene = new Scene(loader.load(), 1000, 700);
         stage.setTitle("Digital Farm Management");
+        scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/styles/forum.css").toExternalForm());
+
         stage.setScene(scene);
         stage.show();
     }

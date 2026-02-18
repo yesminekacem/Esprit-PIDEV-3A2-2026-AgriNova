@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.forum.controller.TopicCardController"
+      spacing="14"
+      styleClass="topic-card">
+
+    <!-- Avatar circle -->
+    <StackPane styleClass="avatar">
+        <Label fx:id="lblAvatar" text="S" styleClass="avatar-text"/>
+    </StackPane>
+
+    <VBox spacing="8" HBox.hgrow="ALWAYS">
+
+        <!-- Title row -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label fx:id="lblTitle" text="Title..." styleClass="topic-title"/>
+                    <Label fx:id="badgePopular" text="Popular" styleClass="badge-popular" visible="false" managed="false"/>
+                </HBox>
+
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label fx:id="lblAuthor" text="Author" styleClass="topic-meta-strong"/>
+                    <Label text="•" styleClass="topic-dot"/>
+                    <Label fx:id="lblRole" text="Role" styleClass="topic-meta"/>
+                    <Label text="•" styleClass="topic-dot"/>
+                    <Label fx:id="lblTimeAgo" text="2 hours ago" styleClass="topic-meta"/>
+                </HBox>
+            </VBox>
+
+            <Label fx:id="lblCategoryChip" text="Category" styleClass="chip chip-gray"/>
+        </HBox>
+
+        <!-- Excerpt -->
+        <Label fx:id="lblExcerpt"
+               text="excerpt..."
+               wrapText="true"
+               styleClass="topic-excerpt"/>
+
+        <!-- Footer stats -->
+        <HBox spacing="18" alignment="CENTER_LEFT">
+            <HBox spacing="6" alignment="CENTER_LEFT" styleClass="stat-inline">
+                <Label text="💬" />
+                <Label fx:id="lblReplies" text="0 replies" styleClass="topic-meta-strong"/>
+            </HBox>
+
+            <HBox spacing="6" alignment="CENTER_LEFT" styleClass="stat-inline">
+                <Label text="👍" />
+                <Label fx:id="lblLikes" text="0 likes" styleClass="topic-meta-strong"/>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="Open" onAction="#onOpen" styleClass="btn-ghost"/>
+        </HBox>
+
+    </VBox>
+</HBox>

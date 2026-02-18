@@ -1,348 +1,941 @@
+/* App base */
 .root {
-    -fx-font-family: "Segoe UI", "System", sans-serif;
-    -fx-background-color: #f5f5f5;
+    -fx-background-color: pink;
 }
 
-/* ===== CONTENEUR PRINCIPAL ===== */
-.forum-container {
-    -fx-background-color: #f5f5f5;
+.app-root {
+    -fx-background-color: #faf8f5; /* same as figma background */
+    -fx-font-family: "Poppins";
 }
 
-/* ===== CARTES ===== */
+/* Sidebar */
+.sidebar {
+    -fx-background-color: rgba(255,255,255,0.80);
+    -fx-padding: 0;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-header {
+    -fx-padding: 18 16 16 16;
+    -fx-border-color: rgba(0,0,0,0.08);
+    -fx-border-width: 0 0 1 0;
+}
+
+.logo-badge {
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+    -fx-background-radius: 14;
+    -fx-background-color: linear-gradient(to bottom right, #2E7D32, #66BB6A);
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.25), 14, 0.2, 0, 4);
+}
+
+.logo-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.logo-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+}
+.logo-subtitle {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6b7280;
+}
+
+/* Nav */
+.nav {
+    -fx-padding: 14 10 10 10;
+}
+
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #4b5563;
+    -fx-font-weight: 600;
+    -fx-padding: 12 14 12 14;
+    -fx-background-radius: 14;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+}
+.nav-item:hover {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #111827;
+}
+
+/* Primary selected (you can toggle via controller by adding/removing styleClass "nav-item-active") */
+.nav-item-active {
+    -fx-background-color: linear-gradient(to right, #2E7D32, #388E3C);
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.25), 14, 0.2, 0, 4);
+}
+
+/* Bottom Pro card */
+.pro-card {
+    -fx-padding: 14;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(46,125,50,0.20);
+    -fx-background-color: linear-gradient(to bottom right, rgba(46,125,50,0.10), rgba(102,187,106,0.10));
+    -fx-margin: 0 12 18 12;
+}
+
+.pro-icon {
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+    -fx-background-radius: 10;
+    -fx-background-color: linear-gradient(to bottom right, #2E7D32, #66BB6A);
+}
+.pro-title {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+}
+.pro-text {
+    -fx-font-size: 11px;
+    -fx-text-fill: #4b5563;
+}
+
+.btn-primary {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 10;
+    -fx-padding: 8 12 8 12;
+    -fx-cursor: hand;
+}
+.btn-primary:hover {
+    -fx-background-color: #1B5E20;
+}
+
+/* Topbar */
+.topbar {
+    -fx-padding: 14 20 14 20;
+    -fx-background-color: rgba(255,255,255,0.80);
+    -fx-border-color: rgba(0,0,0,0.08);
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 12, 0.2, 0, 2);
+}
+
+/* Search */
+.search-wrap {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 14;
+    -fx-padding: 8 10 8 10;
+    -fx-alignment: CENTER_LEFT;
+}
+.search-icon {
+    -fx-text-fill: #9ca3af;
+}
+.search-input {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-prompt-text-fill: #9ca3af;
+    -fx-text-fill: #111827;
+}
+
+/* Icon button */
+.icon-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 14;
+    -fx-padding: 8 10 8 10;
+    -fx-cursor: hand;
+}
+.icon-btn:hover {
+    -fx-background-color: #f3f4f6;
+}
+
+/* Profile button */
+.profile-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 14;
+    -fx-padding: 8 10 8 10;
+    -fx-cursor: hand;
+}
+.profile-btn:hover {
+    -fx-background-color: #f3f4f6;
+}
+
+/* Content */
+.content-area {
+    -fx-padding: 18;
+    -fx-background-color: #faf8f5;
+}
+.welcome {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 14px;
+}
+/* ---------- Global ---------- */
+.root, .app-root {
+    -fx-background-color: #faf8f5;
+    -fx-font-family: "Poppins";
+}
+
+/* ---------- Page / Card ---------- */
+.page {
+    -fx-padding: 24;
+    -fx-background-color: #faf8f5;
+}
+
 .card {
+    -fx-padding: 20;
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 18, 0.25, 0, 2);
+}
+
+.page-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #111827;
+}
+.page-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6b7280;
+}
+
+/* ---------- Search ---------- */
+.search-input-wide {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(0,0,0,0.08);
+    -fx-padding: 10 14 10 14;
+    -fx-prompt-text-fill: #9ca3af;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.25), 14, 0.2, 0, 4);
+}
+.btn-primary:hover { -fx-background-color: #1B5E20; }
+
+.btn-secondary {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #111827;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: rgba(0,0,0,0.10);
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+.btn-secondary:hover { -fx-background-color: #f3f4f6; }
+
+.btn-danger {
+    -fx-background-color: #d4183d;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+.btn-danger:hover { -fx-background-color: #b31233; }
+
+/* Small icon button (bell) */
+.icon-btn {
     -fx-background-color: white;
     -fx-background-radius: 12;
-    -fx-border-color: #e0e0e0;
     -fx-border-radius: 12;
-    -fx-border-width: 1;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2);
-    -fx-transition: all 0.2s ease-in-out;
-}
-
-.card:hover {
-    -fx-border-color: #4CAF50;
-    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.15), 8, 0, 0, 4);
-    -fx-translate-y: -2px;
-}
-
-/* ===== TEXTES ===== */
-.h2 {
-    -fx-font-size: 28px;
-    -fx-font-weight: 800;
-    -fx-text-fill: #333333;
-}
-
-.h3 {
-    -fx-font-size: 22px;
-    -fx-font-weight: 800;
-    -fx-text-fill: #333333;
-}
-
-.text-muted {
-    -fx-text-fill: #757575;
-    -fx-font-size: 14px;
-}
-
-.text-muted-small {
-    -fx-text-fill: #757575;
-    -fx-font-size: 13px;
-}
-
-.topic-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: 700;
-    -fx-text-fill: #333333;
-    -fx-wrap-text: true;
-}
-
-.topic-title:hover {
-    -fx-text-fill: #4CAF50;
-    -fx-underline: true;
-}
-
-/* ===== BOUTONS ===== */
-.button-primary {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
-    -fx-padding: 10px 20px;
-    -fx-background-radius: 40px;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.3), 8, 0, 0, 2);
-    -fx-border-width: 0;
-}
-
-.button-primary:hover {
-    -fx-background-color: #45a049;
-    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.4), 12, 0, 0, 4);
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
-}
-
-.button-outline {
-    -fx-background-color: transparent;
-    -fx-border-color: #e0e0e0;
-    -fx-border-width: 1.5px;
-    -fx-border-radius: 30px;
-    -fx-text-fill: #666666;
-    -fx-font-size: 13px;
-    -fx-font-weight: 500;
-    -fx-padding: 8px 16px;
+    -fx-border-color: rgba(0,0,0,0.10);
+    -fx-padding: 8 10 8 10;
     -fx-cursor: hand;
 }
+.icon-btn:hover { -fx-background-color: #f3f4f6; }
 
-.button-outline:hover {
-    -fx-background-color: #f5f5f5;
-    -fx-border-color: #4CAF50;
-    -fx-text-fill: #4CAF50;
-}
-
-/* ===== BOUTONS DE CATÉGORIE ===== */
-.category-button {
-    -fx-background-color: transparent;
-    -fx-border-color: #e0e0e0;
-    -fx-border-width: 1.5px;
-    -fx-border-radius: 30px;
-    -fx-text-fill: #666666;
-    -fx-font-size: 13px;
-    -fx-font-weight: 500;
-    -fx-padding: 8px 16px;
-    -fx-cursor: hand;
-}
-
-.category-button:hover {
-    -fx-background-color: #f5f5f5;
-    -fx-border-color: #4CAF50;
-    -fx-text-fill: #4CAF50;
-}
-
-.category-button-active {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-border-color: #4CAF50;
-    -fx-border-radius: 30px;
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
-    -fx-padding: 8px 16px;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.3), 8, 0, 0, 2);
-}
-
-/* ===== CHAMP DE RECHERCHE ===== */
-.search-field {
+.profile-btn {
     -fx-background-color: white;
-    -fx-border-color: #e0e0e0;
-    -fx-border-width: 1px;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 15px;
-    -fx-text-fill: #333333;
-    -fx-prompt-text-fill: #999999;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: rgba(0,0,0,0.10);
+    -fx-padding: 6 10 6 10;
+    -fx-cursor: hand;
 }
+.profile-btn:hover { -fx-background-color: #f3f4f6; }
 
-.search-field:focused {
-    -fx-border-color: #4CAF50;
-    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.2), 4, 0, 0, 0);
-}
-
-.icon-search {
-    -fx-font-family: "Segoe UI Symbol";
-    -fx-font-size: 18px;
-    -fx-text-fill: #999999;
-}
-
-/* ===== BADGES ===== */
-.badge-vegetables {
-    -fx-background-color: #e8f5e9;
-    -fx-text-fill: #2e7d32;
-    -fx-padding: 4px 12px;
-    -fx-background-radius: 30px;
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-}
-
-.badge-pestcontrol, .badge-pest {
-    -fx-background-color: #ffebee;
-    -fx-text-fill: #c62828;
-    -fx-padding: 4px 12px;
-    -fx-background-radius: 30px;
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-}
-
-.badge-herbs {
-    -fx-background-color: #fff3e0;
-    -fx-text-fill: #ef6c00;
-    -fx-padding: 4px 12px;
-    -fx-background-radius: 30px;
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-}
-
-.badge-greenhouses {
-    -fx-background-color: #e3f2fd;
-    -fx-text-fill: #1565c0;
-    -fx-padding: 4px 12px;
-    -fx-background-radius: 30px;
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-}
-
-.badge-general {
-    -fx-background-color: #f3e5f5;
-    -fx-text-fill: #7b1fa2;
-    -fx-padding: 4px 12px;
-    -fx-background-radius: 30px;
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-}
-
-.badge-equipment {
-    -fx-background-color: #e1f5fe;
-    -fx-text-fill: #0277bd;
-    -fx-padding: 4px 12px;
-    -fx-background-radius: 30px;
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-}
-
-/* ===== STATISTIQUES ===== */
-.stat-icon-primary {
-    -fx-background-color: #e8f5e9;
-    -fx-background-radius: 16px;
-    -fx-min-width: 56px;
-    -fx-min-height: 56px;
-    -fx-max-width: 56px;
-    -fx-max-height: 56px;
-    -fx-alignment: center;
-}
-
-.stat-icon-secondary {
-    -fx-background-color: #e8f5e9;
-    -fx-background-radius: 16px;
-    -fx-min-width: 56px;
-    -fx-min-height: 56px;
-    -fx-max-width: 56px;
-    -fx-max-height: 56px;
-    -fx-alignment: center;
-}
-
-.stat-icon-accent {
-    -fx-background-color: #e8f5e9;
-    -fx-background-radius: 16px;
-    -fx-min-width: 56px;
-    -fx-min-height: 56px;
-    -fx-max-width: 56px;
-    -fx-max-height: 56px;
-    -fx-alignment: center;
-}
-
-.icon-message {
-    -fx-font-family: "Segoe UI Symbol";
-    -fx-font-size: 24px;
-    -fx-text-fill: #4CAF50;
-}
-
-.icon-user {
-    -fx-font-family: "Segoe UI Symbol";
-    -fx-font-size: 24px;
-    -fx-text-fill: #4CAF50;
-}
-
-.icon-thumbsup {
-    -fx-font-family: "Segoe UI Symbol";
-    -fx-font-size: 24px;
-    -fx-text-fill: #4CAF50;
-}
-
-/* ===== ICÔNES PETITES ===== */
-.icon-user-small {
-    -fx-font-family: "Segoe UI Symbol";
-    -fx-font-size: 14px;
-    -fx-text-fill: #757575;
-}
-
-.icon-message-small {
-    -fx-font-family: "Segoe UI Symbol";
-    -fx-font-size: 14px;
-    -fx-text-fill: #757575;
-}
-
-.icon-thumbsup-small {
-    -fx-font-family: "Segoe UI Symbol";
-    -fx-font-size: 14px;
-    -fx-text-fill: #757575;
-}
-
-/* ===== AVATAR ===== */
-.avatar-circle {
-    -fx-fill: #e8f5e9;
-    -fx-stroke: #4CAF50;
-    -fx-stroke-width: 2;
-}
-
-.avatar-text {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #4CAF50;
-}
-
-/* ===== SÉPARATEUR ===== */
-.separator {
-    -fx-background-color: #e0e0e0;
-    -fx-pref-height: 1px;
-    -fx-max-height: 1px;
-    -fx-min-height: 1px;
-    -fx-margin: 12px 0;
-}
-
-/* ===== SCROLLPANE ===== */
-.topics-scroll {
+/* ---------- TableView ---------- */
+.table-view {
     -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
     -fx-border-color: transparent;
 }
 
-.topics-scroll .viewport {
-    -fx-background-color: transparent;
+.table-view .column-header-background {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 12 12 0 0;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-border-width: 0 0 1 0;
 }
 
-.topics-scroll .scroll-bar:vertical {
+.table-view .column-header, .table-view .filler {
     -fx-background-color: transparent;
-    -fx-background-radius: 0;
-    -fx-padding: 0;
+    -fx-size: 42px;
 }
 
-.topics-scroll .scroll-bar:vertical .thumb {
-    -fx-background-color: #cccccc;
+.table-view .column-header .label {
+    -fx-text-fill: #111827;
+    -fx-font-weight: 800;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: rgba(0,0,0,0.04);
+    -fx-border-width: 0 0 1 0;
+    -fx-cell-size: 46px;
+}
+.table-row-cell:filled:selected {
+    -fx-background-color: rgba(46,125,50,0.12);
+}
+.table-row-cell:filled:hover {
+    -fx-background-color: #f9fafb;
+}
+/* ====== Page background like Figma ====== */
+.page-scroll {
+    -fx-background: #faf8f5;
+    -fx-background-color: #faf8f5;
+}
+
+.forum-page {
+    -fx-padding: 24;
+    -fx-background-color: #faf8f5;
+}
+
+/* ====== Header ====== */
+.forum-title {
+    -fx-font-size: 34px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #0f172a;
+}
+
+.forum-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #667085;
+}
+
+/* ====== Buttons ====== */
+.btn-primary-lg {
+    -fx-background-radius: 14;
+    -fx-padding: 10 18;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to right, #2E7D32, #388E3C);
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.22), 18, 0.2, 0, 6);
+}
+
+.btn-primary-lg:hover {
+    -fx-background-color: linear-gradient(to right, #1B5E20, #2E7D32);
+}
+
+.btn-ghost {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2E7D32;
+    -fx-font-weight: 700;
     -fx-background-radius: 10;
 }
 
-.topics-scroll .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #4CAF50;
+.btn-ghost:hover {
+    -fx-background-color: rgba(46,125,50,0.10);
 }
 
-/* ===== STACKPANE ===== */
-.stack-pane {
-    -fx-alignment: center;
+/* ====== Cards ====== */
+.card {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-background-radius: 18;
+    -fx-padding: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 18, 0.2, 0, 6);
 }
 
-/* ===== COULEURS SPÉCIFIQUES ===== */
-.label {
-    -fx-text-fill: #333333;
+.section-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #344054;
 }
 
-.stat-card-value {
-    -fx-text-fill: #4CAF50;
-    -fx-font-size: 28px;
+/* ====== Chips (categories) ====== */
+.chip {
+    -fx-padding: 6 12;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-font-weight: 700;
+    -fx-border-width: 1;
+}
+
+.chip-green   { -fx-background-color: #E9F7EE; -fx-text-fill: #1E7A3D; -fx-border-color: #BFE8CC; }
+.chip-amber   { -fx-background-color: #FFF3DB; -fx-text-fill: #B35A00; -fx-border-color: #FFD9A3; }
+.chip-blue    { -fx-background-color: #E7F0FF; -fx-text-fill: #1D4ED8; -fx-border-color: #C7DCFF; }
+.chip-orange  { -fx-background-color: #FFE9D6; -fx-text-fill: #C2410C; -fx-border-color: #FFD0AE; }
+.chip-gray    { -fx-background-color: #F2F4F7; -fx-text-fill: #344054; -fx-border-color: #E4E7EC; }
+.chip-emerald { -fx-background-color: #E7FBF2; -fx-text-fill: #047857; -fx-border-color: #B6F0D6; }
+
+/* ====== ListView: remove default borders ====== */
+.topics-list {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-padding: 0;
+}
+
+.topics-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 14 0;
+}
+
+/* ====== Topic Card ====== */
+.topic-card {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-background-radius: 18;
+    -fx-padding: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 18, 0.2, 0, 8);
+}
+
+.topic-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #111827;
+}
+
+.topic-meta-strong {
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #475467;
+}
+
+.topic-meta {
+    -fx-font-size: 13px;
+    -fx-text-fill: #667085;
+}
+
+.topic-dot {
+    -fx-text-fill: #98A2B3;
+}
+
+.topic-excerpt {
+    -fx-text-fill: #667085;
+    -fx-font-size: 14px;
+}
+
+.badge-popular {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-padding: 4 10;
+    -fx-background-radius: 999;
     -fx-font-weight: 800;
 }
-.button-danger {
+
+/* ====== Avatar ====== */
+.avatar {
+    -fx-min-width: 46;
+    -fx-min-height: 46;
+    -fx-background-radius: 999;
+    -fx-background-color: #F2F4F7;
+    -fx-border-radius: 999;
+    -fx-border-color: rgba(0,0,0,0.06);
+}
+
+.avatar-text {
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #344054;
+}
+
+/* ====== Stat Cards ====== */
+.stat-card {
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-padding: 18;
+    -fx-border-width: 1;
+}
+
+.stat-label {
+    -fx-text-fill: #667085;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+}
+
+.stat-value {
+    -fx-font-size: 34px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #111827;
+}
+
+
+/* ========== Forum Topic Card (Figma-like) ========== */
+
+.topic-card {
+    -fx-background-color: rgba(255, 255, 255, 0.80);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(0, 0, 0, 0.06);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 18, 0.15, 0, 6);
+}
+
+.topic-avatar {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-border-width: 1;
+}
+
+.topic-avatar-text {
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+}
+
+.topic-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+}
+
+.topic-meta-row {
+    -fx-alignment: center-left;
+}
+
+.topic-meta-strong {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #374151;
+}
+
+.topic-meta {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6b7280;
+}
+
+.topic-meta-dot {
+    -fx-font-size: 14px;
+    -fx-text-fill: #9ca3af;
+}
+
+.topic-excerpt {
+    -fx-font-size: 15px;
+    -fx-text-fill: #4b5563;
+}
+
+/* Category chip base */
+.topic-chip {
+    -fx-padding: 6 12;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-width: 1;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+/* Chip colors (same idea as figma badges) */
+.topic-chip.chip-green   { -fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-border-color: #bbf7d0; }
+.topic-chip.chip-amber   { -fx-background-color: #fef3c7; -fx-text-fill: #b45309; -fx-border-color: #fde68a; }
+.topic-chip.chip-blue    { -fx-background-color: #dbeafe; -fx-text-fill: #1d4ed8; -fx-border-color: #bfdbfe; }
+.topic-chip.chip-orange  { -fx-background-color: #ffedd5; -fx-text-fill: #c2410c; -fx-border-color: #fed7aa; }
+.topic-chip.chip-gray    { -fx-background-color: #f3f4f6; -fx-text-fill: #374151; -fx-border-color: #e5e7eb; }
+.topic-chip.chip-emerald { -fx-background-color: #d1fae5; -fx-text-fill: #047857; -fx-border-color: #a7f3d0; }
+
+/* ListView clean look */
+.topics-list {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+.topics-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 14 0; /* spacing between cards */
+}
+.topics-list .list-cell:filled:selected,
+.topics-list .list-cell:filled:selected:hover {
+    -fx-background-color: transparent;
+}
+/* ===== Post page ===== */
+.post-page {
+    -fx-padding: 24;
+    -fx-background-color: #faf8f5;
+}
+
+.post-card {
+    -fx-padding: 20;
+}
+
+/* Title + content */
+.post-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #111827;
+}
+
+.post-content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #4b5563;
+    -fx-line-spacing: 2px;
+}
+
+/* Comments list */
+.comments-list {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+}
+
+.comments-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 12 0;
+}
+
+.comment-compose {
+    -fx-padding: 12 0 0 0;
+    -fx-border-color: rgba(0,0,0,0.08);
+    -fx-border-width: 1 0 0 0;
+}
+
+.comment-compose-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #344054;
+}
+
+.comment-input {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(0,0,0,0.10);
+    -fx-padding: 10 14 10 14;
+}
+
+
+
+.page { -fx-background-color: #F6F7F9; }
+.container { -fx-max-width: 900px; }
+
+.topic-title { -fx-font-size: 22px; -fx-font-weight: 700; -fx-text-fill: #111827; }
+.section-title { -fx-font-size: 18px; -fx-font-weight: 700; -fx-text-fill: #111827; }
+
+.muted { -fx-text-fill: #6B7280; }
+.meta-strong { -fx-text-fill: #111827; -fx-font-weight: 700; }
+
+.card {
+    -fx-background-color: rgba(255,255,255,0.85);
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(17,24,39,0.10);
+    -fx-border-radius: 14;
+}
+
+.content-area, .composer-area {
+    -fx-background-color: #F9FAFB;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: rgba(17,24,39,0.12);
+}
+
+.btn-ghost { -fx-background-color: transparent; -fx-text-fill: #4B5563; }
+.btn-primary { -fx-background-color: #2E7D32; -fx-text-fill: white; -fx-background-radius: 10; }
+
+.badge {
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+}
+.badge-category { -fx-background-color: #E8F5E9; -fx-text-fill: #2E7D32; -fx-border-color: #C8E6C9; }
+.badge-status-active { -fx-background-color: #E8F5E9; -fx-text-fill: #2E7D32; -fx-border-color: #C8E6C9; }
+
+
+.input-field, .input-area {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1.5;
+    -fx-padding: 10;
+}
+
+.input-error {
     -fx-border-color: #ef4444;
+    -fx-border-width: 2;
+}
+
+.input-valid {
+    -fx-border-color: #16a34a;
+    -fx-border-width: 2;
+}
+
+.input-helper {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12px;
+}
+
+.helper-error {
     -fx-text-fill: #ef4444;
 }
 
-.button-danger:hover {
-    -fx-background-color: rgba(239, 68, 68, 0.12);
+.input-area {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1.5;
+    -fx-padding: 10;
+}
+
+.input-error {
+    -fx-border-color: #ef4444;
+    -fx-border-width: 2;
+}
+
+.input-valid {
+    -fx-border-color: #16a34a;
+    -fx-border-width: 2;
+}
+
+.input-helper {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12px;
+}
+
+.helper-error {
+    -fx-text-fill: #ef4444;
+}
+
+.input-field, .input-area {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1.5;
+    -fx-padding: 10;
+}
+
+.input-error { -fx-border-color: #ef4444; -fx-border-width: 2; }
+.input-valid { -fx-border-color: #16a34a; -fx-border-width: 2; }
+
+.input-helper { -fx-text-fill: #6b7280; -fx-font-size: 12px; }
+.helper-error { -fx-text-fill: #ef4444; }
+
+
+
+
+/* ===== Forum Page ===== */
+.forum-page {
+    -fx-padding: 20;
+    -fx-background-color: transparent;
+}
+
+.forum-title {
+    -fx-font-size: 34px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #111827;
+}
+
+.forum-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6b7280;
+}
+
+/* ===== Card ===== */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 1;
+    -fx-padding: 18;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 18, 0.2, 0, 4);
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+}
+
+/* ===== Chips container ===== */
+.chips {
+    -fx-padding: 4 0 0 0;
+}
+
+/* ===== Chip base ===== */
+.chip {
+    -fx-padding: 6 12;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-border-width: 1;
+}
+
+/* Green */
+.chip-green {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #166534;
+    -fx-border-color: #86efac;
+}
+
+/* Amber */
+.chip-amber {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #92400e;
+    -fx-border-color: #fcd34d;
+}
+
+/* Blue */
+.chip-blue {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1d4ed8;
+    -fx-border-color: #93c5fd;
+}
+
+/* Orange */
+.chip-orange {
+    -fx-background-color: #ffedd5;
+    -fx-text-fill: #9a3412;
+    -fx-border-color: #fdba74;
+}
+
+/* Gray */
+.chip-gray {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #374151;
+    -fx-border-color: #e5e7eb;
+}
+
+/* Emerald */
+.chip-emerald {
+    -fx-background-color: #d1fae5;
+    -fx-text-fill: #065f46;
+    -fx-border-color: #6ee7b7;
+}
+
+/* ===== New Topic button ===== */
+.btn-primary-lg {
+    -fx-background-color: #2e7d32;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 999;
+    -fx-padding: 10 18;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0.2, 0, 4);
+}
+
+.btn-primary-lg:hover {
+    -fx-background-color: #1b5e20;
+}
+.chips .label {
+    -fx-padding: 6 12;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-border-width: 1;
+}
+
+/* Green */
+.chip-green {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #166534;
+    -fx-border-color: #86efac;
+}
+
+/* Amber */
+.chip-amber {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #92400e;
+    -fx-border-color: #fcd34d;
+}
+
+/* Blue */
+.chip-blue {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1d4ed8;
+    -fx-border-color: #93c5fd;
+}
+
+/* Orange */
+.chip-orange {
+    -fx-background-color: #ffedd5;
+    -fx-text-fill: #9a3412;
+    -fx-border-color: #fdba74;
+}
+
+/* Gray */
+.chip-gray {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #374151;
+    -fx-border-color: #e5e7eb;
+}
+
+/* Emerald */
+.chip-emerald {
+    -fx-background-color: #d1fae5;
+    -fx-text-fill: #065f46;
+    -fx-border-color: #6ee7b7;
+}
+
+
+/* Chips container */
+.chips {
+    -fx-padding: 4 0 0 0;
+}
+
+/* Chip base for Buttons (reliable) */
+.chip {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-padding: 6 14;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+}
+
+.chip:hover {
+    -fx-opacity: 0.9;
+}
+
+/* Green */
+.chip-green {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #166534;
+    -fx-border-color: #86efac;
+}
+
+/* Amber */
+.chip-amber {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #92400e;
+    -fx-border-color: #fcd34d;
+}
+
+/* Blue */
+.chip-blue {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1d4ed8;
+    -fx-border-color: #93c5fd;
+}
+
+/* Orange */
+.chip-orange {
+    -fx-background-color: #ffedd5;
+    -fx-text-fill: #9a3412;
+    -fx-border-color: #fdba74;
+}
+
+/* Gray */
+.chip-gray {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #374151;
+    -fx-border-color: #e5e7eb;
+}
+
+/* Emerald */
+.chip-emerald {
+    -fx-background-color: #d1fae5;
+    -fx-text-fill: #065f46;
+    -fx-border-color: #6ee7b7;
 }

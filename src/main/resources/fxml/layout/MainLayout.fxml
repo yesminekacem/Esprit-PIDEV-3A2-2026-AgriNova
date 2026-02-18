@@ -1,26 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/22"
-            xmlns:fx="http://javafx.com/fxml/1">
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.navigation.MainLayoutController"
+            styleClass="app-root">
 
+    <!-- SIDEBAR -->
     <left>
-        <VBox spacing="10" prefWidth="200" style="-fx-padding: 15;">
-            <Label text="Digital Farm" style="-fx-font-size: 18px;"/>
-            <Button text="Dashboard"/>
-            <Button text="Users"/>
-            <Button text="Crops"/>
-            <Button text="Inventory"/>
-            <Button text="Marketplace"/>
-            <Button text="Forum"/>
+        <VBox styleClass="sidebar" prefWidth="260">
+
+            <!-- Logo -->
+            <HBox styleClass="sidebar-header" spacing="12">
+                <StackPane styleClass="logo-badge">
+                    <Label text="🍃" styleClass="logo-icon"/>
+                </StackPane>
+                <VBox>
+                    <Label text="Digital Farm" styleClass="logo-title"/>
+                    <Label text="Management System" styleClass="logo-subtitle"/>
+                </VBox>
+            </HBox>
+
+            <!-- Navigation -->
+            <VBox styleClass="nav" spacing="6">
+
+                <Button text="Dashboard" styleClass="nav-item"/>
+                <Button text="Users" styleClass="nav-item"/>
+                <Button text="Crops" styleClass="nav-item"/>
+                <Button text="Inventory" styleClass="nav-item"/>
+                <Button text="Marketplace" styleClass="nav-item"/>
+
+                <!-- ONLY FORUM HAS ACTION -->
+                <Button text="Forum" styleClass="nav-item" onAction="#openForum"/>
+
+                <Button text="Settings" styleClass="nav-item"/>
+
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Bottom Card -->
+            <VBox styleClass="pro-card" spacing="10">
+                <HBox spacing="10">
+                    <StackPane styleClass="pro-icon">
+                        <Label text="🌱"/>
+                    </StackPane>
+                    <VBox>
+                        <Label text="Pro Plan" styleClass="pro-title"/>
+                        <Label text="Unlock premium features for your farm"
+                               wrapText="true"
+                               styleClass="pro-text"/>
+                    </VBox>
+                </HBox>
+                <Button text="Upgrade Now" styleClass="btn-primary"/>
+            </VBox>
+
         </VBox>
     </left>
 
+    <!-- TOP BAR -->
+    <top>
+        <HBox styleClass="topbar" spacing="16" alignment="CENTER_LEFT">
+
+            <!-- Search -->
+            <HBox styleClass="search-wrap" spacing="8" HBox.hgrow="ALWAYS">
+                <Label text="🔍" styleClass="search-icon"/>
+                <TextField promptText="Search crops, inventory, orders..."
+                           styleClass="search-input"
+                           HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- Notifications (design only) -->
+            <Button text="🔔" styleClass="icon-btn"/>
+            <!-- Profile (design only) -->
+            <MenuButton text="John Farmer ▾" styleClass="profile-btn">
+                <MenuItem text="Profile"/>
+                <MenuItem text="Billing"/>
+                <MenuItem text="Team"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Log out"/>
+            </MenuButton>
+
+        </HBox>
+    </top>
+
+    <!-- CONTENT -->
     <center>
-        <StackPane>
-            <Label text="Welcome to Digital Farm System"/>
+        <StackPane fx:id="contentArea" styleClass="content-area">
+            <Label text="Welcome to Digital Farm System"
+                   styleClass="welcome"/>
         </StackPane>
     </center>
 
