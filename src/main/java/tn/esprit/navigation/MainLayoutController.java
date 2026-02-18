@@ -23,4 +23,8 @@ public class MainLayoutController {
     private void openForum() {
         Router.go(Routes.FORUM_LIST);
     }
+    @FXML
+    private void openMarketplace() {
+        Router.go(Routes.MARKETPLACE);
+    }
 }
