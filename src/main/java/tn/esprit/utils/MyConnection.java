@@ -8,7 +8,7 @@ public class MyConnection {
     private static MyConnection instance;
     private Connection cnx;
 
-    private final String URL = "jdbc:mysql://127.0.0.1:3306/forum_db?useSSL=false&serverTimezone=UTC";
+    private final String URL = "jdbc:mysql://127.0.0.1:3306/agrinova?useSSL=false&serverTimezone=UTC";
     private final String USER = "root";
     private final String PASS = ""; // put your password if you have one
 
