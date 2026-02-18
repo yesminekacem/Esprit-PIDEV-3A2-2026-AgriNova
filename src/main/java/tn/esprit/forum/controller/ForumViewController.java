@@ -22,38 +22,43 @@ public class ForumViewController {
     @FXML private Label lblTotalTopics;
     @FXML private Label lblTotalReplies;
 
-    private final PostDao postDao = new PostDao();
+    private PostDao postDao;
+
     private ObservableList<Post> allPosts = FXCollections.observableArrayList();
     private FilteredList<Post> filteredPosts;
 
     @FXML
     public void initialize() {
+        try {
+            postDao = new PostDao();
+        } catch (SQLException e) {
+            showError("DB error: " + e.getMessage());
+            return;
+        }
+
         topicsList.setCellFactory(lv -> new TopicCardCell());
         loadPosts();
 
-        // IMPORTANT: This is what opens PostView when clicking on a post
         topicsList.setOnMouseClicked(event -> {
             Post selected = topicsList.getSelectionModel().getSelectedItem();
-            if (selected != null) {
-                openSelectedPost();
-            }
+            if (selected != null) openSelectedPost();
         });
     }
 
     private void loadPosts() {
+        if (postDao == null) return;
+
         try {
             List<Post> posts = postDao.getAll();
             allPosts = FXCollections.observableArrayList(posts);
-
-            // Initialize filtered list with all posts
             filteredPosts = new FilteredList<>(allPosts, p -> true);
             topicsList.setItems(filteredPosts);
-
             updateStats();
         } catch (SQLException e) {
             showError(e.getMessage());
         }
     }
+
 
     @FXML
     private void filterByCategory(javafx.event.ActionEvent event) {

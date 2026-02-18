@@ -1,7 +1,7 @@
 package tn.esprit.forum.dao;
 
 import tn.esprit.forum.entity.Post;
-import tn.esprit.utils.MyConnection;
+import tn.esprit.utils.DbConnect;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -10,11 +10,15 @@ import java.util.List;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+
+
+
+
 public class PostDao {
     private final Connection cnx;
 
-    public PostDao() {
-        cnx = MyConnection.getInstance().getCnx();
+    public PostDao() throws SQLException {
+        cnx = DbConnect.getInstance().getConnection();
     }
 
     public int add(Post p) throws SQLException {

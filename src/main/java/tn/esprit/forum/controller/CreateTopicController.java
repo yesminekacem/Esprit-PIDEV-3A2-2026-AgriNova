@@ -8,6 +8,8 @@ import tn.esprit.navigation.Router;
 import tn.esprit.navigation.Routes;
 import javafx.collections.FXCollections;
 import java.sql.SQLException;
+import tn.esprit.user.entity.User;
+import tn.esprit.utils.SessionManager;
 
 public class CreateTopicController {
 
@@ -19,13 +21,21 @@ public class CreateTopicController {
     @FXML private Label lblTitleCounter;
 
 
-    private final PostDao postDao = new PostDao();
+    private PostDao postDao;
+
 
 
     @FXML
     private void initialize() {
 
-        // ✅ FILL CATEGORY COMBOBOX
+        try {
+            postDao = new PostDao();
+        } catch (SQLException e) {
+            alert(Alert.AlertType.ERROR, "DB Error", "Cannot init PostDao: " + e.getMessage());
+            btnPublish.setDisable(true);
+            return;
+        }
+
         cbCategory.setItems(FXCollections.observableArrayList(
                 "Organic Farming",
                 "Soil Management",
@@ -37,7 +47,6 @@ public class CreateTopicController {
                 "Testing"
         ));
 
-        // Optional: default value
         cbCategory.setValue("General");
 
         txtContent.textProperty().addListener((obs, oldV, newV) -> validateContent());
@@ -46,6 +55,7 @@ public class CreateTopicController {
         validateTitle();
         validateContent();
     }
+
 
     @FXML
     private void onPublish() {
@@ -69,20 +79,23 @@ public class CreateTopicController {
         p.setCategory(category);
         p.setStatus("ACTIVE");
 
-        // For now (until login/session is done)
-        p.setAuthor("twitie");
-        p.setAuthorId(1);
+        User u = SessionManager.getInstance().getCurrentUser();
+        if (u == null) {
+            alert(Alert.AlertType.ERROR, "Not logged in", "Please login first.");
+            return;
+        }
+
+        p.setAuthor(u.getFullName());
+        p.setAuthorId(u.getId());
 
         try {
-            postDao.add(p); // if your add returns id, you can store it
+            postDao.add(p);
             alert(Alert.AlertType.INFORMATION, "Success", "Topic published!");
-
-            // Go back to forum list
             Router.go(Routes.FORUM_LIST);
-
         } catch (SQLException e) {
             alert(Alert.AlertType.ERROR, "DB Error", e.getMessage());
         }
+
     }
 
     @FXML

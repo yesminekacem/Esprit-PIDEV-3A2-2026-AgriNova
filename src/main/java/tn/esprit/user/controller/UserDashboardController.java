@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import tn.esprit.navigation.Router;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
 import tn.esprit.utils.TokenManager;
@@ -28,17 +29,16 @@ public class UserDashboardController {
 
     @FXML
     public void initialize() {
-        User currentUser = SessionManager.getInstance().getCurrentUser();
+        Router.init(contentArea);   // ✅ IMPORTANT
 
+        User currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser != null) {
             nameLabel.setText(currentUser.getFullName());
             emailValueLabel.setText(currentUser.getEmail());
             roleValueLabel.setText(String.valueOf(currentUser.getRole()));
         }
-        // Dashboard content is already the default content inside contentArea
     }
 
-    // ✅ Loads any view into the center area
     private void setContent(String fxmlPath) {
         System.out.println("Loading view: " + fxmlPath);
         System.out.println("Resolved URL: " + getClass().getResource(fxmlPath));
@@ -54,18 +54,13 @@ public class UserDashboardController {
         }
     }
 
-
-    // Sidebar: Dashboard (optional: if you later move dashboard card to its own FXML)
     @FXML
     private void openDashboard() {
-        // For now do nothing because dashboard is already visible by default.
-        // Later: setContent("/fxml/user/dashboard-content.fxml");
+        // optional: if you create a separate dashboard page later
     }
 
-    // Sidebar: Forum
     @FXML
     private void openForum() {
-        // ✅ CHANGE THIS PATH to your real ForumView.fxml location
         setContent("/fxml/forum/ForumView.fxml");
     }
 

@@ -45,7 +45,8 @@ public class PostViewController {
     @FXML private TextArea txtNewComment;
 
     private int postId;
-    private final PostDao postDao = new PostDao();
+    private PostDao postDao;
+
     private final CommentDao commentDao = new CommentDao();
 
     @FXML

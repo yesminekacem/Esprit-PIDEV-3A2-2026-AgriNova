@@ -21,7 +21,8 @@ public class EditTopicController {
     @FXML private Label lblContentCounter;
 
     private int postId;
-    private final PostDao postDao = new PostDao();
+    private PostDao postDao;
+
 
     @FXML
     private void initialize() {
