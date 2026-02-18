@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.marketplace.controller.ProductListingController"
+      spacing="24" style="-fx-background-color: white; -fx-padding: 24;">
+
+    <!-- Filter Bar -->
+    <HBox spacing="16" alignment="CENTER_LEFT" styleClass="filter-card">
+        <TextField fx:id="txtSearch" promptText="Search products..." prefWidth="400"
+                   styleClass="search-field" HBox.hgrow="ALWAYS"/>
+
+        <Button text="Show All" onAction="#handleShowAll" styleClass="secondary-button"/>
+        <ComboBox fx:id="cmbCategory" prefWidth="180" styleClass="combo-box"/>
+    </HBox>
+
+    <!-- Products Grid -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <FlowPane fx:id="productsGrid" hgap="24" vgap="24" prefWrapLength="1200"
+                  style="-fx-background-color: transparent; -fx-padding: 4;"/>
+    </ScrollPane>
+
+    <!-- Stats -->
+    <HBox spacing="16">
+        <VBox spacing="8" HBox.hgrow="ALWAYS" styleClass="stats-card stats-card-green">
+            <Label text="Total Products" styleClass="stats-label"/>
+            <Label fx:id="lblTotalProducts" text="0" styleClass="stats-value"/>
+        </VBox>
+
+        <VBox spacing="8" HBox.hgrow="ALWAYS" styleClass="stats-card stats-card-green">
+            <Label text="Available" styleClass="stats-label"/>
+            <Label fx:id="lblAvailable" text="0" styleClass="stats-value"/>
+        </VBox>
+    </HBox>
+</VBox>

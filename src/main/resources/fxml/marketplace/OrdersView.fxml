@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.marketplace.controller.OrderController"
+      spacing="24" style="-fx-background-color: white; -fx-padding: 24;">
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <FlowPane fx:id="ordersGrid" hgap="24" vgap="24" prefWrapLength="1200"
+                  style="-fx-background-color: transparent; -fx-padding: 4;"/>
+    </ScrollPane>
+</VBox>
