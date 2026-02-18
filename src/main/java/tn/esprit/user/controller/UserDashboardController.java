@@ -58,7 +58,7 @@ public class UserDashboardController {
     private void openDashboard() {
         // optional: if you create a separate dashboard page later
     }
-
+//
     @FXML
     private void openForum() {
         setContent("/fxml/forum/ForumView.fxml");
