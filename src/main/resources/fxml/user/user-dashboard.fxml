@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.user.controller.UserDashboardController"
+            styleClass="cream-background" prefWidth="900" prefHeight="600"
+            stylesheets="@/styles/styles.css">
+
+    <!-- Top Bar -->
+    <top>
+        <HBox spacing="20" alignment="CENTER_LEFT"
+              style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0;">
+            <padding>
+                <Insets top="20" right="30" bottom="20" left="30"/>
+            </padding>
+
+            <!-- Logo -->
+            <StackPane style="-fx-background-color: linear-gradient(to bottom right, #2E7D32, #66BB6A); -fx-background-radius: 10; -fx-pref-width: 45; -fx-pref-height: 45;">
+                <Label text="🌿" style="-fx-font-size: 22px;"/>
+            </StackPane>
+
+            <!-- Title -->
+            <VBox spacing="2">
+                <Label text="Digital Farm" style="-fx-font-family: 'System'; -fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #1a1a1a;"/>
+                <Label text="Dashboard" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Logout Button -->
+            <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
+                    style="-fx-background-color: #f5f5f5; -fx-text-fill: #666666; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand; -fx-font-size: 13px;"/>
+        </HBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <VBox spacing="30" alignment="CENTER">
+            <padding>
+                <Insets top="50" right="50" bottom="50" left="50"/>
+            </padding>
+
+            <!-- Welcome Card -->
+            <VBox alignment="CENTER" spacing="25" maxWidth="600"
+                  style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 20, 0, 0, 3);">
+                <padding>
+                    <Insets top="50" right="50" bottom="50" left="50"/>
+                </padding>
+
+                <!-- Profile Icon -->
+                <StackPane style="-fx-background-color: linear-gradient(to bottom right, #2E7D32, #66BB6A); -fx-background-radius: 50; -fx-pref-width: 100; -fx-pref-height: 100;">
+                    <Label text="👤" style="-fx-font-size: 50px;"/>
+                </StackPane>
+
+                <!-- Welcome Text -->
+                <Label fx:id="welcomeLabel" text="Welcome Back!"
+                       style="-fx-font-family: 'System'; -fx-font-weight: bold; -fx-font-size: 32px; -fx-text-fill: #1a1a1a;"/>
+
+                <Label fx:id="nameLabel" text="User Name"
+                       style="-fx-font-family: 'System'; -fx-font-weight: 600; -fx-font-size: 24px; -fx-text-fill: #2E7D32;"/>
+
+                <!-- Info Cards -->
+                <HBox spacing="20" alignment="CENTER">
+
+                    <!-- Email Card -->
+                    <VBox alignment="CENTER" spacing="8" prefWidth="200"
+                          style="-fx-background-color: #f5f5f5; -fx-background-radius: 10; -fx-padding: 20;">
+                        <Label text="📧" style="-fx-font-size: 24px;"/>
+                        <Label text="Email" style="-fx-font-family: 'System'; -fx-font-weight: 600; -fx-font-size: 12px; -fx-text-fill: #666666;"/>
+                        <Label fx:id="emailValueLabel" text="user@email.com"
+                               style="-fx-font-family: 'System'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1a1a1a;"/>
+                    </VBox>
+
+                    <!-- Role Card -->
+                    <VBox alignment="CENTER" spacing="8" prefWidth="200"
+                          style="-fx-background-color: #f5f5f5; -fx-background-radius: 10; -fx-padding: 20;">
+                        <Label text="👥" style="-fx-font-size: 24px;"/>
+                        <Label text="Role" style="-fx-font-family: 'System'; -fx-font-weight: 600; -fx-font-size: 12px; -fx-text-fill: #666666;"/>
+                        <Label fx:id="roleValueLabel" text="USER"
+                               style="-fx-font-family: 'System'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1a1a1a;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Message -->
+                <Label text="Your digital farming journey starts here"
+                       style="-fx-font-family: 'System'; -fx-font-size: 14px; -fx-text-fill: #666666;"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
