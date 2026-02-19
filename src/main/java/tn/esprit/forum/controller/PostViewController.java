@@ -317,7 +317,48 @@ public class PostViewController {
         }
     }
 
-    // keep your methods (unchanged)
-    void deleteComment(int commentId) { /* ... your existing code ... */ }
-    void editComment(Comment c) { /* ... your existing code ... */ }
+    void deleteComment(int commentId) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Delete Comment");
+        confirm.setHeaderText("Delete this comment?");
+        confirm.setContentText("This action cannot be undone.");
+
+        ButtonType deleteBtn = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelBtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirm.getButtonTypes().setAll(deleteBtn, cancelBtn);
+
+        confirm.showAndWait().ifPresent(result -> {
+            if (result == deleteBtn) {
+                try {
+                    commentDao.delete(commentId);
+                    loadComments();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                }
+            }
+        });
+    }
+
+    void editComment(Comment c) {
+        TextInputDialog dialog = new TextInputDialog(c.getContent());
+        dialog.setTitle("Edit Comment");
+        dialog.setHeaderText("Edit your comment");
+        dialog.setContentText("Content:");
+
+        dialog.showAndWait().ifPresent(newText -> {
+            if (newText == null) return;
+            String trimmed = newText.trim();
+            if (trimmed.isBlank()) return;
+
+            try {
+                c.setContent(trimmed);
+                commentDao.update(c);
+                loadComments();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            }
+        });
+    }
 }
