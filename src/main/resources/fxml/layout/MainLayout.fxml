@@ -28,7 +28,7 @@
 
                 <Button text="Dashboard" styleClass="nav-item"/>
                 <Button text="Users" styleClass="nav-item"/>
-                <Button text="Crops" styleClass="nav-item"/>
+                <Button text="Crops" styleClass="nav-item" onAction="#openCrops"/>
                 <Button text="Inventory" styleClass="nav-item"/>
                 <Button text="Marketplace" styleClass="nav-item" onAction="#openMarketplace"/>
 

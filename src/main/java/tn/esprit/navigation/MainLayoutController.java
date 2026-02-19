@@ -27,4 +27,7 @@ public class MainLayoutController {
     private void openMarketplace() {
         Router.go(Routes.MARKETPLACE);
     }
+    private void openCrops() {
+        Router.go(Routes.CROPS);
+    }
 }

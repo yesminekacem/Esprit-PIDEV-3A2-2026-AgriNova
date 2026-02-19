@@ -67,6 +67,11 @@ public class UserDashboardController {
     }
 
     @FXML
+    private void openCrops() {
+        setContent("/fxml/crop/CropsPage.fxml");
+    }
+
+    @FXML
     private void handleLogout() {
         SessionManager.getInstance().logout();
         TokenManager.clearToken();

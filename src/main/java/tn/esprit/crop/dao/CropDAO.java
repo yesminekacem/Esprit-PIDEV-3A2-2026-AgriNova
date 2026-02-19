@@ -1,5 +1,4 @@
 package tn.esprit.crop.dao;
-
 import tn.esprit.crop.entity.Crop;
 import tn.esprit.utils.MyConnection;
 
@@ -10,42 +9,28 @@ import java.util.List;
 
 public class CropDAO {
 
+    private Connection getValidConnection() throws SQLException {
+        return MyConnection.getInstance().getCnx();  // Now auto-reconnects!
+    }
+
+
     public List<Crop> getAllCrops() {
-
         List<Crop> crops = new ArrayList<>();
-
         String sql = """
-            SELECT
-                crop_id,
-                name,
-                type,
-                variety,
-                planting_date,
-                expected_harvest_date,
-                growth_stage,
-                area_size,
-                status,
-               image_path
+            SELECT crop_id, name, type, variety, planting_date, expected_harvest_date, 
+                   growth_stage, area_size, status, image_path
             FROM crop
-        """;
+            """;
 
-        try (
-                Connection cnx = MyConnection.getInstance().getCnx();
-                PreparedStatement ps = cnx.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()
-        ) {
+        try (Connection cnx = getValidConnection();
+             PreparedStatement ps = cnx.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-
-                LocalDate plantingDate =
-                        rs.getDate("planting_date") != null
-                                ? rs.getDate("planting_date").toLocalDate()
-                                : null;
-
-                LocalDate expectedHarvestDate =
-                        rs.getDate("expected_harvest_date") != null
-                                ? rs.getDate("expected_harvest_date").toLocalDate()
-                                : null;
+                LocalDate plantingDate = rs.getDate("planting_date") != null
+                        ? rs.getDate("planting_date").toLocalDate() : null;
+                LocalDate expectedHarvestDate = rs.getDate("expected_harvest_date") != null
+                        ? rs.getDate("expected_harvest_date").toLocalDate() : null;
 
                 Crop crop = new Crop(
                         rs.getInt("crop_id"),
@@ -59,103 +44,110 @@ public class CropDAO {
                         rs.getString("status"),
                         rs.getString("image_path")
                 );
-
                 crops.add(crop);
             }
-
             System.out.println("✅ DAO fetched " + crops.size() + " crops");
 
         } catch (SQLException e) {
-            System.err.println("❌ Error loading crops from database");
+            System.err.println("❌ Error loading crops from database: " + e.getMessage());
             e.printStackTrace();
         }
         return crops;
     }
+
     public void insertCrop(Crop crop) {
+        String sql = """
+            INSERT INTO crop (name, type, variety, planting_date, expected_harvest_date, 
+                             growth_stage, area_size, status, image_path) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """;
 
-        String sql = "INSERT INTO crop (name, type, variety, planting_date, expected_harvest_date, growth_stage, area_size, status, image_path) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-
-        try (Connection cnx = MyConnection.getInstance().getCnx();
+        try (Connection cnx = getValidConnection();
              PreparedStatement ps = cnx.prepareStatement(sql)) {
 
             ps.setString(1, crop.getName());
             ps.setString(2, crop.getType());
             ps.setString(3, crop.getVariety());
-            ps.setDate(4, Date.valueOf(crop.getPlantingDate()));
-            ps.setDate(5, Date.valueOf(crop.getExpectedHarvestDate()));
+
+            // Null-safe date handling
+            if (crop.getPlantingDate() != null) {
+                ps.setDate(4, Date.valueOf(crop.getPlantingDate()));
+            } else {
+                ps.setNull(4, Types.DATE);
+            }
+            if (crop.getExpectedHarvestDate() != null) {
+                ps.setDate(5, Date.valueOf(crop.getExpectedHarvestDate()));
+            } else {
+                ps.setNull(5, Types.DATE);
+            }
+
             ps.setString(6, crop.getGrowthStage());
             ps.setDouble(7, crop.getAreaSize());
             ps.setString(8, crop.getStatus());
             ps.setString(9, crop.getImagePath());
 
-
-            ps.executeUpdate();
-            System.out.println("✅ Crop inserted successfully");
+            int rows = ps.executeUpdate();
+            System.out.println("✅ Crop inserted (" + rows + " rows)");
 
         } catch (SQLException e) {
-            System.err.println("❌ Error inserting crop");
+            System.err.println("❌ Error inserting crop: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
     public void deleteCrop(int id) {
-
         String sql = "DELETE FROM crop WHERE crop_id = ?";
-
-        try (Connection cnx = MyConnection.getInstance().getCnx();
+        try (Connection cnx = getValidConnection();
              PreparedStatement ps = cnx.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-            ps.executeUpdate();
-
-            System.out.println("✅ Crop deleted successfully");
+            int rows = ps.executeUpdate();
+            System.out.println("✅ Crop deleted (" + rows + " rows)");
 
         } catch (SQLException e) {
-            System.err.println("❌ Error deleting crop");
+            System.err.println("❌ Error deleting crop: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
     public void updateCrop(Crop crop) {
-
         String sql = """
-        UPDATE crop SET
-            name = ?,
-            type = ?,
-            variety = ?,
-            planting_date = ?,
-            expected_harvest_date = ?,
-            growth_stage = ?,
-            area_size = ?,
-            status = ?,
-            image_path = ?
-        WHERE crop_id = ?
-    """;
+            UPDATE crop SET name = ?, type = ?, variety = ?, planting_date = ?, 
+                           expected_harvest_date = ?, growth_stage = ?, area_size = ?, 
+                           status = ?, image_path = ? WHERE crop_id = ?
+            """;
 
-        try (Connection cnx = MyConnection.getInstance().getCnx();
+        try (Connection cnx = getValidConnection();
              PreparedStatement ps = cnx.prepareStatement(sql)) {
 
             ps.setString(1, crop.getName());
             ps.setString(2, crop.getType());
             ps.setString(3, crop.getVariety());
-            ps.setDate(4, Date.valueOf(crop.getPlantingDate()));
-            ps.setDate(5, Date.valueOf(crop.getExpectedHarvestDate()));
+
+            // Null-safe date handling
+            if (crop.getPlantingDate() != null) {
+                ps.setDate(4, Date.valueOf(crop.getPlantingDate()));
+            } else {
+                ps.setNull(4, Types.DATE);
+            }
+            if (crop.getExpectedHarvestDate() != null) {
+                ps.setDate(5, Date.valueOf(crop.getExpectedHarvestDate()));
+            } else {
+                ps.setNull(5, Types.DATE);
+            }
+
             ps.setString(6, crop.getGrowthStage());
             ps.setDouble(7, crop.getAreaSize());
             ps.setString(8, crop.getStatus());
             ps.setString(9, crop.getImagePath());
             ps.setInt(10, crop.getCropId());
 
-            ps.executeUpdate();
-
-            System.out.println("✅ Crop updated successfully");
+            int rows = ps.executeUpdate();
+            System.out.println("✅ Crop updated (" + rows + " rows)");
 
         } catch (SQLException e) {
-            System.err.println("❌ Error updating crop");
+            System.err.println("❌ Error updating crop: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
-
-
 }
