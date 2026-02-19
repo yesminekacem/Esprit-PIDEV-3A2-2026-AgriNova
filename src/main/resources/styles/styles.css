@@ -1087,4 +1087,191 @@
     -fx-text-fill: #444444;
     -fx-font-weight: 500;
 }
+#continueShoppingBtn {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 12 24;
+    -fx-background-radius: 12;
+}
+/* Cart Items */
+.cart-item-card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-padding: 24;
+}
 
+.cart-product-name {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.cart-price, .cart-qty, .cart-stock {
+    -fx-font-size: 15px;
+    -fx-text-fill: #64748b;
+}
+
+.cart-stock {
+    -fx-text-fill: #059669;
+}
+
+.cart-total-price {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #059669;
+}
+
+.cart-error {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
+
+.cart-update-btn {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+    -fx-font-size: 13px;
+}
+
+.cart-remove-btn {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+    -fx-font-size: 13px;
+}
+
+.cart-total-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.cart-validate-btn {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 14 28;
+    -fx-background-radius: 12;
+}
+
+.empty-cart-box {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 12;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+}
+
+.empty-cart-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+}
+
+.invalid-spinner {
+    -fx-text-fill: red;
+    -fx-border-color: #ef4444;
+    -fx-border-width: 2;
+}
+
+.valid-spinner {
+    -fx-text-fill: black;
+    -fx-border-color: transparent;
+}
+
+.tab-inactive {
+    -fx-background-color: white;
+    -fx-text-fill: #6b7280;
+    -fx-padding: 16 32;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-border-width: 0;
+}
+
+.tab-active {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-padding: 16 32;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-border-width: 0;
+}
+
+.tab-left {
+    -fx-background-radius: 8 0 0 0;
+}
+
+.tab-right {
+    -fx-background-radius: 0 8 0 0;
+}
+/* Product Cards */
+.product-card, .manage-product-card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+}
+
+.product-name {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.status-available {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #166534;
+    -fx-padding: 6 12;
+    -fx-background-radius: 12;
+    -fx-font-weight: bold;
+}
+
+.status-out-of-stock {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #991b1b;
+    -fx-padding: 6 12;
+    -fx-background-radius: 12;
+    -fx-font-weight: bold;
+}
+
+.add-to-cart-btn {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-padding: 12 24;
+}
+
+.edit-btn {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+}
+
+.delete-btn {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+}
+
+.empty-label {
+    -fx-font-size: 20px;
+    -fx-text-fill: #475569;
+}
+
+.dialog-content {
+    -fx-padding: 16;
+}
+
+.stock-info {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-size: 13px;
+}

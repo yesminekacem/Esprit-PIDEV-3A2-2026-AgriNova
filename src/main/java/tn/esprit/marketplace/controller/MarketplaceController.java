@@ -21,6 +21,7 @@ public class MarketplaceController {
 
     @FXML
     public void initialize() {
+        initializeTabButtons();
         updateUserInfo();
         updateTabsForUser();
     }
@@ -86,42 +87,42 @@ public class MarketplaceController {
     }
 
     private void switchTab(String tab) {
+        // Hide all tabs
         marketplaceTab.setVisible(false);
         manageProductsTab.setVisible(false);
         cartTab.setVisible(false);
 
-        String inactiveStyle = "-fx-background-color: white; -fx-text-fill: #6b7280; -fx-padding: 16 32; -fx-background-radius: 0; -fx-font-size: 14px; -fx-font-weight: 600; -fx-border-width: 0;";
-        String activeStyle = "-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-padding: 16 32; -fx-font-size: 14px; -fx-font-weight: 600; -fx-border-width: 0;";
+        // Reset ALL buttons to inactive state
+        btnMarketplace.getStyleClass().removeAll("tab-active", "tab-left");
+        btnMarketplace.getStyleClass().add("tab-inactive");
 
-        if (currentUser.equals("admin")) {
-            btnManageProducts.setStyle(inactiveStyle + "-fx-background-radius: 8 0 0 0;");
-            btnCart.setStyle(inactiveStyle + "-fx-background-radius: 0 8 0 0;");
-        } else {
-            btnMarketplace.setStyle(inactiveStyle + "-fx-background-radius: 8 0 0 0;");
-            btnManageProducts.setStyle(inactiveStyle);
-            btnCart.setStyle(inactiveStyle + "-fx-background-radius: 0 8 0 0;");
-        }
+        btnManageProducts.getStyleClass().removeAll("tab-active");
+        btnManageProducts.getStyleClass().add("tab-inactive");
 
+        btnCart.getStyleClass().removeAll("tab-active", "tab-right");
+        btnCart.getStyleClass().add("tab-inactive");
+
+        // Show correct tab and activate button
         switch (tab) {
             case "marketplace":
                 marketplaceTab.setVisible(true);
-                btnMarketplace.setStyle(activeStyle + "-fx-background-radius: 8 0 0 0;");
+                btnMarketplace.getStyleClass().remove("tab-inactive");
+                btnMarketplace.getStyleClass().addAll("tab-active", "tab-left");
                 break;
             case "manage":
                 manageProductsTab.setVisible(true);
-                if (currentUser.equals("admin")) {
-                    btnManageProducts.setStyle(activeStyle + "-fx-background-radius: 8 0 0 0;");
-                } else {
-                    btnManageProducts.setStyle(activeStyle);
-                }
+                btnManageProducts.getStyleClass().remove("tab-inactive");
+                btnManageProducts.getStyleClass().add("tab-active");
                 break;
             case "cart":
             case "orders":
                 cartTab.setVisible(true);
-                btnCart.setStyle(activeStyle + "-fx-background-radius: 0 8 0 0;");
+                btnCart.getStyleClass().remove("tab-inactive");
+                btnCart.getStyleClass().addAll("tab-active", "tab-right");
                 break;
         }
     }
+
 
     private void updateUserInfo() {
         String displayName = currentUser.equals("admin") ? "Admin" :
@@ -143,11 +144,17 @@ public class MarketplaceController {
         }
     }
 
+
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    private void initializeTabButtons() {
+        btnMarketplace.getStyleClass().addAll("tab-inactive", "tab-left");
+        btnManageProducts.getStyleClass().add("tab-inactive");
+        btnCart.getStyleClass().addAll("tab-inactive", "tab-right");
     }
 }

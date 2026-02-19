@@ -86,17 +86,14 @@ public class CartController {
         VBox emptyBox = new VBox(16);
         emptyBox.setAlignment(Pos.CENTER);
         emptyBox.setPadding(new Insets(80));
-        emptyBox.setStyle("-fx-background-color: #f1f5f9; -fx-background-radius: 12; -fx-border-color: #cbd5e1; -fx-border-width: 2; -fx-border-radius: 12;");
-
+        emptyBox.getStyleClass().add("empty-cart-box");
         Label emptyLabel = new Label("🛒 Your cart is empty");
-        emptyLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #475569;");
+        emptyLabel.getStyleClass().add("empty-cart-label");
 
-        // Add label to the VBox
         emptyBox.getChildren().add(emptyLabel);
-
-        // Add VBox to the cart grid
         cartGrid.getChildren().add(emptyBox);
     }
+
 
 
     private HBox createCartItemCard(Cart item) {
@@ -105,9 +102,8 @@ public class CartController {
         card.setPadding(new Insets(24));
         card.setPrefWidth(950);
         card.setMaxWidth(950);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: #e2e8f0; -fx-border-width: 1;");
+        card.getStyleClass().add("cart-item-card");
 
-        // Product image
         ImageView imageView = new ImageView();
         imageView.setFitWidth(90);
         imageView.setFitHeight(90);
@@ -121,13 +117,16 @@ public class CartController {
 
         VBox infoBox = new VBox(8);
         Label name = new Label(item.getProductName());
-        name.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1e293b;");
+        name.getStyleClass().add("cart-product-name");
+
         Label priceInfo = new Label(String.format("Price: %.2f TND / kg", item.getPricePerUnit()));
-        priceInfo.setStyle("-fx-font-size: 15px; -fx-text-fill: #64748b;");
+        priceInfo.getStyleClass().add("cart-price");
+
         Label qtyLabel = new Label("Qty: " + item.getQuantity() + " kg");
-        qtyLabel.setStyle("-fx-font-size: 15px; -fx-text-fill: #64748b;");
+        qtyLabel.getStyleClass().add("cart-qty");
+
         Label stockLabel = new Label("Available: " + item.getAvailableStock() + " kg");
-        stockLabel.setStyle("-fx-font-size: 15px; -fx-text-fill: #059669;");
+        stockLabel.getStyleClass().add("cart-stock");
 
         infoBox.getChildren().addAll(name, priceInfo, qtyLabel, stockLabel);
 
@@ -138,38 +137,37 @@ public class CartController {
         actionsBox.setAlignment(Pos.CENTER_RIGHT);
 
         Label totalLabel = new Label(String.format("%.2f TND", item.getPricePerUnit() * item.getQuantity()));
-        totalLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #059669;");
+        totalLabel.getStyleClass().add("cart-total-price");
 
-        // Spinner
         int maxQty = item.getAvailableStock() + item.getQuantity();
         Spinner<Integer> spinner = new Spinner<>(1, maxQty, item.getQuantity());
         spinner.setEditable(true);
         spinner.setPrefWidth(100);
 
-        // Error label
         Label errorLabel = new Label("❌ Exceeds available stock!");
-        errorLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+        errorLabel.getStyleClass().add("cart-error");
         errorLabel.setVisible(false);
 
         Button updateBtn = new Button("💾 Update");
-        updateBtn.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-padding: 8 16; -fx-background-radius: 8; -fx-font-size: 13px;");
+        updateBtn.getStyleClass().add("cart-update-btn");
 
-        // Spinner listener
         spinner.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
             try {
                 int val = Integer.parseInt(newVal.trim());
                 if (val <= 0 || val > maxQty) {
-                    spinner.getEditor().setStyle("-fx-text-fill: red; -fx-border-color: #ef4444; -fx-border-width: 2;");
+                    spinner.getEditor().getStyleClass().add("invalid-spinner");
                     updateBtn.setDisable(true);
                     errorLabel.setVisible(true);
                 } else {
-                    spinner.getEditor().setStyle("-fx-text-fill: black; -fx-border-color: transparent;");
+                    spinner.getEditor().getStyleClass().remove("invalid-spinner");
+                    spinner.getEditor().getStyleClass().add("valid-spinner");
                     updateBtn.setDisable(false);
                     errorLabel.setVisible(false);
                     totalLabel.setText(String.format("%.2f TND", val * item.getPricePerUnit()));
                     qtyLabel.setText("Qty: " + val + " kg");
                 }
             } catch (NumberFormatException ex) {
+                spinner.getEditor().getStyleClass().add("invalid-spinner");
                 updateBtn.setDisable(true);
                 errorLabel.setVisible(true);
             }
@@ -181,22 +179,21 @@ public class CartController {
             int availableQty = item.getQuantity() + item.getAvailableStock();
 
             if (desiredQty > availableQty) {
-                // Show error without refreshing the cart
                 errorLabel.setVisible(true);
-                spinner.getEditor().setStyle("-fx-text-fill: red; -fx-border-color: #ef4444; -fx-border-width: 2;");
-                return; // DO NOT call loadCart()
+                return;
             }
 
             try {
                 cartService.updateCartQuantity(item.getId(), item.getProductId(), currentUser, desiredQty);
-                loadCart(); // reload only if valid
+                loadCart();
             } catch (Exception ex) {
                 showAlert("Error", "Failed to update: " + ex.getMessage(), Alert.AlertType.ERROR);
             }
         });
 
         Button removeBtn = new Button("🗑️ Remove");
-        removeBtn.setStyle("-fx-background-color: #ef4444; -fx-text-fill: white; -fx-padding: 8 16; -fx-background-radius: 8; -fx-font-size: 13px;");
+        removeBtn.getStyleClass().add("cart-remove-btn");
+
         removeBtn.setOnAction(ev -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Remove " + item.getProductName() + " from cart?", ButtonType.OK, ButtonType.CANCEL);
             if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
@@ -214,12 +211,6 @@ public class CartController {
         return card;
     }
 
-
-
-
-
-
-
     private void addTotalRow(double total, List<Cart> cartItems) {
         Separator separator = new Separator();
         separator.setPrefHeight(2);
@@ -229,15 +220,16 @@ public class CartController {
         totalRow.setAlignment(Pos.CENTER_RIGHT);
         totalRow.setPadding(new Insets(20, 0, 20, 0));
         totalRow.setPrefWidth(950);
+        totalRow.getStyleClass().add("cart-total-row");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Label totalLabel = new Label("Total: " + String.format("%.2f TND", total));
-        totalLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        totalLabel.getStyleClass().add("cart-total-label");
 
         Button validateBtn = new Button("✅ Place Order");
-        validateBtn.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 14 28; -fx-background-radius: 12;");
+        validateBtn.getStyleClass().add("cart-validate-btn");
         validateBtn.setOnAction(e -> handleValidateOrder(cartItems, total));
 
         totalRow.getChildren().addAll(spacer, totalLabel, validateBtn);
