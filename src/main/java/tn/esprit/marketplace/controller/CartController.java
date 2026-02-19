@@ -22,13 +22,15 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import tn.esprit.utils.SessionManager;
+import tn.esprit.user.entity.User;
 
 public class CartController {
 
     private CartService cartService;
     private OrderService orderService;
     private ProductListingService productService;
-    private String currentUser = "user2";
+    private User currentSessionUser;
 
     @FXML private FlowPane cartGrid;
     @FXML private ScrollPane cartScrollPane;
@@ -38,12 +40,13 @@ public class CartController {
         cartService = new CartService();
         orderService = new OrderService();
         productService = new ProductListingService();
+        currentSessionUser = SessionManager.getInstance().getCurrentUser();
         loadCart();
     }
 
     private void loadCart() {
         try {
-            List<Cart> cartItems = cartService.getCartByUser(currentUser);
+            List<Cart> cartItems = cartService.getCartByUser(String.valueOf(currentSessionUser.getId()));
 
             Platform.runLater(() -> {
                 cartGrid.getChildren().clear();
@@ -61,7 +64,7 @@ public class CartController {
                     int realAvailableStock;
                     try {
                         ProductListing product = productService.getProductById(item.getProductId());
-                        realAvailableStock = cartService.getAvailableStockForCart(item.getProductId(), currentUser);
+                        realAvailableStock = cartService.getAvailableStockForCart(item.getProductId(), String.valueOf(currentSessionUser.getId()));
                         item.setAvailableStock(realAvailableStock);
                         item.setPricePerUnit(product.getPrice_per_unit());
                         totalPrice += item.getQuantity() * product.getPrice_per_unit();
@@ -184,7 +187,7 @@ public class CartController {
             }
 
             try {
-                cartService.updateCartQuantity(item.getId(), item.getProductId(), currentUser, desiredQty);
+                cartService.updateCartQuantity(item.getId(), item.getProductId(), String.valueOf(currentSessionUser.getId()), desiredQty);
                 loadCart();
             } catch (Exception ex) {
                 showAlert("Error", "Failed to update: " + ex.getMessage(), Alert.AlertType.ERROR);
@@ -275,9 +278,9 @@ public class CartController {
         }
 
         try {
-            Order order = new Order(currentUser, total, address, payment);
+            Order order = new Order(String.valueOf(currentSessionUser.getId()), total, address, payment);
             orderService.createOrder(order, cartItems);
-            cartService.clearCart(currentUser);
+            cartService.clearCart(String.valueOf(currentSessionUser.getId()));
             showAlert("Success!", "Order placed successfully!\nTotal: " + String.format("%.2f TND", total), Alert.AlertType.INFORMATION);
             loadCart();
         } catch (SQLException e) {

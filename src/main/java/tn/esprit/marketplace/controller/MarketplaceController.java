@@ -4,12 +4,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
+import tn.esprit.utils.SessionManager;
+import tn.esprit.user.entity.User;
 import java.io.IOException;
 
 public class MarketplaceController {
 
-    private String currentUser = "user2";
+    private User currentSessionUser;  // ✅ REPLACED
 
     @FXML private Label lblUserInfo;
     @FXML private Button btnMarketplace;
@@ -21,9 +22,15 @@ public class MarketplaceController {
 
     @FXML
     public void initialize() {
+        currentSessionUser = SessionManager.getInstance().getCurrentUser();  // ✅ MOVED UP
+        if (currentSessionUser == null) {
+            showAlert("Error", "Please login first!", Alert.AlertType.WARNING);
+            return;
+        }
+
         initializeTabButtons();
-        updateUserInfo();
-        updateTabsForUser();
+        updateUserInfo();     // ✅ NOW USES SessionManager
+        updateTabsForUser();  // ✅ NOW USES SessionManager
     }
 
     @FXML
@@ -40,7 +47,7 @@ public class MarketplaceController {
 
     @FXML
     private void showCart() {
-        if (currentUser.equals("admin")) {
+        if (SessionManager.getInstance().isAdmin()) {  // ✅ SessionManager
             switchTab("orders");
             loadView("/fxml/marketplace/OrdersView.fxml", cartTab);
         } else {
@@ -123,15 +130,14 @@ public class MarketplaceController {
         }
     }
 
-
+    // ✅ SIMPLIFIED - SessionManager magic!
     private void updateUserInfo() {
-        String displayName = currentUser.equals("admin") ? "Admin" :
-                currentUser.equals("user1") ? "User1" : "User2";
-        lblUserInfo.setText("Logged in as: " + displayName);
+        lblUserInfo.setText("Logged in as: " + SessionManager.getInstance().getCurrentUserName());
     }
 
+    // ✅ SIMPLIFIED - SessionManager magic!
     private void updateTabsForUser() {
-        if (currentUser.equals("admin")) {
+        if (SessionManager.getInstance().isAdmin()) {
             btnMarketplace.setVisible(false);
             btnMarketplace.setManaged(false);
             btnCart.setText("Orders");
@@ -144,7 +150,6 @@ public class MarketplaceController {
         }
     }
 
-
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -152,6 +157,7 @@ public class MarketplaceController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void initializeTabButtons() {
         btnMarketplace.getStyleClass().addAll("tab-inactive", "tab-left");
         btnManageProducts.getStyleClass().add("tab-inactive");
