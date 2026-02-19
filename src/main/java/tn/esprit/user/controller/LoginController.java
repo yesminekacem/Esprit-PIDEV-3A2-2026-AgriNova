@@ -36,6 +36,10 @@ public class LoginController {
             emailField.setText(savedEmail);
             rememberMeCheckbox.setSelected(true);
         }
+
+        // Allow pressing Enter on either field to trigger login
+        emailField.setOnAction(event -> passwordField.requestFocus());
+        passwordField.setOnAction(event -> handleLogin());
     }
 
     @FXML

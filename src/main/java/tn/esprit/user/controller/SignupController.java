@@ -28,6 +28,12 @@ public class SignupController {
     @FXML
     public void initialize() {
         setupRealtimeValidation();
+
+        // Allow pressing Enter to move between fields and trigger signup
+        fullNameField.setOnAction(event -> emailField.requestFocus());
+        emailField.setOnAction(event -> passwordField.requestFocus());
+        passwordField.setOnAction(event -> confirmPasswordField.requestFocus());
+        confirmPasswordField.setOnAction(event -> handleSignup());
     }
 
     private void setupRealtimeValidation() {
