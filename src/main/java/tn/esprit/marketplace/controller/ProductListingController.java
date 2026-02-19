@@ -428,7 +428,6 @@ public class ProductListingController {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("🛒 Add to Cart - " + product.getProduct_name());
 
-        // ✅ CLEAN LAYOUT
         VBox content = new VBox(16);
         content.setPadding(new Insets(24));
         content.getStyleClass().add("dialog-content");
@@ -519,7 +518,6 @@ public class ProductListingController {
         ButtonType saveBtnType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveBtnType, ButtonType.CANCEL);
 
-        // ✅ CLEAN LAYOUT
         VBox content = new VBox(16);
         content.setPadding(new Insets(16));
         content.getStyleClass().add("dialog-content");
