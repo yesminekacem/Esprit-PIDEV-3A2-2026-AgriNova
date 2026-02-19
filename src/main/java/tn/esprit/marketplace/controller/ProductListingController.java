@@ -117,9 +117,10 @@ public class ProductListingController {
         ButtonType createBtnType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(createBtnType, ButtonType.CANCEL);
 
-        // Layout
+        // Layout - ✅ CLEAN VERSION
         VBox content = new VBox(16);
-        content.setStyle("-fx-padding: 16;");
+        content.setPadding(new Insets(16));
+        content.getStyleClass().add("dialog-content");
 
         // Fields
         TextField txtName = new TextField();
@@ -214,12 +215,11 @@ public class ProductListingController {
                         name,
                         price,
                         quantity,
-                        dbStatus,                 // use mapped value
+                        dbStatus,
                         description,
                         new File(imagePath).getName(),
                         category
                 );
-
 
                 ProductListingService service = new ProductListingService();
                 service.addMeth2(newProduct);
@@ -241,6 +241,7 @@ public class ProductListingController {
 
         dialog.showAndWait();
     }
+
 
 
 
@@ -278,7 +279,7 @@ public class ProductListingController {
 
             if (myProducts.isEmpty()) {
                 Label emptyLabel = new Label("No products found.");
-                emptyLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: #475569;");
+                emptyLabel.getStyleClass().add("empty-label");  // ✅ CSS
                 myProductsGrid.getChildren().add(emptyLabel);
             } else {
                 for (ProductListing product : myProducts) {
@@ -287,22 +288,15 @@ public class ProductListingController {
                 }
             }
 
-            // 🔹 UPDATE STATISTICS HERE
-            if (lblTotalCount != null) {
-                lblTotalCount.setText(String.valueOf(myProducts.size()));
-            }
+            // Update stats
+            if (lblTotalCount != null) lblTotalCount.setText(String.valueOf(myProducts.size()));
             if (lblAvailableCount != null) {
-                long available = myProducts.stream()
-                        .filter(p -> "available".equalsIgnoreCase(p.getStatus()))
-                        .count();
+                long available = myProducts.stream().filter(p -> "available".equalsIgnoreCase(p.getStatus())).count();
                 lblAvailableCount.setText(String.valueOf(available));
             }
 
-            System.out.println("Manage Products loaded: " + myProducts.size());
-
         } catch (SQLException e) {
             showAlert("Error", "Failed to load products: " + e.getMessage(), Alert.AlertType.ERROR);
-            e.printStackTrace();
         }
     }
 
@@ -342,16 +336,11 @@ public class ProductListingController {
         });
     }
 
-    /**
-     * 🔥 FIX #2 & #3:
-     * - Status badge (Available / Out of Stock)
-     * - Quantity formatted with String.format("%d kg")
-     */
     private VBox createProductCard(ProductListing product) {
         VBox card = new VBox(12);
         card.setPrefWidth(360);
         card.setMaxWidth(360);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-border-color: #e2e8f0; -fx-border-width: 1;");
+        card.getStyleClass().add("product-card");  // ✅ CSS
 
         ImageView img = new ImageView();
         img.setFitWidth(360);
@@ -364,24 +353,20 @@ public class ProductListingController {
 
         if (isAvailable) {
             statusBadge.setText("✅ Available");
-            statusBadge.setStyle("-fx-background-color: #dcfce7; -fx-text-fill: #166534; -fx-padding: 6 12; -fx-background-radius: 12; -fx-font-weight: bold;");
+            statusBadge.getStyleClass().add("status-available");  // ✅ CSS
         } else {
             statusBadge.setText("❌ Out of Stock");
-            statusBadge.setStyle("-fx-background-color: #fee2e2; -fx-text-fill: #991b1b; -fx-padding: 6 12; -fx-background-radius: 12; -fx-font-weight: bold;");
+            statusBadge.getStyleClass().add("status-out-of-stock");  // ✅ CSS
         }
 
         Label name = new Label(product.getProduct_name());
-        name.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        name.getStyleClass().add("product-name");  // ✅ CSS
 
-        // 🔥 FIXED DASH ISSUE HERE
-        Label priceQty = new Label(
-                String.format("%.2f TND/kg  •  %s",
-                        product.getPrice_per_unit(),
-                        String.format("%d kg", product.getQuantity()))
-        );
+        Label priceQty = new Label(String.format("%.2f TND/kg  •  %d kg",
+                product.getPrice_per_unit(), product.getQuantity()));
 
         Button addToCartBtn = new Button("🛒 Add to Cart");
-        addToCartBtn.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-padding: 12 24;");
+        addToCartBtn.getStyleClass().add("add-to-cart-btn");  // ✅ CSS
         addToCartBtn.setMaxWidth(Double.MAX_VALUE);
         addToCartBtn.setDisable(!isAvailable);
         addToCartBtn.setOnAction(e -> handleAddToCart(product));
@@ -397,36 +382,29 @@ public class ProductListingController {
         VBox card = new VBox(12);
         card.setPrefWidth(360);
         card.setMaxWidth(360);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-border-color: #e2e8f0; -fx-border-width: 1;");
+        card.getStyleClass().add("manage-product-card");  // ✅ CSS
 
-        // Product image
         ImageView img = new ImageView();
         img.setFitWidth(360);
         img.setFitHeight(200);
         loadProductImage(product, img);
 
-        // Name
         Label name = new Label(product.getProduct_name());
-        name.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        name.getStyleClass().add("product-name");  // ✅ CSS
 
-        // Price + Quantity
-        Label priceQty = new Label(
-                String.format("Price: %.2f TND/kg  •  Stock: %d kg", product.getPrice_per_unit(), product.getQuantity())
-        );
+        Label priceQty = new Label(String.format("Price: %.2f TND/kg  •  Stock: %d kg",
+                product.getPrice_per_unit(), product.getQuantity()));
 
-        // Action buttons
         HBox actions = new HBox(12);
         Button editBtn = new Button("✏️ Edit");
-        editBtn.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-padding: 8 16;");
+        editBtn.getStyleClass().add("edit-btn");  // ✅ CSS
         editBtn.setOnAction(e -> handleUpdateProduct(product));
 
         Button deleteBtn = new Button("🗑️ Delete");
-        deleteBtn.setStyle("-fx-background-color: #ef4444; -fx-text-fill: white; -fx-padding: 8 16;");
+        deleteBtn.getStyleClass().add("delete-btn");  // ✅ CSS
         deleteBtn.setOnAction(e -> handleDeleteProduct(product));
 
         actions.getChildren().addAll(editBtn, deleteBtn);
-
-        // Content VBox
         VBox content = new VBox(10, name, priceQty, actions);
         card.getChildren().addAll(img, content);
 
@@ -447,17 +425,16 @@ public class ProductListingController {
     }
 
     private void handleAddToCart(ProductListing product) {
-
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("🛒 Add to Cart - " + product.getProduct_name());
 
+        // ✅ CLEAN LAYOUT
         VBox content = new VBox(16);
         content.setPadding(new Insets(24));
+        content.getStyleClass().add("dialog-content");
 
-        Label stockInfo = new Label(
-                "📦 Available Stock: " + String.format("%d kg", product.getQuantity())
-        );
-        stockInfo.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+        Label stockInfo = new Label("📦 Available Stock: " + String.format("%d kg", product.getQuantity()));
+        stockInfo.getStyleClass().add("stock-info");  // ✅ CSS
 
         TextField qtyField = new TextField("1");
         qtyField.setPromptText("Enter quantity (1-" + product.getQuantity() + ")");
@@ -475,11 +452,11 @@ public class ProductListingController {
         Button okButton = (Button) dialog.getDialogPane().lookupButton(addBtn);
         okButton.setDisable(false);
 
-        // 🔥 REAL-TIME VALIDATION
+        // 🔥 REAL-TIME VALIDATION - CSS VERSION
         qtyField.textProperty().addListener((obs, oldVal, newVal) -> {
-
             if (newVal.trim().isEmpty()) {
                 errorLabel.setText("");
+                errorLabel.getStyleClass().remove("error-label");
                 okButton.setDisable(true);
                 return;
             }
@@ -489,26 +466,22 @@ public class ProductListingController {
 
                 if (qty <= 0) {
                     errorLabel.setText("❌ Quantity must be greater than 0");
-                    errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 13px;");
+                    errorLabel.getStyleClass().add("error-label");
                     okButton.setDisable(true);
-                }
-                else if (qty > product.getQuantity()) {
+                } else if (qty > product.getQuantity()) {
                     errorLabel.setText("❌ Cannot exceed available stock (" +
                             String.format("%d kg", product.getQuantity()) + ")");
-                    errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 13px;");
+                    errorLabel.getStyleClass().add("error-label");
                     okButton.setDisable(true);
-                }
-                else {
+                } else {
                     double total = qty * product.getPrice_per_unit();
-                    errorLabel.setText("Total: " +
-                            String.format("%.2f TND", total));
-                    errorLabel.setStyle(""); // normal color (not red)
+                    errorLabel.setText("Total: " + String.format("%.2f TND", total));
+                    errorLabel.getStyleClass().remove("error-label");
                     okButton.setDisable(false);
                 }
-
             } catch (NumberFormatException e) {
                 errorLabel.setText("❌ Please enter a valid number");
-                errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 13px;");
+                errorLabel.getStyleClass().add("error-label");
                 okButton.setDisable(true);
             }
         });
@@ -518,25 +491,16 @@ public class ProductListingController {
                 try {
                     int quantity = Integer.parseInt(qtyField.getText().trim());
 
-                    Cart cartItem = new Cart(
-                            currentUser,
-                            product.getListing_id(),
-                            quantity
-                    );
-
+                    Cart cartItem = new Cart(currentUser, product.getListing_id(), quantity);
                     cartService.addToCart(cartItem);
 
                     showAlert("✅ Success",
-                            "Added " + String.format("%d kg", quantity) +
-                                    "\nTotal: " +
-                                    String.format("%.2f TND",
-                                            quantity * product.getPrice_per_unit()),
+                            "Added " + String.format("%d kg", quantity) + "\nTotal: " +
+                                    String.format("%.2f TND", quantity * product.getPrice_per_unit()),
                             Alert.AlertType.INFORMATION);
 
                 } catch (Exception e) {
-                    showAlert("Error",
-                            "Failed to add item: " + e.getMessage(),
-                            Alert.AlertType.ERROR);
+                    showAlert("Error", "Failed to add item: " + e.getMessage(), Alert.AlertType.ERROR);
                 }
             }
             return null;
@@ -547,6 +511,7 @@ public class ProductListingController {
 
 
 
+
     private void handleUpdateProduct(ProductListing product) {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Edit Product");
@@ -554,8 +519,10 @@ public class ProductListingController {
         ButtonType saveBtnType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveBtnType, ButtonType.CANCEL);
 
+        // ✅ CLEAN LAYOUT
         VBox content = new VBox(16);
-        content.setStyle("-fx-padding: 16;");
+        content.setPadding(new Insets(16));
+        content.getStyleClass().add("dialog-content");
 
         // Fields pre-filled
         TextField txtName = new TextField(product.getProduct_name());
@@ -652,14 +619,11 @@ public class ProductListingController {
 
                 showAlert("✅ Success", "Product updated successfully!", Alert.AlertType.INFORMATION);
 
-                // 🔹 Reload Manage Products (always)
+                // Reload
                 loadMyProducts();
-
-                // 🔹 Reload Marketplace only if current user is NOT admin
                 if (!"admin".equals(currentUser)) {
                     loadProducts();
                 }
-
                 dialog.close();
 
             } catch (NumberFormatException ex) {
@@ -673,6 +637,7 @@ public class ProductListingController {
 
         dialog.showAndWait();
     }
+
 
 
 

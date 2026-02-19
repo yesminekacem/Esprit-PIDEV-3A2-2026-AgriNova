@@ -15,16 +15,7 @@ public class ProductListingService implements ICRUD<ProductListing> {
         conx = MyDatabase.getInstance().getConx();
     }
 
-    @Override
-    public void add(ProductListing product) throws SQLException {
-        // DEPRECATED - Use addMeth2 instead (SQL injection safe)
-        String req = "INSERT INTO `product_listing`(`user_id`, `product_name`, `price_per_unit`, `quantity`, `status`, `description`, `picture`, `category`) " +
-                "VALUES ('" + product.getUser_id() + "', '" + product.getProduct_name() + "', " + product.getPrice_per_unit() + ", " +
-                product.getQuantity() + ", '" + product.getStatus() + "', '" + product.getDescription() + "', '" +
-                product.getPicture() + "', '" + product.getCategory() + "')";
-        stm = conx.createStatement();
-        stm.executeUpdate(req);
-    }
+
 
     @Override
     public void addMeth2(ProductListing product) throws SQLException {
