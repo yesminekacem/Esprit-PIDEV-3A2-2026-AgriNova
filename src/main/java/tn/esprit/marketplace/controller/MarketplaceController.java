@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class MarketplaceController {
 
-    private String currentUser = "user2";
+    private String currentUser = "admin";
 
     @FXML private Label lblUserInfo;
     @FXML private Button btnMarketplace;

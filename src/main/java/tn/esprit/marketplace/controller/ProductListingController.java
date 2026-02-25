@@ -33,7 +33,7 @@ public class ProductListingController {
     private ProductListingService service;
     private CartService cartService;
     private ObservableList<ProductListing> productList;
-    private String currentUser = "user2";
+    private String currentUser = "admin";
 
     // Marketplace fields
     @FXML private TextField txtSearch;

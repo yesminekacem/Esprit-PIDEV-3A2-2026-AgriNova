@@ -28,7 +28,7 @@ public class CartController {
     private CartService cartService;
     private OrderService orderService;
     private ProductListingService productService;
-    private String currentUser = "user2";
+    private String currentUser = "admin";
 
     @FXML private FlowPane cartGrid;
     @FXML private ScrollPane cartScrollPane;

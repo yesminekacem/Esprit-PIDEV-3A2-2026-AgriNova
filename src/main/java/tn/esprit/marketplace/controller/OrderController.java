@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OrderController {
     private OrderService orderService;
-    private String currentUser = "user2";
+    private String currentUser = "admin";
 
     @FXML private FlowPane ordersGrid;
 
