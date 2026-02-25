@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-    <top>
-        <HBox spacing="10" style="-fx-padding: 15;">
-            <Label text="Forum" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="+ New Topic"/>
-        </HBox>
-    </top>
-    <center>
-        <Label text="Topics list will be here" />
-    </center>
-</BorderPane>
+<ScrollPane xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.forum.controller.ForumViewController"
+            fitToWidth="true"
+            styleClass="page-scroll"
+            stylesheets="@/styles/forum.css">
+
+    <content>
+        <VBox spacing="18" styleClass="forum-page" prefWidth="900">
+
+            <!-- HEADER -->
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <VBox HBox.hgrow="ALWAYS" spacing="6">
+                    <Label text="Community Forum" styleClass="forum-title"/>
+                    <Label text="Connect, discuss, and learn from fellow farmers" styleClass="forum-subtitle"/>
+                </VBox>
+
+                <Button text="+   New Topic"
+                        onAction="#onAdd"
+                        styleClass="btn-primary-lg"/>
+            </HBox>
+
+            <!-- POPULAR CATEGORIES CARD -->
+            <VBox spacing="12" styleClass="card">
+                <Label text="Popular Categories" styleClass="section-title"/>
+                <FlowPane hgap="10" vgap="10" styleClass="chips">
+                    <Button text="All" onAction="#filterByCategory" style="-fx-background-color: #f3e8ff; -fx-text-fill: #6b21a8; -fx-background-radius: 20px; -fx-padding: 8px 16px; -fx-font-size: 13px; -fx-font-weight: 500; -fx-cursor: hand; -fx-border-width: 0;"/>
+                    <Button text="Organic Farming" onAction="#filterByCategory" style="-fx-background-color: #e6f7e6; -fx-text-fill: #2e7d32; -fx-background-radius: 20px; -fx-padding: 8px 16px; -fx-font-size: 13px; -fx-font-weight: 500; -fx-cursor: hand; -fx-border-width: 0;"/>
+                    <Button text="Soil Management" onAction="#filterByCategory" style="-fx-background-color: #fff3e0; -fx-text-fill: #b45309; -fx-background-radius: 20px; -fx-padding: 8px 16px; -fx-font-size: 13px; -fx-font-weight: 500; -fx-cursor: hand; -fx-border-width: 0;"/>
+                    <Button text="Water Management" onAction="#filterByCategory" style="-fx-background-color: #e3f2fd; -fx-text-fill: #1e4bd2; -fx-background-radius: 20px; -fx-padding: 8px 16px; -fx-font-size: 13px; -fx-font-weight: 500; -fx-cursor: hand; -fx-border-width: 0;"/>
+                    <Button text="Harvesting" onAction="#filterByCategory" style="-fx-background-color: #ffedd5; -fx-text-fill: #c2410c; -fx-background-radius: 20px; -fx-padding: 8px 16px; -fx-font-size: 13px; -fx-font-weight: 500; -fx-cursor: hand; -fx-border-width: 0;"/>
+                    <Button text="Equipment" onAction="#filterByCategory" style="-fx-background-color: #f3f4f6; -fx-text-fill: #4b5563; -fx-background-radius: 20px; -fx-padding: 8px 16px; -fx-font-size: 13px; -fx-font-weight: 500; -fx-cursor: hand; -fx-border-width: 0;"/>
+                    <Button text="Crop Management" onAction="#filterByCategory" style="-fx-background-color: #d1fae5; -fx-text-fill: #047857; -fx-background-radius: 20px; -fx-padding: 8px 16px; -fx-font-size: 13px; -fx-font-weight: 500; -fx-cursor: hand; -fx-border-width: 0;"/>
+                </FlowPane>
+            </VBox>
+
+            <!-- TOPICS LIST (CARDS) -->
+            <ListView fx:id="topicsList" styleClass="topics-list" VBox.vgrow="ALWAYS"/>
+
+            <!-- STATS SUMMARY -->
+            <HBox spacing="14">
+                <VBox styleClass="stat-card stat-green" HBox.hgrow="ALWAYS">
+                    <Label text="Total Topics" styleClass="stat-label"/>
+                    <Label fx:id="lblTotalTopics" text="0" styleClass="stat-value"/>
+                </VBox>
+
+                <VBox styleClass="stat-card stat-blue" HBox.hgrow="ALWAYS">
+                    <Label text="Total Replies" styleClass="stat-label"/>
+                    <Label fx:id="lblTotalReplies" text="0" styleClass="stat-value"/>
+                </VBox>
+
+                <VBox styleClass="stat-card stat-orange" HBox.hgrow="ALWAYS">
+                    <Label text="Active Members" styleClass="stat-label"/>
+                    <Label text="142" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <!-- FLOATING ACTION BUTTON -->
+            <StackPane pickOnBounds="false">
+                <Button text="+"
+                        onAction="#onAdd"
+                        styleClass="fab"/>
+                <StackPane.margin>
+                    <Insets top="0" right="0" bottom="0" left="0"/>
+                </StackPane.margin>
+            </StackPane>
+
+        </VBox>
+    </content>
+</ScrollPane>

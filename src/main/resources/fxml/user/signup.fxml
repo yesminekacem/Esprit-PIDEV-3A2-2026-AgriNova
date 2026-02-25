@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.user.controller.SignupController"
+      prefWidth="1200" prefHeight="750"
+      stylesheets="@/styles/styles.css">
+
+    <!-- Left Side - Illustration -->
+    <VBox alignment="CENTER" spacing="30" styleClass="green-gradient" prefWidth="600">
+        <padding>
+            <Insets top="60" right="60" bottom="60" left="60"/>
+        </padding>
+
+        <Label text="🌱" style="-fx-font-size: 120px;"/>
+
+        <Label text="Join Our Community" styleClass="welcome-title"
+               wrapText="true" maxWidth="450" alignment="CENTER"/>
+
+        <Label text="Start your digital farming journey&#10;Connect with thousands of farmers"
+               styleClass="welcome-subtitle" wrapText="true" maxWidth="400" alignment="CENTER"/>
+    </VBox>
+
+    <!-- Right Side - Signup Form -->
+    <VBox alignment="CENTER" styleClass="cream-background" prefWidth="600">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;"
+                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <VBox alignment="CENTER" spacing="18" styleClass="login-card" maxWidth="450">
+
+                <!-- Logo -->
+                <StackPane styleClass="logo-box">
+                    <Label text="🌿" style="-fx-font-size: 35px;"/>
+                </StackPane>
+
+                <!-- Title -->
+                <VBox alignment="CENTER" spacing="8">
+                    <Label text="Create Account" styleClass="title"/>
+                    <Label text="Join Digital Farm community today" styleClass="subtitle"/>
+                </VBox>
+
+                <!-- Form -->
+                <VBox spacing="14" alignment="CENTER_LEFT">
+
+                    <!-- Full Name Field -->
+                    <VBox spacing="8">
+                        <Label text="Full Name" styleClass="form-label"/>
+                        <StackPane alignment="CENTER_LEFT">
+                            <TextField fx:id="fullNameField" promptText="John Doe"
+                                       styleClass="custom-text-field" prefWidth="400"/>
+                            <Label text="👤" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Email Field -->
+                    <VBox spacing="8">
+                        <Label text="Email Address" styleClass="form-label"/>
+                        <StackPane alignment="CENTER_LEFT">
+                            <TextField fx:id="emailField" promptText="farmer@example.com"
+                                       styleClass="custom-text-field" prefWidth="400"/>
+                            <Label text="✉" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                        </StackPane>
+                        <Label text="We'll never share your email"
+                               style="-fx-text-fill: #888888; -fx-font-size: 10px; -fx-padding: 0 0 0 5;"/>
+                    </VBox>
+
+                    <!-- Password Field -->
+                    <VBox spacing="8">
+                        <Label text="Password" styleClass="form-label"/>
+                        <StackPane alignment="CENTER_LEFT">
+                            <PasswordField fx:id="passwordField" promptText="••••••••"
+                                           styleClass="custom-text-field" prefWidth="400"/>
+                            <Label text="🔒" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                        </StackPane>
+
+                        <!-- Password Strength Indicator -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <ProgressBar fx:id="passwordStrengthBar" prefWidth="200" prefHeight="6"
+                                         progress="0" style="-fx-accent: #EF5350;"/>
+                            <Label fx:id="passwordStrengthLabel"
+                                   style="-fx-text-fill: #666666; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        </HBox>
+
+                        <!-- Password Requirements -->
+                        <Label text="Password must contain:&#10;• At least 8 characters&#10;• Uppercase letter (A-Z)&#10;• Lowercase letter (a-z)&#10;• Digit (0-9)&#10;• Special character (!@#$%...)"
+                               style="-fx-text-fill: #666666; -fx-font-size: 10px; -fx-background-color: #f9f9f9; -fx-padding: 8; -fx-background-radius: 6; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 6;"
+                               wrapText="true" maxWidth="400"/>
+                    </VBox>
+
+                    <!-- Confirm Password Field -->
+                    <VBox spacing="8">
+                        <Label text="Confirm Password" styleClass="form-label"/>
+                        <StackPane alignment="CENTER_LEFT">
+                            <PasswordField fx:id="confirmPasswordField" promptText="••••••••"
+                                           styleClass="custom-text-field" prefWidth="400"/>
+                            <Label text="🔒" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Signup Button -->
+                    <Button fx:id="signupButton" text="Create Account →" onAction="#handleSignup"
+                            styleClass="primary-button" prefWidth="400"/>
+                </VBox>
+
+                <!-- Login Link -->
+                <HBox spacing="5" alignment="CENTER">
+                    <Label text="Already have an account?" style="-fx-text-fill: #666666; -fx-font-size: 13px;"/>
+                    <Hyperlink fx:id="loginLink" text="Sign in" onAction="#handleLoginLink"
+                               styleClass="link-text"/>
+                </HBox>
+
+                <!-- Terms -->
+                <Label text="By creating account, you agree to our Terms of Service and Privacy Policy"
+                       style="-fx-text-fill: #999999; -fx-font-size: 11px;"
+                       wrapText="true" maxWidth="400" alignment="CENTER"/>
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</HBox>

@@ -8,10 +8,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import java.sql.SQLException;
 import java.util.List;
+import tn.esprit.utils.SessionManager;
+import tn.esprit.user.entity.User;
 
 public class OrderController {
     private OrderService orderService;
-    private String currentUser = "admin";
 
     @FXML private FlowPane ordersGrid;
 
@@ -19,11 +20,19 @@ public class OrderController {
     public void initialize() {
         orderService = new OrderService();
 
-        if (currentUser.equals("admin")) {
+        if (isAdmin()) {
             loadOrders();
         } else {
             loadUserOrders();
         }
+    }
+
+    private String getCurrentUserId() {
+        return String.valueOf(SessionManager.getInstance().getCurrentUser().getId());
+    }
+
+    private boolean isAdmin() {
+        return SessionManager.getInstance().isAdmin();
     }
 
     private void loadOrders() {
@@ -50,7 +59,7 @@ public class OrderController {
     private void loadUserOrders() {
         try {
             ordersGrid.getChildren().clear();
-            List<Order> orders = orderService.getOrdersByUser(currentUser);
+            List<Order> orders = orderService.getOrdersByUser(getCurrentUserId());
 
             if (orders.isEmpty()) {
                 Label emptyLabel = new Label("📦 No orders yet");

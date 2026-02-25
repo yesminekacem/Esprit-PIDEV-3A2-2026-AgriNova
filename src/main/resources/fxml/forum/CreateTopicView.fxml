@@ -1,15 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
-      style="-fx-padding: 20;">
-    <Label text="Create Topic" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-    <TextField promptText="Title"/>
-    <TextArea promptText="Content" prefRowCount="6"/>
-    <ChoiceBox />
+<VBox xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.forum.controller.CreateTopicController"
+      spacing="10"
+      styleClass="page">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Create Topic" styleClass="topic-title"/>
+
+    <!-- Title -->
+    <VBox spacing="4">
+        <TextField fx:id="txtTitle"
+                   promptText="Title"
+                   styleClass="input-field"/>
+        <Label fx:id="lblTitleCounter"
+               text="0 / 5 characters minimum"
+               styleClass="input-helper"/>
+    </VBox>
+
+    <!-- Content + counter like screenshot -->
+    <VBox spacing="4">
+        <TextArea fx:id="txtContent"
+                  promptText="Content"
+                  prefRowCount="8"
+                  wrapText="true"
+                  styleClass="input-area"/>
+        <Label fx:id="lblContentCounter"
+               text="0 / 20 characters minimum"
+               styleClass="input-helper"/>
+    </VBox>
+
+    <!-- Category -->
+    <ComboBox fx:id="cbCategory" promptText="Category"/>
+
     <HBox spacing="10">
-        <Button text="Publish"/>
-        <Button text="Cancel"/>
+        <Button fx:id="btnPublish"
+                text="Publish"
+                onAction="#onPublish"
+                styleClass="btn-primary"/>
+        <Button text="Cancel"
+                onAction="#onCancel"
+                styleClass="btn-outline"/>
     </HBox>
+
 </VBox>
+

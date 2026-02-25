@@ -1,20 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-    <top>
-        <VBox spacing="6" style="-fx-padding: 15;">
-            <Label text="Topic title here" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-            <Label text="Topic content preview..." wrapText="true"/>
-        </VBox>
-    </top>
+<BorderPane xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.forum.controller.PostViewController"
+            styleClass="page">
+
     <center>
-        <VBox spacing="10" style="-fx-padding: 15;">
-            <Label text="Comments" style="-fx-font-weight: bold;"/>
-            <ListView />
-            <TextField promptText="Write a comment..."/>
-            <Button text="Send"/>
-        </VBox>
+        <ScrollPane fitToWidth="true" pannable="true" styleClass="page-scroll">
+            <content>
+                <VBox spacing="18" styleClass="container">
+
+                    <!-- Back -->
+                    <HBox>
+                        <Button text="←  Back to Forum"
+                                onAction="#onBack"
+                                styleClass="btn-ghost"/>
+                    </HBox>
+
+                    <!-- Title + badges -->
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label fx:id="lblTitle" text="Topic title" styleClass="topic-title" HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblPopular" text="Popular"
+                               visible="false" managed="false"
+                               styleClass="badge badge-popular"/>
+                        <Label fx:id="lblCategoryBadge" text="Organic Farming"
+                               styleClass="badge badge-category"/>
+                    </HBox>
+
+                    <!-- Author row + stats + menu -->
+                    <HBox alignment="CENTER_LEFT" spacing="14" styleClass="author-row">
+
+                        <!-- Avatar circle (simple placeholder) -->
+                        <StackPane styleClass="avatar-lg">
+                            <Label fx:id="lblAvatarInitial" text="S" styleClass="avatar-initial"/>
+                        </StackPane>
+
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <HBox spacing="8" alignment="CENTER_LEFT">
+                                <Label fx:id="lblAuthorName" text="Sarah Johnson" styleClass="author-name"/>
+                                <Label text="•" styleClass="muted"/>
+                                <Label fx:id="lblAuthorRole" text="Organic Farmer" styleClass="muted"/>
+                                <Label text="•" styleClass="muted"/>
+                                <Label fx:id="lblTimeAgo" text="2 hours ago" styleClass="muted"/>
+                            </HBox>
+
+                            <HBox spacing="16" alignment="CENTER_LEFT">
+                                <HBox spacing="6" alignment="CENTER_LEFT">
+                                    <Label text="💬" styleClass="muted"/>
+                                    <Label fx:id="lblReplies" text="0 replies" styleClass="muted"/>
+                                </HBox>
+
+                                <HBox spacing="6" alignment="CENTER_LEFT">
+                                    <Label text="👍" styleClass="muted"/>
+                                    <Label fx:id="lblPostLikes" text="0 likes" styleClass="muted"/>
+                                </HBox>
+                            </HBox>
+                        </VBox>
+
+                        <MenuButton fx:id="menuPostActions" text="⋮" styleClass="btn-icon"
+                                    visible="false" managed="false">
+                            <items>
+                                <MenuItem fx:id="itemEditTopic" text="Edit Topic" onAction="#onEditTopic"/>
+                                <MenuItem fx:id="itemDeleteTopic" text="Delete Topic" onAction="#onDeleteTopic"/>
+                            </items>
+                        </MenuButton>
+
+                    </HBox>
+
+                    <!-- Content card -->
+                    <VBox styleClass="card">
+                        <VBox spacing="10" styleClass="card-content">
+                            <Label fx:id="lblContent" wrapText="true" text="Post content..." styleClass="content-text"/>
+                        </VBox>
+
+                        <HBox styleClass="card-footer" alignment="CENTER_LEFT">
+                            <Button fx:id="btnLikePost" text="Like (0)"
+                                    onAction="#onLikeTopic"
+                                    styleClass="btn-outline"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Comments header -->
+                    <Label fx:id="lblCommentsCount" text="Comments (0)" styleClass="section-title"/>
+
+                    <!-- Composer card -->
+                    <VBox styleClass="card">
+                        <HBox spacing="14" styleClass="card-content">
+
+                            <StackPane styleClass="avatar-md">
+                                <Label text="J" styleClass="avatar-initial"/>
+                            </StackPane>
+
+                            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                                <TextArea fx:id="txtNewComment"
+                                          promptText="Share your thoughts or advice..."
+                                          wrapText="true"
+                                          prefRowCount="3"
+                                          styleClass="composer-area"/>
+
+                                <HBox alignment="CENTER_RIGHT">
+                                    <Button text="Post Comment"
+                                            onAction="#onAddComment"
+                                            styleClass="btn-primary"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Comments list -->
+                    <ListView fx:id="commentList" styleClass="comment-list" />
+
+                    <Region prefHeight="12"/>
+                </VBox>
+            </content>
+            <padding>
+                <Insets top="18" right="0" bottom="18" left="0"/>
+            </padding>
+        </ScrollPane>
     </center>
+
 </BorderPane>

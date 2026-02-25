@@ -10,14 +10,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.control.Alert;
-import java.io.IOException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -27,13 +21,14 @@ import javafx.scene.layout.*;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
+import tn.esprit.utils.SessionManager;
+import tn.esprit.user.entity.User;
 
 public class ProductListingController {
 
     private ProductListingService service;
     private CartService cartService;
     private ObservableList<ProductListing> productList;
-    private String currentUser = "admin";
 
     // Marketplace fields
     @FXML private TextField txtSearch;
@@ -48,12 +43,23 @@ public class ProductListingController {
     @FXML private Label lblTotalCount;
     @FXML private Label lblAvailable;
     @FXML private Label lblAvailableCount;
+    private User currentSessionUser;
+
+    // ✅ ADD THESE TWO HELPER METHODS
+    private String getCurrentUser() {
+        return String.valueOf(SessionManager.getInstance().getCurrentUser().getId());
+    }
+
+    private boolean isAdmin() {
+        return SessionManager.getInstance().isAdmin();
+    }
 
     @FXML
     public void initialize() {
         service = new ProductListingService();
         cartService = new CartService();
         productList = FXCollections.observableArrayList();
+        currentSessionUser = SessionManager.getInstance().getCurrentUser();
 
         System.out.println("🎛️ ProductListingController initialize()");
         System.out.println("productsGrid: " + (productsGrid != null));
@@ -78,8 +84,7 @@ public class ProductListingController {
         try {
             productList.clear();
 
-            // ⚠️ Load ALL products from OTHER users
-            List<ProductListing> allProducts = service.getAllOtherUsersProducts(currentUser);
+            List<ProductListing> allProducts = service.getAllOtherUsersProducts(getCurrentUser());
             productList.addAll(allProducts);
 
             long availableCount = allProducts.stream()
@@ -211,7 +216,7 @@ public class ProductListingController {
                 }
 
                 ProductListing newProduct = new ProductListing(
-                        currentUser,
+                        getCurrentUser(),
                         name,
                         price,
                         quantity,
@@ -269,10 +274,10 @@ public class ProductListingController {
             ProductListingService service = new ProductListingService();
             List<ProductListing> myProducts;
 
-            if ("admin".equals(currentUser)) {
+            if (isAdmin()) {
                 myProducts = service.getAllProducts();
             } else {
-                myProducts = service.getMyProducts(currentUser);
+                myProducts = service.getMyProducts(getCurrentUser());
             }
 
             myProductsGrid.getChildren().clear();
@@ -428,6 +433,7 @@ public class ProductListingController {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("🛒 Add to Cart - " + product.getProduct_name());
 
+        // ✅ CLEAN LAYOUT
         VBox content = new VBox(16);
         content.setPadding(new Insets(24));
         content.getStyleClass().add("dialog-content");
@@ -490,7 +496,7 @@ public class ProductListingController {
                 try {
                     int quantity = Integer.parseInt(qtyField.getText().trim());
 
-                    Cart cartItem = new Cart(currentUser, product.getListing_id(), quantity);
+                    Cart cartItem = new Cart(getCurrentUser(), product.getListing_id(), quantity);
                     cartService.addToCart(cartItem);
 
                     showAlert("✅ Success",
@@ -518,6 +524,7 @@ public class ProductListingController {
         ButtonType saveBtnType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveBtnType, ButtonType.CANCEL);
 
+        // ✅ CLEAN LAYOUT
         VBox content = new VBox(16);
         content.setPadding(new Insets(16));
         content.getStyleClass().add("dialog-content");
@@ -619,7 +626,7 @@ public class ProductListingController {
 
                 // Reload
                 loadMyProducts();
-                if (!"admin".equals(currentUser)) {
+                if (!isAdmin()) {
                     loadProducts();
                 }
                 dialog.close();
@@ -689,3 +696,4 @@ public class ProductListingController {
         System.out.println("🔄 Refresh clicked");
     }
 }
+

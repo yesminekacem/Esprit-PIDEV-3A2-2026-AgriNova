@@ -1,0 +1,225 @@
+/* Base */
+.forum-root {
+    -fx-background-color: #faf8f5;
+    -fx-font-family: "Poppins", "Segoe UI", Arial;
+}
+
+.forum-page {
+    -fx-background-color: transparent;
+}
+
+/* Header */
+.forum-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+}
+
+.forum-subtitle {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #6b7280;
+}
+
+/* Primary button (green gradient) */
+.btn-primary {
+    -fx-background-radius: 14px;
+    -fx-padding: 10 14;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+    -fx-background-insets: 0;
+    -fx-background-color: linear-gradient(to right, #2E7D32, #388E3C);
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.25), 16, 0.25, 0, 6);
+    -fx-cursor: hand;
+}
+.btn-primary:hover {
+    -fx-background-color: linear-gradient(to right, #1B5E20, #2E7D32);
+}
+
+.btn-icon {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+    -fx-padding: 0 6 0 0;
+}
+
+/* Card */
+.card {
+    -fx-background-radius: 16px;
+    -fx-background-color: rgba(255,255,255,0.80);
+    -fx-border-radius: 16px;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 16, 0.15, 0, 3);
+}
+
+.section-label {
+    -fx-text-fill: #374151;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: 700;
+}
+
+/* Badges */
+.badge {
+    -fx-padding: 6 10;
+    -fx-background-radius: 999px;
+    -fx-border-radius: 999px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-border-width: 1;
+}
+
+.badge-green   { -fx-background-color: #dcfce7; -fx-text-fill: #15803d; -fx-border-color: #bbf7d0; }
+.badge-amber   { -fx-background-color: #fef3c7; -fx-text-fill: #b45309; -fx-border-color: #fde68a; }
+.badge-blue    { -fx-background-color: #dbeafe; -fx-text-fill: #1d4ed8; -fx-border-color: #bfdbfe; }
+.badge-orange  { -fx-background-color: #ffedd5; -fx-text-fill: #c2410c; -fx-border-color: #fed7aa; }
+.badge-gray    { -fx-background-color: #f3f4f6; -fx-text-fill: #374151; -fx-border-color: #e5e7eb; }
+.badge-emerald { -fx-background-color: #d1fae5; -fx-text-fill: #047857; -fx-border-color: #a7f3d0; }
+
+/* Table styled clean (base) */
+.topic-table {
+    -fx-background-color: rgba(255,255,255,0.80);
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-color: rgba(0,0,0,0.06);
+    -fx-padding: 6;
+}
+
+.topic-table .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.topic-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.topic-table .column-header .label {
+    -fx-text-fill: #374151;
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+}
+
+/* Rows */
+.topic-table .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cell-size: 44px;
+}
+.topic-table .table-row-cell:filled:hover {
+    -fx-background-color: rgba(0,0,0,0.03);
+}
+.topic-table .table-cell {
+    -fx-border-color: transparent;
+    -fx-text-fill: #111827;
+}
+
+/* Stat cards */
+.stat-card {
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 16, 0.15, 0, 3);
+}
+
+.stat-green {
+    -fx-background-color: linear-gradient(to bottom right, rgba(46,125,50,0.10), rgba(102,187,106,0.10));
+    -fx-border-color: rgba(46,125,50,0.20);
+}
+.stat-blue {
+    -fx-background-color: linear-gradient(to bottom right, rgba(59,130,246,0.10), rgba(37,99,235,0.10));
+    -fx-border-color: rgba(59,130,246,0.20);
+}
+.stat-orange {
+    -fx-background-color: linear-gradient(to bottom right, rgba(249,115,22,0.10), rgba(234,88,12,0.10));
+    -fx-border-color: rgba(249,115,22,0.20);
+}
+
+.stat-label {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: 600;
+}
+
+.stat-value {
+    -fx-text-fill: #111827;
+    -fx-font-size: 26px;
+    -fx-font-weight: 800;
+}
+
+/* Floating button */
+.fab {
+    -fx-min-width: 56px;
+    -fx-min-height: 56px;
+    -fx-background-radius: 999px;
+    -fx-font-size: 22px;
+    -fx-font-weight: 900;
+    -fx-text-fill: white;
+    -fx-background-insets: 0;
+    -fx-background-color: linear-gradient(to right, #2E7D32, #388E3C);
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.30), 22, 0.25, 0, 10);
+    -fx-cursor: hand;
+}
+.fab:hover {
+    -fx-background-color: linear-gradient(to right, #1B5E20, #2E7D32);
+}
+
+
+/* Chip/Button styles for categories */
+.chips {
+    -fx-padding: 5 0 0 0;
+}
+
+.chip {
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 2, 0, 0, 1);
+}
+
+.chip:hover {
+    -fx-opacity: 0.9;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2);
+}
+
+.chip:pressed {
+    -fx-translate-y: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+}
+
+/* Green chip - Organic Farming */
+.chip-green {
+    -fx-background-color: #e6f7e6;
+    -fx-text-fill: #2e7d32;
+}
+
+/* Amber chip - Soil Management */
+.chip-amber {
+    -fx-background-color: #fff3e0;
+    -fx-text-fill: #b45309;
+}
+
+/* Blue chip - Water Management */
+.chip-blue {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #1e4bd2;
+}
+
+/* Orange chip - Harvesting */
+.chip-orange {
+    -fx-background-color: #ffedd5;
+    -fx-text-fill: #c2410c;
+}
+
+/* Gray chip - Equipment */
+.chip-gray {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #4b5563;
+}
+
+/* Emerald chip - Crop Management */
+.chip-emerald {
+    -fx-background-color: #d1fae5;
+    -fx-text-fill: #047857;
+}

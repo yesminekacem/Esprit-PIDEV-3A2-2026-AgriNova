@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.crop.controller.AddTaskController"
+      spacing="18"
+      style="-fx-padding: 35;
+             -fx-background-color: linear-gradient(to bottom right, #f8fafc, #e8f5e9);">
+
+    <!-- Title -->
+    <Label fx:id="lblTitle"
+           text="Add New Task"
+           style="-fx-font-size: 24px;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #1b5e20;
+                  -fx-padding: 0 0 15 0;" />
+
+    <!-- Fields -->
+    <TextField fx:id="txtCropId"
+               promptText="Crop ID"
+               style="-fx-background-radius: 12;
+                      -fx-padding: 10;
+                      -fx-background-color: white;
+                      -fx-border-color: #cfd8dc;
+                      -fx-border-radius: 12;" />
+
+    <TextField fx:id="txtTaskName"
+               promptText="Task Name"
+               style="-fx-background-radius: 12;
+                      -fx-padding: 10;
+                      -fx-background-color: white;
+                      -fx-border-color: #cfd8dc;
+                      -fx-border-radius: 12;" />
+
+    <TextArea fx:id="txtDescription"
+              promptText="Description"
+              prefRowCount="3"
+              style="-fx-background-radius: 12;
+                     -fx-padding: 10;
+                     -fx-background-color: white;
+                     -fx-border-color: #cfd8dc;
+                     -fx-border-radius: 12;" />
+
+    <TextField fx:id="txtTaskType"
+               promptText="Task Type"
+               style="-fx-background-radius: 12;
+                      -fx-padding: 10;
+                      -fx-background-color: white;
+                      -fx-border-color: #cfd8dc;
+                      -fx-border-radius: 12;" />
+
+    <DatePicker fx:id="dpScheduledDate"
+                style="-fx-background-radius: 12;
+                       -fx-background-color: white;
+                       -fx-border-color: #cfd8dc;
+                       -fx-border-radius: 12;" />
+
+    <DatePicker fx:id="dpCompletedDate"
+                style="-fx-background-radius: 12;
+                       -fx-background-color: white;
+                       -fx-border-color: #cfd8dc;
+                       -fx-border-radius: 12;" />
+
+    <ComboBox fx:id="cbStatus"
+              promptText="Select Status"
+              style="-fx-background-radius: 12;
+                     -fx-background-color: white;
+                     -fx-border-color: #cfd8dc;
+                     -fx-border-radius: 12;" />
+
+    <TextField fx:id="txtAssignedTo"
+               promptText="Assigned To"
+               style="-fx-background-radius: 12;
+                      -fx-padding: 10;
+                      -fx-background-color: white;
+                      -fx-border-color: #cfd8dc;
+                      -fx-border-radius: 12;" />
+
+    <TextField fx:id="txtCost"
+               promptText="Cost"
+               style="-fx-background-radius: 12;
+                      -fx-padding: 10;
+                      -fx-background-color: white;
+                      -fx-border-color: #cfd8dc;
+                      -fx-border-radius: 12;" />
+
+    <!-- Save Button -->
+    <Button fx:id="btnSave"
+            text="Add Task"
+            onAction="#handleAddTask"
+            style="-fx-background-color: linear-gradient(to right, #2e7d32, #66bb6a);
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-font-size: 14px;
+                   -fx-background-radius: 30;
+                   -fx-padding: 12 25;
+                   -fx-cursor: hand;
+                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);" />
+
+</VBox>
