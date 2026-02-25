@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.pidev.controllers.InventoryController"
+            styleClass="root-pane">
+
+    <!-- TOP: Header Section -->
+    <top>
+        <VBox styleClass="header-section">
+            <!-- Top Bar with Search and Add Button -->
+            <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="20">
+                <!-- Search Bar -->
+                <HBox styleClass="search-container" HBox.hgrow="ALWAYS" maxWidth="500">
+                    <Label text="🔍" styleClass="search-icon"/>
+                    <TextField fx:id="searchField" promptText="Search equipment by name, ID, or category..."
+                               styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Go to Rentals (sub-section) -->
+                <Button text="Rentals" styleClass="add-button-secondary"
+                        onAction="#goToRentals"/>
+
+                <!-- Add Equipment Button -->
+                <Button fx:id="addButton" text="Add Equipment" styleClass="add-button"
+                        onAction="#handleAddItem">
+                    <graphic>
+                        <Label text="+" styleClass="button-icon"/>
+                    </graphic>
+                </Button>
+                <Button text="🌤 Weather"    onAction="#handleWeatherCheck"/>
+                <Button text="📄 Export PDF" onAction="#handleExportInventoryPDF"/>
+            </HBox>
+
+
+            <!-- Page Title and View Toggle -->
+            <HBox styleClass="title-bar" alignment="CENTER_LEFT" spacing="20">
+                <VBox spacing="5">
+                    <Label text="Inventory Management" styleClass="page-title"/>
+                    <Label text="Manage and track your agricultural fleet across all locations."
+                           styleClass="page-subtitle"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- View Toggle -->
+                <HBox styleClass="view-toggle" spacing="5">
+                    <Button fx:id="gridViewBtn" styleClass="toggle-button, toggle-active"
+                            onAction="#switchToGridView">
+                        <graphic>
+                            <Label text="⊞" styleClass="toggle-icon"/>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="listViewBtn" styleClass="toggle-button"
+                            onAction="#switchToListView">
+                        <graphic>
+                            <Label text="☰" styleClass="toggle-icon"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CENTER: Scrollable Content -->
+    <center>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" styleClass="content-scroll">
+            <content>
+                <VBox styleClass="content-container" spacing="20">
+                    <!-- Grid View Container -->
+                    <GridPane fx:id="inventoryGrid" styleClass="inventory-grid"
+                              hgap="24" vgap="24" visible="true" managed="true">
+                        <!-- Cards will be added dynamically -->
+                    </GridPane>
+
+                    <!-- List View Container (Alternative View) -->
+                    <VBox fx:id="inventoryList" styleClass="inventory-list"
+                          spacing="12" visible="false" managed="false">
+                        <!-- List items will be added dynamically -->
+                    </VBox>
+
+                    <!-- Empty State -->
+                    <VBox fx:id="emptyState" styleClass="empty-state"
+                          alignment="CENTER" spacing="15" visible="false" managed="false">
+                        <Label text="📦" styleClass="empty-icon"/>
+                        <Label text="No equipment found" styleClass="empty-title"/>
+                        <Label text="Start by adding your first equipment item" styleClass="empty-subtitle"/>
+                        <Button text="Add Equipment" styleClass="add-button-secondary"
+                                onAction="#handleAddItem"/>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <!-- BOTTOM: Statistics Footer -->
+    <bottom>
+        <HBox styleClass="stats-footer" alignment="CENTER_LEFT" spacing="30">
+            <!-- Stat 1: Total Items -->
+            <HBox styleClass="stat-item" spacing="15" HBox.hgrow="ALWAYS">
+                <VBox styleClass="stat-icon-box, stat-icon-primary" alignment="CENTER">
+                    <Label text="📦" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="TOTAL ITEMS" styleClass="stat-label"/>
+                    <Label fx:id="totalItemsLabel" text="0" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <Separator orientation="VERTICAL" styleClass="stat-divider"/>
+
+            <!-- Stat 2: In Stock -->
+            <HBox styleClass="stat-item" spacing="15" HBox.hgrow="ALWAYS">
+                <VBox styleClass="stat-icon-box, stat-icon-success" alignment="CENTER">
+                    <Label text="✓" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="IN STOCK" styleClass="stat-label"/>
+                    <Label fx:id="inStockLabel" text="0" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <Separator orientation="VERTICAL" styleClass="stat-divider"/>
+
+            <!-- Stat 3: Low Stock Alerts -->
+            <HBox styleClass="stat-item" spacing="15" HBox.hgrow="ALWAYS">
+                <VBox styleClass="stat-icon-box, stat-icon-warning" alignment="CENTER">
+                    <Label text="⚠" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="LOW STOCK ALERTS" styleClass="stat-label"/>
+                    <Label fx:id="lowStockLabel" text="0" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Version Info -->
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Label text="Version 2.4.0" styleClass="version-label"/>
+                <Separator orientation="VERTICAL" styleClass="stat-divider"/>
+                <Button styleClass="help-button">
+                    <graphic>
+                        <Label text="?" styleClass="help-icon"/>
+                    </graphic>
+                </Button>
+            </HBox>
+        </HBox>
+    </bottom>
+</BorderPane>

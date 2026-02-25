@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.pidev.controllers.MainController"
+            styleClass="main-container">
+
+    <!-- LEFT: Sidebar Navigation -->
+    <left>
+        <VBox styleClass="sidebar" spacing="0">
+
+            <!-- Logo Section -->
+            <VBox styleClass="sidebar-logo">
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <VBox styleClass="logo-icon-box">
+                        <Label text="🌿"/>
+                    </VBox>
+                    <VBox spacing="2">
+                        <Label text="AgriRent" styleClass="logo-title"/>
+                        <Label text="Management System" styleClass="logo-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <Separator/>
+
+            <!-- Navigation Menu -->
+            <VBox styleClass="nav-menu" spacing="8">
+
+                <Button fx:id="dashboardBtn" onAction="#showDashboard" styleClass="nav-button, nav-active">
+                    <graphic>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="📊" styleClass="nav-icon"/>
+                            <Label text="Dashboard" styleClass="nav-label"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="usersBtn" onAction="#showUsers" styleClass="nav-button">
+                    <graphic>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="👥" styleClass="nav-icon"/>
+                            <Label text="Users" styleClass="nav-label"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="cropsBtn" onAction="#showCrops" styleClass="nav-button">
+                    <graphic>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="🌱" styleClass="nav-icon"/>
+                            <Label text="Crops" styleClass="nav-label"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="inventoryBtn" onAction="#showInventory"
+                        styleClass="nav-button">
+                    <graphic>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="📦" styleClass="nav-icon"/>
+                            <Label text="Inventory" styleClass="nav-label"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="marketplaceBtn" onAction="#showMarketplace" styleClass="nav-button">
+                    <graphic>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="🏬" styleClass="nav-icon"/>
+                            <Label text="Marketplace" styleClass="nav-label"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="forumBtn" onAction="#showForum" styleClass="nav-button">
+                    <graphic>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="💬" styleClass="nav-icon"/>
+                            <Label text="Forum" styleClass="nav-label"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="settingsBtn" onAction="#showSettings" styleClass="nav-button">
+                    <graphic>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="⚙" styleClass="nav-icon"/>
+                            <Label text="Settings" styleClass="nav-label"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Bottom Pro Plan Card -->
+            <VBox styleClass="pro-plan-card" alignment="CENTER_LEFT" spacing="8">
+                <padding>
+                    <Insets top="16" right="16" bottom="16" left="16"/>
+                </padding>
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="⭐"/>
+                    <Label text="Pro Plan" styleClass="pro-plan-title"/>
+                </HBox>
+                <Label text="Unlock premium features" styleClass="pro-plan-text"/>
+                <Button text="Upgrade Now" styleClass="pro-plan-button"/>
+            </VBox>
+
+        </VBox>
+    </left>
+
+    <!-- CENTER: Header + Content -->
+    <center>
+        <VBox styleClass="content-wrapper">
+
+            <!-- Top Header Bar -->
+            <HBox styleClass="top-header" alignment="CENTER_LEFT" spacing="20">
+                <!-- Search -->
+                <HBox styleClass="header-search-container" maxWidth="400" HBox.hgrow="NEVER">
+                    <Label text="🔍" styleClass="header-search-icon"/>
+                    <TextField promptText="Search equipment, rentals..."
+                               styleClass="header-search-field"/>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Notification -->
+                <Button styleClass="header-icon-button">
+                    <graphic>
+                        <Label text="🔔"/>
+                    </graphic>
+                </Button>
+
+                <!-- User Profile -->
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <VBox styleClass="header-avatar">
+                        <Label text="FM"/>
+                    </VBox>
+                    <VBox spacing="2" alignment="CENTER_LEFT">
+                        <Label text="Farm Manager" styleClass="header-user-name"/>
+                        <Label text="Administrator" styleClass="header-user-role"/>
+                    </VBox>
+                    <Label text="⌄"/>
+                </HBox>
+            </HBox>
+
+            <!-- Content Pane -->
+            <StackPane fx:id="contentPane" styleClass="content-pane" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </center>
+
+</BorderPane>
+

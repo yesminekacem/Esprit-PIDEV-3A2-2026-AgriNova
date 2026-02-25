@@ -1,0 +1,435 @@
+/* ========================================
+   AGRIRENT INVENTORY - MODERN STYLES
+   Based on HTML Template Design
+======================================== */
+
+/* === ROOT & GENERAL === */
+.root-pane {
+    -fx-background-color: #FAF8F5;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* === HEADER SECTION === */
+.header-section {
+    -fx-background-color: white;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+.top-bar {
+    -fx-padding: 20 30 20 30;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #E5E7EB transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.title-bar {
+    -fx-padding: 20 30 20 30;
+    -fx-background-color: white;
+}
+
+/* === SEARCH BAR === */
+.search-container {
+    -fx-background-color: #F3F4F6;
+    -fx-background-radius: 12px;
+    -fx-padding: 8 15 8 15;
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
+}
+
+.search-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: #9CA3AF;
+}
+
+.search-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #1F2937;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #9CA3AF;
+}
+
+.search-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* === BUTTONS === */
+.add-button {
+    -fx-background-color: linear-gradient(to right, #2E7D32, #388E3C);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 24 12 24;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(46, 125, 50, 0.25), 12, 0, 0, 4);
+}
+
+.add-button:hover {
+    -fx-background-color: linear-gradient(to right, #1B5E20, #2E7D32);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.add-button:pressed {
+    -fx-scale-y: 0.98;
+    -fx-scale-x: 0.98;
+}
+
+.add-button-secondary {
+    -fx-background-color: linear-gradient(to right, #2E7D32, #388E3C);
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 10 20 10 20;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.button-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+.icon-label {
+    -fx-font-size: 20px;
+}
+
+/* === PAGE TITLE === */
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+
+.page-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6B7280;
+}
+
+/* === VIEW TOGGLE === */
+.view-toggle {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-padding: 4;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 8px;
+}
+
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6px;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+.toggle-active {
+    -fx-background-color: #E8F5E9 !important;
+}
+
+.toggle-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: #2E7D32;
+}
+
+/* === CONTENT SCROLL === */
+.content-scroll {
+    -fx-background-color: #FAF8F5;
+    -fx-border-color: transparent;
+}
+
+.content-scroll > .viewport {
+    -fx-background-color: #FAF8F5;
+}
+
+.content-container {
+    -fx-padding: 30;
+}
+
+/* === INVENTORY GRID === */
+.inventory-grid {
+    -fx-background-color: transparent;
+}
+
+/* === INVENTORY CARD === */
+.inventory-card {
+    -fx-background-color: rgba(255, 255, 255, 0.85);
+    -fx-background-radius: 12px;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-min-height: 200px;
+    -fx-pref-width: 350px;
+}
+
+.inventory-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 16, 0, 0, 4);
+}
+
+/* === CARD COMPONENTS === */
+.card-icon-box {
+    -fx-background-color: linear-gradient(to bottom right, #2E7D32, #66BB6A);
+    -fx-background-radius: 50%;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(46, 125, 50, 0.3), 8, 0, 0, 2);
+}
+
+.card-icon {
+    -fx-font-size: 32px;
+}
+
+.inventory-card:hover .card-icon {
+    -fx-font-size: 32px;
+}
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+
+.card-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B7280;
+}
+
+.card-bottom {
+    -fx-spacing: 10;
+}
+
+.card-divider {
+    -fx-background-color: #F3F4F6;
+    -fx-pref-height: 1;
+}
+
+.card-maintenance {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9CA3AF;
+    -fx-letter-spacing: 0.5px;
+}
+
+/* === ACTION BUTTONS === */
+.card-action-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-padding: 8;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+    -fx-text-fill: #9CA3AF;
+}
+
+.card-action-button:hover {
+    -fx-background-color: #E8F5E9;
+    -fx-text-fill: #4CAF50;
+}
+
+/* === STATUS BADGES === */
+.status-badge {
+    -fx-background-radius: 20px;
+    -fx-padding: 6 14 6 14;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+}
+
+.status-success {
+    -fx-background-color: #D1FAE5;
+    -fx-text-fill: #065F46;
+}
+
+.status-warning {
+    -fx-background-color: #FED7AA;
+    -fx-text-fill: #92400E;
+}
+
+.status-danger {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #991B1B;
+}
+
+.status-info {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #1E40AF;
+}
+
+.status-default {
+    -fx-background-color: #F3F4F6;
+    -fx-text-fill: #6B7280;
+}
+
+/* === LIST VIEW === */
+.inventory-list {
+    -fx-spacing: 12;
+}
+
+.list-item {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 6, 0, 0, 2);
+}
+
+.list-item:hover {
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 79, 0.15), 12, 0, 0, 4);
+}
+
+.list-icon-box {
+    -fx-background-color: #E8F5E9;
+    -fx-background-radius: 12px;
+}
+
+.list-icon {
+    -fx-font-size: 24px;
+}
+
+.list-item-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+
+.list-item-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B7280;
+}
+
+/* === EMPTY STATE === */
+.empty-state {
+    -fx-padding: 80;
+}
+
+.empty-icon {
+    -fx-font-size: 64px;
+    -fx-opacity: 0.3;
+}
+
+.empty-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B7280;
+}
+
+.empty-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #9CA3AF;
+}
+
+/* === STATISTICS FOOTER === */
+.stats-footer {
+    -fx-background-color: white;
+    -fx-padding: 20 30 20 30;
+    -fx-border-color: #E5E7EB transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 15, 0, 0, -4);
+}
+
+.stat-item {
+    -fx-alignment: center-left;
+}
+
+.stat-icon-box {
+    -fx-background-radius: 12px;
+    -fx-pref-width: 48;
+    -fx-pref-height: 48;
+    -fx-max-width: 48;
+    -fx-max-height: 48;
+}
+
+.stat-icon-primary {
+    -fx-background-color: #E8F5E9;
+}
+
+.stat-icon-success {
+    -fx-background-color: #E8F5E9;
+}
+
+.stat-icon-warning {
+    -fx-background-color: #FED7AA;
+}
+
+.stat-icon {
+    -fx-font-size: 20px;
+}
+
+.stat-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9CA3AF;
+    -fx-letter-spacing: 1px;
+}
+
+.stat-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+
+.stat-divider {
+    -fx-background-color: #E5E7EB;
+    -fx-pref-width: 1;
+    -fx-min-height: 40;
+}
+
+.version-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #9CA3AF;
+    -fx-font-style: italic;
+}
+
+.help-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-padding: 6;
+    -fx-cursor: hand;
+}
+
+.help-button:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+.help-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: #4CAF50;
+}
+
+/* === SCROLLBAR STYLING === */
+.scroll-pane > .viewport {
+    -fx-background-color: #F5F7FA;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #D1D5DB;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #9CA3AF;
+}

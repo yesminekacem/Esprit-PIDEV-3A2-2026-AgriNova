@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            styleClass="dashboard-root">
+
+    <center>
+        <VBox alignment="TOP_LEFT" spacing="16">
+
+            <!-- Padding for main VBox -->
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24"/>
+            </padding>
+
+            <Label text="Dashboard" styleClass="dashboard-title"/>
+            <Label text="High-level overview of your AgriRent activity."
+                   styleClass="dashboard-subtitle"/>
+
+            <GridPane hgap="16" vgap="16">
+
+                <!-- Padding for GridPane -->
+                <padding>
+                    <Insets top="8" right="8" bottom="8" left="8"/>
+                </padding>
+
+                <!-- Inventory summary card -->
+                <VBox styleClass="dashboard-card"
+                      GridPane.columnIndex="0"
+                      GridPane.rowIndex="0"
+                      spacing="6">
+                    <Label text="📦 Inventory"
+                           styleClass="dashboard-card-title"/>
+                    <Label text="Overview of all equipment"
+                           styleClass="dashboard-card-subtitle"/>
+                </VBox>
+
+                <!-- Rentals summary card -->
+                <VBox styleClass="dashboard-card"
+                      GridPane.columnIndex="1"
+                      GridPane.rowIndex="0"
+                      spacing="6">
+                    <Label text="📝 Rentals"
+                           styleClass="dashboard-card-title"/>
+                    <Label text="Track active and overdue contracts"
+                           styleClass="dashboard-card-subtitle"/>
+                </VBox>
+
+                <!-- Revenue summary card -->
+                <VBox styleClass="dashboard-card"
+                      GridPane.columnIndex="0"
+                      GridPane.rowIndex="1"
+                      spacing="6">
+                    <Label text="💰 Revenue"
+                           styleClass="dashboard-card-title"/>
+                    <Label text="Monitor total rental income"
+                           styleClass="dashboard-card-subtitle"/>
+                </VBox>
+
+                <!-- Maintenance summary card -->
+                <VBox styleClass="dashboard-card"
+                      GridPane.columnIndex="1"
+                      GridPane.rowIndex="1"
+                      spacing="6">
+                    <Label text="🛠 Maintenance"
+                           styleClass="dashboard-card-title"/>
+                    <Label text="Upcoming service tasks"
+                           styleClass="dashboard-card-subtitle"/>
+                </VBox>
+
+            </GridPane>
+        </VBox>
+    </center>
+
+</BorderPane>
