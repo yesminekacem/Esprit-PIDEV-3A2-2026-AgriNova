@@ -6,16 +6,36 @@ public class User {
     private String email;
     private String passwordHash;
     private Role role;
+    private String profileImage;
+    private boolean emailVerified;
 
     public User() {}
 
-    public User(int id, String fullName, String email, String passwordHash, Role role) {
+    public User(int id, String fullName, String email, String passwordHash, Role role, String profileImage) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
+        this.profileImage = profileImage;
+        this.emailVerified = false; // Default to false for new users
     }
+
+    public User(int id, String fullName, String email, String passwordHash, Role role) {
+        this(id, fullName, email, passwordHash, role, null);
+
+    }
+    public User(String fullName, String email, String passwordHash, Role role) {
+        this.fullName = fullName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.profileImage = null;
+        this.emailVerified = false; // Default to false for new users
+    }
+
+    public String getProfileImage() { return profileImage; }
+    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
     public int getId() {
         return id;
@@ -57,14 +77,23 @@ public class User {
         this.role = role;
     }
 
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
+                ", passwordHash='" + passwordHash.substring(0, 10) + "..." + '\'' +
                 ", role=" + role +
+                ", profileImage='" + (profileImage != null ? profileImage.substring(0, 30) + "..." : "null") + '\'' +
                 '}';
     }
 }

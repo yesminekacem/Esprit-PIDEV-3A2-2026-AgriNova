@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.user.controller.EmailVerificationController"
+      prefWidth="400" prefHeight="300" spacing="20"
+      style="-fx-background-color: #f8f9fa; -fx-background-radius: 12;">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Header -->
+    <VBox spacing="10" alignment="CENTER">
+        <Label text="📧" style="-fx-font-size: 36px;"/>
+        <Label text="Email Verification" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2E7D32;"/>
+        <Label fx:id="instructionLabel" text="We've sent a verification code to your email. Please enter it below:"
+               style="-fx-text-fill: #555; -fx-text-alignment: center;" wrapText="true"/>
+    </VBox>
+
+    <!-- Email display -->
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Email:" style="-fx-font-weight: bold;"/>
+        <Label fx:id="emailLabel" text="user@example.com" style="-fx-text-fill: #2E7D32;"/>
+    </HBox>
+
+    <!-- Verification code input -->
+    <VBox spacing="8">
+        <Label text="Verification Code:" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="codeField" promptText="Enter 6-digit code"
+                   style="-fx-font-size: 16px; -fx-text-alignment: center; -fx-font-weight: bold;"
+                   maxWidth="200" alignment="CENTER"
+                   editable="true" focusTraversable="true" disable="false"/>
+        <Label fx:id="errorLabel" text="" style="-fx-text-fill: #d32f2f; -fx-font-size: 12px;"/>
+    </VBox>
+
+    <!-- Timer display -->
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="⏱" style="-fx-font-size: 14px;"/>
+        <Label fx:id="timerLabel" text="Code expires in: 10:00" style="-fx-text-fill: #666;"/>
+    </HBox>
+
+    <!-- Action buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="verifyButton" text="Verify Email" onAction="#handleVerifyCode"
+                style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;"
+                prefWidth="120"/>
+        <Button fx:id="resendButton" text="Resend Code" onAction="#handleResendCode"
+                style="-fx-background-color: #FFA726; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;"
+                prefWidth="120"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"
+                style="-fx-background-color: #666; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;"
+                prefWidth="80"/>
+    </HBox>
+
+    <Label text="Didn't receive the code? Check your spam folder or click Resend Code."
+           style="-fx-text-fill: #888; -fx-font-size: 11px; -fx-text-alignment: center;"
+           wrapText="true"/>
+
+</VBox>

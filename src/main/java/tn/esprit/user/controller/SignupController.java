@@ -4,12 +4,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tn.esprit.user.entity.Role;
 import tn.esprit.user.entity.User;
 import tn.esprit.user.service.UserCrud;
+import tn.esprit.utils.EmailService;
 import tn.esprit.utils.PasswordUtil;
 import tn.esprit.utils.ValidationUtil;
+import tn.esprit.utils.VerificationCodeManager;
 
 import java.io.IOException;
 
@@ -24,6 +27,8 @@ public class SignupController {
     @FXML private Hyperlink loginLink;
 
     private UserCrud userCrud = new UserCrud();
+    private EmailService emailService = new EmailService();
+    private VerificationCodeManager verificationManager = VerificationCodeManager.getInstance();
 
     @FXML
     public void initialize() {
@@ -174,25 +179,42 @@ public class SignupController {
                 return;
             }
 
+            // Create user object (don't save to database yet)
             User user = new User();
             user.setFullName(fullName);
             user.setEmail(email);
             user.setPasswordHash(PasswordUtil.hashPassword(password));
             user.setRole(Role.USER);
+            user.setEmailVerified(false);
 
-            userCrud.add(user);
+            // Generate and send verification code
+            signupButton.setDisable(true);
+            signupButton.setText("Processing...");
 
-            showAlert(Alert.AlertType.INFORMATION, "Success",
-                    "Registration successful! You can now login with your credentials.");
+            String verificationCode = emailService.generateVerificationCode();
+            boolean emailSent = emailService.sendVerificationEmail(email, fullName, verificationCode);
 
-            Stage stage = (Stage) signupButton.getScene().getWindow();
-            stage.close();
-            loadScene("/fxml/user/login.fxml", "Login");
+            if (emailSent) {
+                // Store verification code
+                verificationManager.storeVerificationCode(email, verificationCode);
+
+                // Show verification dialog immediately (email sends in background)
+                showAlert(Alert.AlertType.INFORMATION, "Email Sent",
+                    "Verification code has been sent to " + email + "\nCheck your email and enter the code in the next dialog.");
+
+                openEmailVerificationDialog(user);
+
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to send verification email. Please try again.");
+            }
 
         } catch (Exception ex) {
             showAlert(Alert.AlertType.ERROR, "Error",
                     "Registration failed: " + ex.getMessage());
             ex.printStackTrace();
+        } finally {
+            signupButton.setDisable(false);
+            signupButton.setText("Create Account");
         }
     }
 
@@ -214,6 +236,38 @@ public class SignupController {
         stage.setTitle("Digital Farm - " + title);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void openEmailVerificationDialog(User user) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/email-verification.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            EmailVerificationController controller = loader.getController();
+            controller.setPendingUser(user);
+            controller.setPasswordResetMode(false); // This is email verification, not password reset
+
+            Stage verificationStage = new Stage();
+            verificationStage.setTitle("Email Verification - Agrinova");
+            verificationStage.setScene(scene);
+            verificationStage.setResizable(false);
+            verificationStage.initModality(Modality.APPLICATION_MODAL);
+
+            controller.setStage(verificationStage);
+
+            // Initialize the dialog with proper timer and field setup
+            controller.initializeDialog();
+
+            // Close current signup window
+            Stage currentStage = (Stage) signupButton.getScene().getWindow();
+            currentStage.close();
+
+            verificationStage.showAndWait();
+
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to open verification dialog.");
+            e.printStackTrace();
+        }
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {

@@ -7,7 +7,7 @@
 
 <HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="tn.esprit.user.controller.LoginController"
-      prefWidth="1200" prefHeight="700"
+      prefWidth="1400" prefHeight="800"
       stylesheets="@/styles/styles.css">
 
     <!-- Left Side - Illustration -->
@@ -71,13 +71,14 @@
                 <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="400">
                     <CheckBox fx:id="rememberMeCheckbox" text="Remember me" styleClass="check-box"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Hyperlink text="Forgot password?" styleClass="secondary-button"/>
+                    <Hyperlink text="Forgot password?" styleClass="secondary-button" onAction="#handleForgotPasswordLink" />
                 </HBox>
 
                 <!-- Login Button -->
                 <Button fx:id="loginButton" text="Sign In →" onAction="#handleLogin"
                         styleClass="primary-button" prefWidth="400"/>
             </VBox>
+
 
             <!-- Sign Up Link -->
             <HBox spacing="5" alignment="CENTER">
