@@ -5,17 +5,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.*;
 import tn.esprit.forum.entity.Post;
-
+import javafx.scene.control.Tooltip;
+import tn.esprit.user.entity.User;
+import tn.esprit.user.entity.Role;
+import tn.esprit.utils.SessionManager;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class TopicCardCell extends ListCell<Post> {
-
+    private final Map<Integer, Boolean> flaggedMap;
     private final HBox root = new HBox(16);
 
     private final StackPane avatarWrap = new StackPane();
     private final Label avatarLetter = new Label();
-
+    private final Label badgeFlagged = makeFlagBadge();
     private final VBox content = new VBox(8);
 
     private final HBox headerRow = new HBox(10);
@@ -34,7 +38,8 @@ public class TopicCardCell extends ListCell<Post> {
 
     private final Label excerpt = new Label();
 
-    public TopicCardCell() {
+    public TopicCardCell(Map<Integer, Boolean> flaggedMap) {
+        this.flaggedMap = flaggedMap;
         // root card
         root.getStyleClass().add("topic-card");
         root.setPadding(new Insets(18));
@@ -69,7 +74,7 @@ public class TopicCardCell extends ListCell<Post> {
         categoryChip.getStyleClass().add("topic-chip");
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        headerRow.getChildren().addAll(titleMeta, spacer, categoryChip);
+        headerRow.getChildren().addAll(titleMeta, spacer, badgeFlagged, categoryChip);
 
         // excerpt
         excerpt.getStyleClass().add("topic-excerpt");
@@ -80,16 +85,20 @@ public class TopicCardCell extends ListCell<Post> {
 
         root.getChildren().addAll(avatarWrap, content);
     }
-
     @Override
     protected void updateItem(Post post, boolean empty) {
         super.updateItem(post, empty);
-
         if (empty || post == null) {
             setText(null);
             setGraphic(null);
             return;
         }
+
+        // Admin-only flagged badge
+        boolean flagged = flaggedMap != null && Boolean.TRUE.equals(flaggedMap.get(post.getIdPost()));
+        boolean showFlag = isAdmin() && flagged;
+        badgeFlagged.setVisible(showFlag);
+        badgeFlagged.setManaged(showFlag);
 
         // Avatar letter
         String a = post.getAuthor() == null ? "?" : post.getAuthor().trim();
@@ -97,13 +106,12 @@ public class TopicCardCell extends ListCell<Post> {
 
         // Content
         lblTitle.setText(post.getTitle() == null ? "" : post.getTitle());
-
         lblAuthor.setText(post.getAuthor() == null ? "Unknown" : post.getAuthor());
 
         // time ago
         lblTimeAgo.setText(formatTimeAgo(post.getCreatedAt()));
 
-        // excerpt (first ~140 chars like figma preview)
+        // excerpt
         String c = post.getContent() == null ? "" : post.getContent().trim();
         if (c.length() > 140) c = c.substring(0, 140) + "...";
         excerpt.setText(c);
@@ -116,7 +124,6 @@ public class TopicCardCell extends ListCell<Post> {
         setText(null);
         setGraphic(root);
     }
-
     private String formatTimeAgo(LocalDateTime createdAt) {
         if (createdAt == null) return "just now";
 
@@ -149,5 +156,35 @@ public class TopicCardCell extends ListCell<Post> {
         else if (cat.contains("equip")) categoryChip.getStyleClass().add("chip-gray");
         else if (cat.contains("crop")) categoryChip.getStyleClass().add("chip-emerald");
         else categoryChip.getStyleClass().add("chip-gray");
+    }
+    private Label makeFlagBadge() {
+        Label b = new Label("🚩 FLAGGED");
+        b.setStyle("""
+        -fx-background-color: rgba(239,68,68,0.16);
+        -fx-text-fill: #b91c1c;
+        -fx-font-weight: 900;
+        -fx-font-size: 12px;
+        -fx-padding: 6 10;
+        -fx-background-radius: 999;
+        -fx-border-radius: 999;
+        -fx-border-color: rgba(239,68,68,0.35);
+    """);
+        Tooltip.install(b, new Tooltip("Contains filtered words (***). Review recommended."));
+        b.setVisible(false);
+        b.setManaged(false);
+        return b;
+    }
+    private boolean isAdmin() {
+        User u = SessionManager.getInstance().getCurrentUser();
+        return u != null && u.getRole() == Role.ADMIN;
+    }
+
+    private boolean isFlagged(Post p) {
+        if (p == null) return false;
+
+        String t = p.getTitle() == null ? "" : p.getTitle();
+        String c = p.getContent() == null ? "" : p.getContent();
+
+        return t.contains("***") || c.contains("***");
     }
 }

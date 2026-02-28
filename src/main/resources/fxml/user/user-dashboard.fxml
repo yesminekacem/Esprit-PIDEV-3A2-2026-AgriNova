@@ -29,7 +29,6 @@
             <!-- Navigation -->
             <VBox styleClass="nav" spacing="6">
                 <Button text="Dashboard" styleClass="nav-item" onAction="#openDashboard"/>
-                <Button text="Users" styleClass="nav-item"/>
                 <Button text="Crops" styleClass="nav-item"/>
                 <Button text="Inventory" styleClass="nav-item"/>
                 <Button text="Marketplace" styleClass="nav-item"/>
@@ -62,18 +61,11 @@
     <top>
         <HBox styleClass="topbar" spacing="16" alignment="CENTER_LEFT">
 
-            <!-- Search (design only) -->
-            <HBox styleClass="search-wrap" spacing="8" HBox.hgrow="ALWAYS">
-                <Label text="🔍" styleClass="search-icon"/>
-                <TextField promptText="Search..."
-                           styleClass="search-input"
-                           HBox.hgrow="ALWAYS"/>
-            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
 
-            <Button text="🔔" styleClass="icon-btn"/>
-
-            <!-- Logout Button (keep your fx:id) -->
-            <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
+            <Button fx:id="logoutButton"
+                    text="Logout"
+                    onAction="#handleLogout"
                     styleClass="btn-ghost"/>
 
         </HBox>

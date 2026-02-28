@@ -30,7 +30,9 @@
             <VBox styleClass="nav" spacing="6">
                 <Button text="Dashboard" styleClass="nav-item" onAction="#openAdminDashboard"/>
                 <Button text="Users" styleClass="nav-item" onAction="#openAdminUsers"/>
-
+                <Button text="Crops" styleClass="nav-item"/>
+                <Button text="Inventory" styleClass="nav-item"/>
+                <Button text="Marketplace" styleClass="nav-item"/>
                 <!-- add more later -->
                 <Button text="Forum" styleClass="nav-item" onAction="#openForum"/>
                 <Button text="Settings" styleClass="nav-item"/>

@@ -1,64 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
 
 <HBox xmlns="http://javafx.com/javafx/22"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="tn.esprit.forum.controller.TopicCardController"
       spacing="14"
-      styleClass="topic-card">
+      alignment="CENTER_LEFT"
+      styleClass="topic-card"
+      style="-fx-background-color: rgba(255,255,255,0.95);
+             -fx-background-radius: 18;
+             -fx-padding: 16;
+             -fx-border-color: rgba(0,0,0,0.06);
+             -fx-border-radius: 18;">
 
-    <!-- Avatar circle -->
-    <StackPane styleClass="avatar">
-        <Label fx:id="lblAvatar" text="S" styleClass="avatar-text"/>
+    <effect>
+        <DropShadow color="#00000018" radius="18" offsetY="5"/>
+    </effect>
+
+    <!-- Avatar -->
+    <StackPane styleClass="avatar"
+               style="-fx-min-width: 44; -fx-min-height: 44;
+                      -fx-pref-width: 44; -fx-pref-height: 44;
+                      -fx-background-color: #f1f5f9;
+                      -fx-background-radius: 999;
+                      -fx-border-color: rgba(0,0,0,0.06);
+                      -fx-border-radius: 999;">
+        <Label fx:id="lblAvatar"
+               text="S"
+               styleClass="avatar-text"
+               style="-fx-font-weight: 900; -fx-text-fill: #0f172a;"/>
     </StackPane>
 
-    <VBox spacing="8" HBox.hgrow="ALWAYS">
+    <VBox spacing="10" HBox.hgrow="ALWAYS">
 
-        <!-- Title row -->
+        <!-- Title + Category chip -->
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
+
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+
                 <HBox spacing="8" alignment="CENTER_LEFT">
-                    <Label fx:id="lblTitle" text="Title..." styleClass="topic-title"/>
-                    <Label fx:id="badgePopular" text="Popular" styleClass="badge-popular" visible="false" managed="false"/>
+                    <Label fx:id="lblTitle"
+                           text="Title..."
+                           styleClass="topic-title"
+                           style="-fx-font-size: 20px; -fx-font-weight: 900; -fx-text-fill: #0f172a;"/>
+
+                    <Label fx:id="badgePopular"
+                           text="Popular"
+                           visible="false" managed="false"
+                           styleClass="badge-popular"
+                           style="-fx-background-color: rgba(249,115,22,0.16);
+                                  -fx-text-fill: #9a3412;
+                                  -fx-font-weight: 900;
+                                  -fx-font-size: 11px;
+                                  -fx-padding: 3 8;
+                                  -fx-background-radius: 999;"/>
                 </HBox>
 
                 <HBox spacing="8" alignment="CENTER_LEFT">
-                    <Label fx:id="lblAuthor" text="Author" styleClass="topic-meta-strong"/>
-                    <Label text="•" styleClass="topic-dot"/>
-                    <Label fx:id="lblRole" text="Role" styleClass="topic-meta"/>
-                    <Label text="•" styleClass="topic-dot"/>
-                    <Label fx:id="lblTimeAgo" text="2 hours ago" styleClass="topic-meta"/>
+                    <Label fx:id="lblAuthor"
+                           text="Author"
+                           styleClass="topic-meta-strong"
+                           style="-fx-text-fill: #334155; -fx-font-weight: 800;"/>
+
+                    <Label text="•" styleClass="topic-dot" style="-fx-text-fill: #cbd5e1;"/>
+
+                    <Label fx:id="lblRole"
+                           text="Role"
+                           styleClass="topic-meta"
+                           style="-fx-text-fill: #64748b;"/>
+
+                    <Label text="•" styleClass="topic-dot" style="-fx-text-fill: #cbd5e1;"/>
+
+                    <Label fx:id="lblTimeAgo"
+                           text="2 hours ago"
+                           styleClass="topic-meta"
+                           style="-fx-text-fill: #64748b;"/>
                 </HBox>
+
             </VBox>
 
-            <Label fx:id="lblCategoryChip" text="Category" styleClass="chip chip-gray"/>
+            <!-- Category chip (same fx:id, just modern look) -->
+            <Label fx:id="lblCategoryChip"
+                   text="Category"
+                   styleClass="chip chip-gray"
+                   style="-fx-background-color: #f1f5f9;
+                          -fx-text-fill: #334155;
+                          -fx-font-weight: 800;
+                          -fx-font-size: 12px;
+                          -fx-padding: 6 12;
+                          -fx-background-radius: 999;
+                          -fx-border-color: rgba(0,0,0,0.06);
+                          -fx-border-radius: 999;"/>
         </HBox>
 
         <!-- Excerpt -->
         <Label fx:id="lblExcerpt"
                text="excerpt..."
                wrapText="true"
-               styleClass="topic-excerpt"/>
+               styleClass="topic-excerpt"
+               style="-fx-text-fill: #475569; -fx-font-size: 13px; -fx-line-spacing: 2;"/>
 
-        <!-- Footer stats -->
+        <!-- Footer -->
         <HBox spacing="18" alignment="CENTER_LEFT">
+
             <HBox spacing="6" alignment="CENTER_LEFT" styleClass="stat-inline">
-                <Label text="💬" />
-                <Label fx:id="lblReplies" text="0 replies" styleClass="topic-meta-strong"/>
+                <Label text="💬" style="-fx-opacity: 0.85;"/>
+                <Label fx:id="lblReplies"
+                       text="0 replies"
+                       styleClass="topic-meta-strong"
+                       style="-fx-text-fill: #334155; -fx-font-weight: 800;"/>
             </HBox>
 
             <HBox spacing="6" alignment="CENTER_LEFT" styleClass="stat-inline">
-                <Label text="👍" />
-                <Label fx:id="lblLikes" text="0 likes" styleClass="topic-meta-strong"/>
+                <Label text="👍" style="-fx-opacity: 0.85;"/>
+                <Label fx:id="lblLikes"
+                       text="0 likes"
+                       styleClass="topic-meta-strong"
+                       style="-fx-text-fill: #334155; -fx-font-weight: 800;"/>
             </HBox>
 
             <Region HBox.hgrow="ALWAYS"/>
 
-            <Button text="Open" onAction="#onOpen" styleClass="btn-ghost"/>
+            <!-- Open button (pill) -->
+            <Button text="Open"
+                    onAction="#onOpen"
+                    styleClass="btn-ghost"
+                    style="-fx-background-color: rgba(15,23,42,0.06);
+                           -fx-text-fill: #0f172a;
+                           -fx-font-weight: 900;
+                           -fx-background-radius: 999;
+                           -fx-padding: 8 14;
+                           -fx-cursor: hand;"/>
         </HBox>
 
     </VBox>
