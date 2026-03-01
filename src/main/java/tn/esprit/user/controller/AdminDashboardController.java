@@ -83,4 +83,10 @@ public class AdminDashboardController {
             a.showAndWait();
         }
     }
+    //Crop
+    @FXML
+    private void handleManageCrops() {
+        Router.go("/fxml/crop/CropView.fxml");
+    }
+
 }

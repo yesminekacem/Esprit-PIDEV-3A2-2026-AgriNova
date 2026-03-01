@@ -39,7 +39,7 @@
         <!-- Right Buttons Section -->
         <VBox spacing="16" alignment="CENTER_RIGHT">
 
-            <!-- Add Crop -->
+            <!-- Add Crop
             <Button onAction="#handleAddCrop"
                     style="-fx-background-color: linear-gradient(to right, #2e7d32, #66bb6a);
                            -fx-text-fill: white;
@@ -58,7 +58,7 @@
                                style="-fx-text-fill: white;"/>
                     </HBox>
                 </graphic>
-            </Button>
+            </Button> -->
 
             <!-- Manage Tasks -->
             <Button onAction="#goToTaskPage"
@@ -82,7 +82,7 @@
                 </graphic>
             </Button>
 
-            <!-- Admin Table -->
+            <!-- Admin Table
             <Button onAction="#handleManageCrops"
                     style="-fx-background-color: white;
                            -fx-border-color: #1976d2;
@@ -102,10 +102,35 @@
                         <Label text="Admin Table"/>
                     </HBox>
                 </graphic>
-            </Button>
+            </Button> -->
+            <Button text="Detect Disease"
+                    fx:id="detectDiseaseBtn"
+                    onAction="#handleGlobalDetectDisease"
+                    style="-fx-background-color: linear-gradient(to right, #43a047, #2e7d32);
+               -fx-text-fill: white;
+               -fx-font-weight: bold;
+               -fx-background-radius: 25;
+               -fx-padding: 10 25 10 25;"
+                    prefWidth="200"/>
+
 
         </VBox>
 
+    </HBox>
+    <HBox spacing="10"
+          alignment="CENTER_LEFT"
+          style="-fx-background-color: white;
+             -fx-padding: 10 18;
+             -fx-background-radius: 30;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 15, 0, 0, 4);">
+
+        <Label text="🔍" style="-fx-font-size: 16px;" />
+
+        <TextField fx:id="searchField"
+                   promptText="Search crops..."
+                   HBox.hgrow="ALWAYS"
+                   style="-fx-background-color: transparent;
+                      -fx-border-color: transparent;" />
     </HBox>
 
     <!-- Crop Cards Section -->

@@ -2,16 +2,26 @@ package tn.esprit.crop.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import tn.esprit.crop.entity.AITaskDTO;
 import tn.esprit.crop.entity.Task;
+import tn.esprit.crop.entity.Crop;
+import tn.esprit.crop.service.AIService;
 import tn.esprit.crop.service.TaskService;
+import tn.esprit.crop.service.CropService;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.List;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class TaskController {
 
@@ -19,178 +29,172 @@ public class TaskController {
     @FXML private VBox progressBox;
     @FXML private VBox completedBox;
     @FXML private VBox cancelledBox;
+    @FXML private TextField searchField;
 
-    private TaskService taskService = new TaskService();
+    private final TaskService taskService = new TaskService();
+    private final CropService cropService = new CropService();
+    private final AIService aiService = new AIService();
 
     @FXML
     public void initialize() {
         loadTasks();
+
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            filterTasks(newVal);
+        });
+
+        setupDragAndDrop(pendingBox, "pending");
+        setupDragAndDrop(progressBox, "in_progress");
+        setupDragAndDrop(completedBox, "completed");
+        setupDragAndDrop(cancelledBox, "cancelled");
     }
 
+    // ================= LOAD TASKS =================
     private void loadTasks() {
 
-        // Clear old cards
         pendingBox.getChildren().clear();
         progressBox.getChildren().clear();
         completedBox.getChildren().clear();
         cancelledBox.getChildren().clear();
 
-        // Keep column titles
-        pendingBox.getChildren().add(new Label("Pending"));
-        progressBox.getChildren().add(new Label("In Progress"));
-        completedBox.getChildren().add(new Label("Completed"));
-        cancelledBox.getChildren().add(new Label("Cancelled"));
+        Label pendingTitle = new Label("Pending");
+        Label progressTitle = new Label("In Progress");
+        Label completedTitle = new Label("Completed");
+        Label cancelledTitle = new Label("Cancelled");
+
+        pendingBox.getChildren().add(pendingTitle);
+        progressBox.getChildren().add(progressTitle);
+        completedBox.getChildren().add(completedTitle);
+        cancelledBox.getChildren().add(cancelledTitle);
 
         List<Task> tasks = taskService.getAllTasks();
 
         for (Task task : tasks) {
 
+            if (task == null || task.getStatus() == null) continue;
+
+            String status = task.getStatus().trim().toLowerCase();
             VBox card = createTaskCard(task);
 
-            switch (task.getStatus()) {
-                case "pending":
-                    pendingBox.getChildren().add(card);
-                    break;
-                case "in_progress":
-                    progressBox.getChildren().add(card);
-                    break;
-                case "completed":
-                    completedBox.getChildren().add(card);
-                    break;
-                case "cancelled":
-                    cancelledBox.getChildren().add(card);
-                    break;
+            switch (status) {
+                case "pending" -> pendingBox.getChildren().add(card);
+                case "in_progress" -> progressBox.getChildren().add(card);
+                case "completed" -> completedBox.getChildren().add(card);
+                case "cancelled" -> cancelledBox.getChildren().add(card);
             }
         }
     }
 
+
+    // ================= CREATE CARD =================
     private VBox createTaskCard(Task task) {
 
         VBox card = new VBox(10);
-        card.setStyle("""
-        -fx-background-color: white;
-        -fx-background-radius: 12;
-        -fx-padding: 15;
-        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 8, 0, 0, 4);
-    """);
+        card.setStyle("-fx-background-color: white; -fx-padding: 15;");
 
-        // 🔹 Task Name
         Label name = new Label(task.getTaskName());
-        name.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+        name.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
-        // 🔹 Type
         Label type = new Label("Type: " + task.getTaskType());
-        type.setStyle("-fx-text-fill: #555;");
-
-        // 🔹 Assigned
         Label assigned = new Label("Assigned: " + task.getAssignedTo());
-        assigned.setStyle("-fx-text-fill: #555;");
-
-        // 🔹 Cost
         Label cost = new Label("Cost: " + task.getCost());
-        cost.setStyle("-fx-text-fill: #2e7d32; -fx-font-weight: bold;");
 
-        // 🔹 Buttons container
-        HBox buttons = new HBox(10);
-
+        // 🔵 EDIT BUTTON
         Button editBtn = new Button("Edit");
-        editBtn.setStyle("""
-        -fx-background-color: #1976d2;
-        -fx-text-fill: white;
-        -fx-background-radius: 8;
-    """);
+        editBtn.setStyle(
+                "-fx-background-color: #2196f3;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;"
+        );
 
+        editBtn.setOnAction(e -> openEditTask(task));
+
+        // 🔴 DELETE BUTTON
         Button deleteBtn = new Button("Delete");
-        deleteBtn.setStyle("""
-        -fx-background-color: #c62828;
-        -fx-text-fill: white;
-        -fx-background-radius: 8;
-    """);
-
-        editBtn.setOnAction(e -> openUpdatePage(task));
+        deleteBtn.setStyle(
+                "-fx-background-color: #f44336;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;"
+        );
 
         deleteBtn.setOnAction(e -> {
+            TaskService taskService = new TaskService();
             taskService.deleteTask(task.getTaskId());
-            loadTasks();
+            loadTasks(); // refresh
         });
 
-        buttons.getChildren().addAll(editBtn, deleteBtn);
+        // ✅ Put both buttons in an HBox
+        HBox buttonBox = new HBox(10, editBtn, deleteBtn);
 
-        card.getChildren().addAll(name, type, assigned, cost, buttons);
+        card.getChildren().addAll(name, type, assigned, cost, buttonBox);
+
+        // Drag support
+        card.setOnDragDetected(event -> {
+            Dragboard db = card.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(String.valueOf(task.getTaskId()));
+            db.setContent(content);
+            event.consume();
+        });
 
         return card;
     }
+    // ================= DRAG DROP =================
+    private void setupDragAndDrop(VBox targetBox, String newStatus) {
 
+        targetBox.setOnDragOver(event -> {
+            if (event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
 
-    // 🔥 CHANGE STATUS FLOW
-    private void changeStatus(Task task) {
+        targetBox.setOnDragDropped(event -> {
 
-        String current = task.getStatus();
+            Dragboard db = event.getDragboard();
 
-        switch (current) {
-            case "pending":
-                task.setStatus("in_progress");
-                break;
-            case "in_progress":
-                task.setStatus("completed");
-                break;
-            case "completed":
-                task.setStatus("cancelled");
-                break;
-            case "cancelled":
-                task.setStatus("pending");
-                break;
-        }
+            if (db.hasString()) {
 
-        taskService.updateTask(task);
+                int taskId = Integer.parseInt(db.getString());
+
+                taskService.updateStatus(taskId, newStatus);
+                loadTasks();
+            }
+
+            event.setDropCompleted(true);
+            event.consume();
+        });
+    }
+
+    // ================= FILTER =================
+    private void filterTasks(String keyword) {
+        loadTasks();
     }
 
     @FXML
-    private void handleOpenAddPage() {
+    private void handleExportPDF() {
+        taskService.exportTasksToPDF();
 
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/fxml/crop/AddTask.fxml")
-            );
-
-            Scene scene = new Scene(loader.load());
-
-            // 🔥 ADD CSS HERE
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/styles.css").toExternalForm()
-            );
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/crop.css").toExternalForm()
-            );
-
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Add Task");
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setContentText("PDF exported successfully!");
+        alert.showAndWait();
     }
-    private void openUpdatePage(Task task) {
+    private void openEditTask(Task task) {
 
         try {
-
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/fxml/crop/AddTask.fxml")
             );
 
-            Scene scene = new Scene(loader.load());
+            Parent root = loader.load();
 
-            //  Get AddTaskController
             AddTaskController controller = loader.getController();
-
-            //  Tell controller we are editing
-            controller.setTaskForEdit(task);
+            controller.setTaskForEdit(task); // 🔥 THIS is important
 
             Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Update Task");
+            stage.setScene(new Scene(root));
+            stage.setTitle("Edit Task");
             stage.showAndWait();
 
             loadTasks(); // refresh after update
@@ -199,10 +203,4 @@ public class TaskController {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
 }

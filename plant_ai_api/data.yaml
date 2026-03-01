@@ -1,0 +1,26 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 13
+names:
+  0: Bacterial_Spot
+  1: Early_Blight
+  2: Late_Blight
+  3: Leaf_Mold
+  4: Septoria_Leaf_Spot
+  5: Spider_Mites
+  6: Target_Spot
+  7: Yellow_Leaf_Curl_Virus
+  8: Mosaic_Virus
+  9: Healthy
+  10: Powdery_Mildew
+  11: Rust
+  12: Downy_Mildew
+
+roboflow:
+  workspace: rymas-workspace
+  project: plant-disease-kkt3g-1zouf
+  version: 1
+  license: CC BY 4.0
+  url: https://app.roboflow.com/rymas-workspace/plant-disease-kkt3g-1zouf/1
