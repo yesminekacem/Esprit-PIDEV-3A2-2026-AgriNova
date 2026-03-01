@@ -11,6 +11,7 @@ public class Post {
     private String status; // ACTIVE / ARCHIVED
     private LocalDateTime createdAt;
     private int authorId;
+    private String imagePath;
 
     public Post() {}
 
@@ -49,4 +50,7 @@ public class Post {
 
     public int getAuthorId() { return authorId; }
     public void setAuthorId(int authorId) { this.authorId = authorId; }
+
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }

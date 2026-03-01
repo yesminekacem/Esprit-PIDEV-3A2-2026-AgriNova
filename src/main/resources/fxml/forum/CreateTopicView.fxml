@@ -3,53 +3,255 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.effect.DropShadow?>
 
-<VBox xmlns="http://javafx.com/javafx/22"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="tn.esprit.forum.controller.CreateTopicController"
-      spacing="10"
-      styleClass="page">
+<ScrollPane xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.forum.controller.CreateTopicController"
+            fitToWidth="true"
+            pannable="true"
+            style="-fx-background-color: transparent;"
+            styleClass="page-scroll">
 
-    <padding>
-        <Insets top="15" right="15" bottom="15" left="15"/>
-    </padding>
+    <content>
+        <VBox spacing="16"
+              styleClass="page"
+              style="-fx-padding: 18; -fx-background-color: transparent;">
 
-    <Label text="Create Topic" styleClass="topic-title"/>
+            <!-- HERO HEADER -->
+            <VBox spacing="10"
+                  style="-fx-background-color: linear-gradient(to bottom right, rgba(34,197,94,0.18), rgba(37,99,235,0.10));
+                         -fx-background-radius: 22;
+                         -fx-padding: 14;
+                         -fx-border-color: rgba(0,0,0,0.06);
+                         -fx-border-radius: 22;">
+                <effect>
+                    <DropShadow color="#00000014" radius="18" offsetY="6"/>
+                </effect>
 
-    <!-- Title -->
-    <VBox spacing="4">
-        <TextField fx:id="txtTitle"
-                   promptText="Title"
-                   styleClass="input-field"/>
-        <Label fx:id="lblTitleCounter"
-               text="0 / 5 characters minimum"
-               styleClass="input-helper"/>
-    </VBox>
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-background-color: rgba(255,255,255,0.82);
+                             -fx-background-radius: 18;
+                             -fx-padding: 14;">
+                    <StackPane style="-fx-min-width: 42; -fx-min-height: 42;
+                                      -fx-background-color: rgba(34,197,94,0.18);
+                                      -fx-background-radius: 999;">
+                        <Label text="✍" style="-fx-font-size: 18px; -fx-font-weight: 900; -fx-text-fill: #166534;"/>
+                    </StackPane>
 
-    <!-- Content + counter like screenshot -->
-    <VBox spacing="4">
-        <TextArea fx:id="txtContent"
-                  promptText="Content"
-                  prefRowCount="8"
-                  wrapText="true"
-                  styleClass="input-area"/>
-        <Label fx:id="lblContentCounter"
-               text="0 / 20 characters minimum"
-               styleClass="input-helper"/>
-    </VBox>
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label text="Create Topic"
+                               styleClass="topic-title"
+                               style="-fx-font-size: 24px; -fx-font-weight: 900; -fx-text-fill: #0f172a;"/>
+                        <Label text="Share your question or experience with the community"
+                               style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
 
-    <!-- Category -->
-    <ComboBox fx:id="cbCategory" promptText="Category"/>
+            <!-- MAIN CARD -->
+            <VBox spacing="14"
+                  style="-fx-background-color: rgba(255,255,255,0.96);
+                         -fx-background-radius: 18;
+                         -fx-border-color: rgba(0,0,0,0.08);
+                         -fx-border-radius: 18;
+                         -fx-padding: 16;">
+                <effect>
+                    <DropShadow color="#00000012" radius="18" offsetY="6"/>
+                </effect>
 
-    <HBox spacing="10">
-        <Button fx:id="btnPublish"
-                text="Publish"
-                onAction="#onPublish"
-                styleClass="btn-primary"/>
-        <Button text="Cancel"
-                onAction="#onCancel"
-                styleClass="btn-outline"/>
-    </HBox>
+                <!-- Title -->
+                <VBox spacing="6">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="Title" style="-fx-text-fill: #111827; -fx-font-weight: 900;"/>
+                        <Label text="(min 5)" style="-fx-text-fill: #94a3b8; -fx-font-size: 12px;"/>
+                    </HBox>
 
-</VBox>
+                    <TextField fx:id="txtTitle"
+                               promptText="Give your topic a clear title…"
+                               styleClass="input-field"
+                               style="-fx-background-radius: 14;
+                                      -fx-border-radius: 14;
+                                      -fx-border-color: rgba(0,0,0,0.10);
+                                      -fx-padding: 10 12;"/>
 
+                    <Label fx:id="lblTitleCounter"
+                           text="0 / 5 characters minimum"
+                           styleClass="input-helper"
+                           style="-fx-text-fill: #94a3b8;"/>
+                </VBox>
+
+                <!-- Content -->
+                <VBox spacing="6">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="Content" style="-fx-text-fill: #111827; -fx-font-weight: 900;"/>
+                        <Label text="(min 20)" style="-fx-text-fill: #94a3b8; -fx-font-size: 12px;"/>
+                    </HBox>
+
+                    <TextArea fx:id="txtContent"
+                              promptText="Write your post… be specific, include details."
+                              prefRowCount="8"
+                              wrapText="true"
+                              styleClass="input-area"
+                              style="-fx-background-radius: 14;
+                                     -fx-border-radius: 14;
+                                     -fx-border-color: rgba(0,0,0,0.10);
+                                     -fx-padding: 10 12;"/>
+
+                    <Label fx:id="lblContentCounter"
+                           text="0 / 20 characters minimum"
+                           styleClass="input-helper"
+                           style="-fx-text-fill: #94a3b8;"/>
+                </VBox>
+
+                <!-- AI bar -->
+                <VBox spacing="10"
+                      style="-fx-background-color: linear-gradient(to bottom right, rgba(59,130,246,0.08), rgba(168,85,247,0.06));
+                             -fx-background-radius: 16;
+                             -fx-border-color: rgba(0,0,0,0.06);
+                             -fx-border-radius: 16;
+                             -fx-padding: 12;">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <StackPane style="-fx-min-width: 34; -fx-min-height: 34;
+                                          -fx-background-color: rgba(37,99,235,0.12);
+                                          -fx-background-radius: 999;">
+                            <Label text="✨" style="-fx-font-size: 14px;"/>
+                        </StackPane>
+
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label text="AI Assistant"
+                                   style="-fx-font-weight: 900; -fx-text-fill: #111827;"/>
+                            <Label text="Generate a better title or fix grammar instantly"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                        </VBox>
+
+                        <ProgressIndicator fx:id="aiLoading"
+                                           visible="false" managed="false"
+                                           prefWidth="22" prefHeight="22"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="✨ Generate Title &amp; Tags"
+                                onAction="#onGenerateTitleAndTags"
+                                styleClass="hover-lift press-pop"
+                                style="-fx-background-color: linear-gradient(to bottom, #3b82f6, #2563eb);
+               -fx-text-fill: white;
+               -fx-font-weight: 900;
+               -fx-background-radius: 999;
+               -fx-padding: 9 14;
+               -fx-cursor: hand;
+               -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.25), 16, 0, 0, 5);"/>
+                        <Button text="🪄 Fix Grammar"
+                                onAction="#onFixGrammar"
+                                styleClass="hover-lift press-pop"
+                                style="-fx-background-color: linear-gradient(to bottom, #a855f7, #7c3aed);
+               -fx-text-fill: white;
+               -fx-font-weight: 900;
+               -fx-background-radius: 999;
+               -fx-padding: 9 14;
+               -fx-cursor: hand;
+               -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.22), 16, 0, 0, 5);"/>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Label fx:id="aiHint"
+                               text=""
+                               wrapText="true"
+                               styleClass="input-helper"
+                               style="-fx-text-fill: #64748b;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Category + Image row -->
+                <HBox spacing="14" alignment="TOP_LEFT">
+
+                    <!-- Category -->
+                    <VBox spacing="6" HBox.hgrow="ALWAYS">
+                        <Label text="Category" style="-fx-text-fill: #111827; -fx-font-weight: 900;"/>
+                        <ComboBox fx:id="cbCategory"
+                                  promptText="Choose category"
+                                  style="
+                -fx-background-color: linear-gradient(to bottom, #ecfdf5, #d1fae5);
+                -fx-background-radius: 999;
+                -fx-border-radius: 999;
+                -fx-border-color: rgba(34,197,94,0.35);
+                -fx-padding: 6 14;
+                -fx-font-weight: 800;
+                -fx-text-fill: #065f46;
+                -fx-cursor: hand;
+          "/>
+                        <Label text="Tip: pick the closest category for better visibility"
+                               style="-fx-text-fill: #94a3b8; -fx-font-size: 12px;"/>
+                    </VBox>
+
+                    <!-- Image -->
+                    <VBox spacing="8" style="-fx-min-width: 300;">
+                        <Label text="Photo" style="-fx-text-fill: #111827; -fx-font-weight: 900;"/>
+
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="📷 Add photo"
+                                    onAction="#onPickPostImage"
+                                    styleClass="hover-lift press-pop"
+                                    style="-fx-background-color: linear-gradient(to bottom, #22c55e, #16a34a);
+               -fx-text-fill: white;
+               -fx-font-weight: 900;
+               -fx-background-radius: 999;
+               -fx-padding: 9 14;
+               -fx-cursor: hand;
+               -fx-effect: dropshadow(gaussian, rgba(34,197,94,0.20), 16, 0, 0, 5);"/>
+
+                            <Label fx:id="lblPickedImage"
+                                   text="No image selected"
+                                   styleClass="input-helper"
+                                   style="-fx-text-fill: #94a3b8;"/>
+                        </HBox>
+
+                        <ImageView fx:id="imgPreview"
+                                   fitWidth="520"
+                                   preserveRatio="true"
+                                   smooth="true"
+                                   visible="false"
+                                   managed="false"
+                                   styleClass="image-preview"
+                                   style="-fx-background-radius: 14;
+                                          -fx-border-radius: 14;
+                                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.14), 18, 0, 0, 6);"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Actions -->
+                <HBox spacing="10" alignment="CENTER_RIGHT"
+                      style="-fx-padding: 6 0 0 0;">
+                    <Button text="Cancel"
+                            onAction="#onCancel"
+                            styleClass="hover-lift press-pop"
+                            style="-fx-background-color: rgba(15,23,42,0.06);
+               -fx-text-fill: #0f172a;
+               -fx-font-weight: 900;
+               -fx-background-radius: 999;
+               -fx-padding: 10 16;
+               -fx-cursor: hand;
+               -fx-border-color: rgba(0,0,0,0.10);
+               -fx-border-radius: 999;"/>
+
+                    <Button fx:id="btnPublish"
+                            text="Publish"
+                            onAction="#onPublish"
+                            styleClass="btn-primary hover-lift press-pop"
+                            style="-fx-background-color: linear-gradient(to bottom, #22c55e, #16a34a);
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: 900;
+                                   -fx-background-radius: 999;
+                                   -fx-padding: 10 18;
+                                   -fx-cursor: hand;
+                                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 16, 0, 0, 5);"/>
+                </HBox>
+
+            </VBox>
+
+            <Region prefHeight="12"/>
+
+        </VBox>
+    </content>
+</ScrollPane>
