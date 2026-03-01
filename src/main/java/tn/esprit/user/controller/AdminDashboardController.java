@@ -61,7 +61,10 @@ public class AdminDashboardController {
     private void openAdminDashboard(ActionEvent e) {}
 
     @FXML
-    private void openAdminUsers(ActionEvent e) {}
+    private void openAdminUsers(ActionEvent e) {loadIntoContent("/fxml/user/UsersList.fxml");}
+
+    @FXML
+    private void openSettings(ActionEvent e) {loadIntoContent("/fxml/user/user-dashboard.fxml");}
 
     @FXML
     private void openForum(ActionEvent e) {
