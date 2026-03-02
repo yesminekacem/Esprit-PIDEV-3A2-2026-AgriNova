@@ -16,22 +16,22 @@ public class UserCrud {
             "INSERT INTO `user`(full_name,email,password,role,email_verified) VALUES (?,?,?,?,?)";
 
     private static final String SELECT_BY_ID_SQL =
-            "SELECT id, full_name, email, password, role, profile_image, email_verified FROM `user` WHERE id=?";
+            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data FROM `user` WHERE id=?";
 
     private static final String SELECT_BY_EMAIL_SQL =
-            "SELECT id, full_name, email, password, role, profile_image, email_verified FROM `user` WHERE email=?";
+            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data FROM `user` WHERE email=?";
 
     private static final String SELECT_ALL_SQL =
-            "SELECT id, full_name, email, password, role, profile_image, email_verified FROM `user`";
+            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data FROM `user`";
 
     private static final String UPDATE_SQL =
-            "UPDATE `user` SET full_name=?, email=?, password=?, role=?, profile_image=?, email_verified=? WHERE id=?";
+            "UPDATE `user` SET full_name=?, email=?, password=?, role=?, profile_image=?, email_verified=?, face_data=? WHERE id=?";
 
     private static final String UPDATE_EMAIL_VERIFICATION_SQL =
             "UPDATE `user` SET email_verified=? WHERE email=?";
 
     private static final String DELETE_SQL =
-            "DELETE FROM `user` WHERE id=?";  // ✅ No change
+            "DELETE FROM `user` WHERE id=?";
 
     // CREATE - includes email_verified field
     public void add(User u) throws SQLException {
@@ -92,8 +92,8 @@ public class UserCrud {
             ps.setString(4, u.getRole().name());
             ps.setString(5, u.getProfileImage());
             ps.setBoolean(6, u.isEmailVerified());
-            ps.setInt(7, u.getId());
-
+            ps.setString(7, u.getFaceData());
+            ps.setInt(8, u.getId());
             return ps.executeUpdate() > 0;
         }
     }
@@ -115,7 +115,7 @@ public class UserCrud {
         }
     }
 
-    // Helper mapper - Updated to include email_verified
+    // Helper mapper - Updated to include email_verified and face_data
     private User mapRowToUser(ResultSet rs) throws SQLException {
         User u = new User();
         u.setId(rs.getInt("id"));
@@ -125,6 +125,7 @@ public class UserCrud {
         u.setRole(Role.valueOf(rs.getString("role")));
         u.setProfileImage(rs.getString("profile_image"));
         u.setEmailVerified(rs.getBoolean("email_verified"));
+        u.setFaceData(rs.getString("face_data"));
         return u;
     }
 }

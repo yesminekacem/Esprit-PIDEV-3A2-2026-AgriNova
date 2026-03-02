@@ -185,6 +185,28 @@ public class LoginController {
         }
     }
 
+    @FXML
+    private void handleFaceLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/face-login.fxml"));
+            Scene scene = new Scene(loader.load());
+            FaceLoginController ctrl = loader.getController();
+            Stage faceStage = new Stage();
+            faceStage.setTitle("Face ID Login — Agrinova");
+            faceStage.setScene(scene);
+            faceStage.setResizable(false);
+            faceStage.initModality(Modality.APPLICATION_MODAL);
+            ctrl.setStage(faceStage);
+            faceStage.showAndWait();
+            // if Face ID succeeded the session is now set; close login window
+            if (SessionManager.getInstance().getCurrentUser() != null) {
+                ((Stage) loginButton.getScene().getWindow()).close();
+            }
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Cannot open Face ID login: " + e.getMessage());
+        }
+    }
+
     private void loadScene(String fxmlPath, String title) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(loader.load());

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.user.controller.FaceLoginController"
+      spacing="16" alignment="TOP_CENTER"
+      style="-fx-background-color:#f0f2f5;"
+      prefWidth="560" prefHeight="520">
+    <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+
+    <!-- Header -->
+    <VBox spacing="4" alignment="CENTER">
+        <Label text="🪪  Face ID Login"
+               style="-fx-font-size:22px;-fx-font-weight:800;-fx-text-fill:#111827;"/>
+        <Label text="Look straight at the camera, then click Verify."
+               style="-fx-font-size:13px;-fx-text-fill:#6b7280;"/>
+    </VBox>
+
+    <!-- Live webcam feed -->
+    <StackPane style="-fx-background-color:#111827;-fx-background-radius:14;" prefHeight="315">
+        <ImageView fx:id="webcamView" fitWidth="512" fitHeight="315" preserveRatio="true"/>
+        <Label text="◯"
+               style="-fx-font-size:140px;-fx-text-fill:rgba(255,255,255,0.18);-fx-font-weight:100;"
+               mouseTransparent="true"/>
+    </StackPane>
+
+    <!-- Status + result -->
+    <Label fx:id="statusLabel" text="Position your face and click Verify."
+           style="-fx-font-size:13px;-fx-text-fill:#374151;" wrapText="true" maxWidth="512"/>
+
+    <ProgressBar fx:id="progressBar" maxWidth="Infinity" style="-fx-accent:#2E7D32;"/>
+
+    <Label fx:id="resultLabel" text=""
+           style="-fx-font-size:13px;-fx-font-weight:700;" wrapText="true" maxWidth="512"/>
+
+    <!-- Buttons -->
+    <HBox spacing="12" alignment="CENTER">
+        <Button fx:id="verifyButton" text="🔍  Verify Face" onAction="#handleVerify"
+                style="-fx-background-color:#2E7D32;-fx-text-fill:white;-fx-background-radius:10;
+                       -fx-padding:11 28;-fx-cursor:hand;-fx-font-size:13px;-fx-font-weight:800;
+                       -fx-effect:dropshadow(gaussian,rgba(46,125,50,0.3),10,0.2,0,3);"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"
+                style="-fx-background-color:#e5e7eb;-fx-text-fill:#374151;-fx-background-radius:10;
+                       -fx-padding:11 22;-fx-cursor:hand;-fx-font-size:13px;-fx-font-weight:700;"/>
+    </HBox>
+</VBox>
+

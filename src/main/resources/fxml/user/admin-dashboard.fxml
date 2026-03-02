@@ -35,7 +35,7 @@
                 <Button text="Marketplace" styleClass="nav-item"/>
                 <!-- add more later -->
                 <Button text="Forum" styleClass="nav-item" onAction="#openForum"/>
-                <Button text="Settings" styleClass="nav-item"/>
+                <Button text="Settings" styleClass="nav-item" onAction="#openSettings"/>
 
             </VBox>
 
