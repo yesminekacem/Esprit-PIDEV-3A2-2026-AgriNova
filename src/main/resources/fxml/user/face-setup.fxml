@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.user.controller.FaceSetupController"
+            fitToWidth="true" fitToHeight="false"
+            style="-fx-background-color:#f0f2f5;-fx-background:#f0f2f5;"
+            prefWidth="580" prefHeight="680">
+
+    <VBox spacing="16" alignment="TOP_CENTER"
+          style="-fx-background-color:#f0f2f5;">
+        <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+
+        <!-- Header -->
+        <VBox spacing="4" alignment="CENTER">
+            <Label text="🪪  Face ID Setup"
+                   style="-fx-font-size:22px;-fx-font-weight:800;-fx-text-fill:#111827;"/>
+            <Label fx:id="faceIdStatusLabel" text="Not set up"
+                   style="-fx-font-size:13px;-fx-font-weight:700;-fx-text-fill:#9ca3af;"/>
+        </VBox>
+
+        <!-- Live webcam feed with countdown overlay -->
+        <StackPane style="-fx-background-color:#111827;-fx-background-radius:14;" prefHeight="315">
+            <ImageView fx:id="webcamView" fitWidth="532" fitHeight="315" preserveRatio="true"/>
+            <!-- face guide ring -->
+            <Label text="◯"
+                   style="-fx-font-size:140px;-fx-text-fill:rgba(255,255,255,0.18);-fx-font-weight:100;"
+                   mouseTransparent="true"/>
+            <!-- countdown big number -->
+            <Label fx:id="countdownLabel"
+                   style="-fx-font-size:96px;-fx-font-weight:900;-fx-text-fill:white;
+                          -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.6),12,0.4,0,0);"
+                   visible="false" mouseTransparent="true"/>
+        </StackPane>
+
+        <!-- Status message -->
+        <Label fx:id="statusLabel" text="Position your face inside the circle, then click Capture."
+               style="-fx-font-size:13px;-fx-text-fill:#374151;" wrapText="true" maxWidth="532"/>
+
+        <!-- Capture button -->
+        <HBox spacing="12" alignment="CENTER">
+            <Button fx:id="captureButton" text="📸  Capture (3s)" onAction="#handleCapture"
+                    style="-fx-background-color:#2E7D32;-fx-text-fill:white;-fx-background-radius:10;
+                           -fx-padding:11 28;-fx-cursor:hand;-fx-font-size:13px;-fx-font-weight:800;
+                           -fx-effect:dropshadow(gaussian,rgba(46,125,50,0.3),10,0.2,0,3);"/>
+            <Button fx:id="removeButton" text="🗑  Remove Face ID" onAction="#handleRemove"
+                    style="-fx-background-color:#ef4444;-fx-text-fill:white;-fx-background-radius:10;
+                           -fx-padding:11 18;-fx-cursor:hand;-fx-font-size:13px;-fx-font-weight:800;"/>
+        </HBox>
+
+        <!-- Captured snapshot + Save — hidden until capture done -->
+        <VBox fx:id="capturedBox" spacing="12" alignment="CENTER"
+              style="-fx-background-color:white;-fx-background-radius:12;-fx-padding:16;
+                     -fx-border-color:#d1fae5;-fx-border-radius:12;-fx-border-width:1.5;">
+            <Label text="📸  Captured snapshot — looks good?"
+                   style="-fx-font-size:13px;-fx-font-weight:700;-fx-text-fill:#374151;"/>
+            <ImageView fx:id="capturedView" fitWidth="220" fitHeight="165" preserveRatio="true"
+                       style="-fx-effect:dropshadow(gaussian,rgba(0,0,0,0.15),8,0,0,2);"/>
+            <!-- Save progress bar inside the box -->
+            <ProgressBar fx:id="saveProgress" maxWidth="Infinity" prefWidth="300"
+                         style="-fx-accent:#2E7D32;"/>
+            <Button fx:id="saveButton" text="💾  Save Face ID" onAction="#handleSave"
+                    style="-fx-background-color:#1565C0;-fx-text-fill:white;-fx-background-radius:10;
+                           -fx-padding:11 36;-fx-cursor:hand;-fx-font-size:14px;-fx-font-weight:800;
+                           -fx-effect:dropshadow(gaussian,rgba(21,101,192,0.3),10,0.2,0,3);"/>
+        </VBox>
+
+    </VBox>
+</ScrollPane>
