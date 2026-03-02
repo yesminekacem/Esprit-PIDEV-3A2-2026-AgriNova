@@ -6,6 +6,7 @@ import tn.esprit.marketplace.service.ProductListingService;
 import tn.esprit.marketplace.entity.Cart;
 import tn.esprit.marketplace.entity.Order;
 import tn.esprit.marketplace.entity.ProductListing;
+import javafx.stage.Modality;
 import javafx.scene.Parent;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -258,17 +259,39 @@ public class CartController {
 
 
     private void handleValidateOrder(List<Cart> cartItems, double total) {
-        TextInputDialog addressDialog = new TextInputDialog();
-        addressDialog.setTitle("Delivery Address");
-        addressDialog.setHeaderText("Enter your delivery address:");
-        addressDialog.setContentText("Street, City, ZIP");
-        String address = addressDialog.showAndWait().orElse("").trim();
-        if (address.isEmpty()) {
-            showAlert("Cancelled", "Please enter a delivery address.", Alert.AlertType.WARNING);
+
+        String address;
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/fxml/marketplace/DeliveryMapDialog.fxml"
+            ));
+            Parent root = loader.load();
+
+            DeliveryMapDialogController mapController = loader.getController();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("Select delivery location");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.setResizable(false);
+
+            dialogStage.showAndWait();
+
+            if (!mapController.isConfirmed()) {
+                showAlert("Cancelled", "Please select a delivery location.", Alert.AlertType.WARNING);
+                return;
+            }
+
+            address = mapController.getSelectedAddress();
+
+        } catch (IOException e) {
+            showAlert("Error", "Failed to open map: " + e.getMessage(), Alert.AlertType.ERROR);
             return;
         }
 
-        ChoiceDialog<String> paymentDialog = new ChoiceDialog<>("Cash on Delivery", "Cash on Delivery", "Credit Card", "Bank Transfer");
+        ChoiceDialog<String> paymentDialog = new ChoiceDialog<>("Cash on Delivery",
+                "Cash on Delivery", "Credit Card", "Bank Transfer");
         paymentDialog.setTitle("Payment Method");
         paymentDialog.setHeaderText("Choose payment method:");
         String payment = paymentDialog.showAndWait().orElse("").trim();
@@ -281,12 +304,14 @@ public class CartController {
             Order order = new Order(String.valueOf(currentSessionUser.getId()), total, address, payment);
             orderService.createOrder(order, cartItems);
             cartService.clearCart(String.valueOf(currentSessionUser.getId()));
-            showAlert("Success!", "Order placed successfully!\nTotal: " + String.format("%.2f TND", total), Alert.AlertType.INFORMATION);
+            showAlert("Success!", "Order placed successfully!\nTotal: " + String.format("%.2f TND", total),
+                    Alert.AlertType.INFORMATION);
             loadCart();
         } catch (SQLException e) {
             showAlert("Order Failed", "Failed to place order: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
@@ -295,4 +320,6 @@ public class CartController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 }

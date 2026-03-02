@@ -35,6 +35,8 @@ public class ProductListingController {
     @FXML private ComboBox<String> cmbCategory;
     @FXML private FlowPane productsGrid;
     @FXML private ScrollPane productsScrollPane;
+    @FXML private ComboBox<String> cmbSort;
+
 
     // Manage Products fields
     @FXML private FlowPane myProductsGrid;
@@ -43,7 +45,9 @@ public class ProductListingController {
     @FXML private Label lblTotalCount;
     @FXML private Label lblAvailable;
     @FXML private Label lblAvailableCount;
+
     private User currentSessionUser;
+
 
     // ✅ ADD THESE TWO HELPER METHODS
     private String getCurrentUser() {
@@ -65,20 +69,41 @@ public class ProductListingController {
         System.out.println("productsGrid: " + (productsGrid != null));
         System.out.println("myProductsGrid: " + (myProductsGrid != null));
 
-        // Marketplace tab
         if (productsGrid != null) {
             System.out.println("🛒 Marketplace mode");
             cmbCategory.getItems().addAll("All", "Vegetables", "Grains", "Fruits");
             cmbCategory.setValue("All");
+
+            // SORT COMBOBOX - Price sorting
+            if (cmbSort != null) {
+                cmbSort.getItems().addAll("None", "Price: Low → High", "Price: High → Low");
+                cmbSort.setValue("None");
+                cmbSort.valueProperty().addListener((obs, oldVal, newVal) -> {
+                    Platform.runLater(() -> applySort());
+                });
+            }
+
+            //LIVE SEARCH - TextField typing
+            txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+                Platform.runLater(() -> performLiveSearch(newValue.trim().toLowerCase()));
+            });
+
+            //CATEGORY FILTER - ComboBox selection
+            cmbCategory.valueProperty().addListener((observable, oldValue, newValue) -> {
+                Platform.runLater(() -> performCategoryFilter());
+            });
+
             loadProducts();
         }
 
-        // Manage Products tab
         if (myProductsGrid != null) {
             System.out.println("📦 Manage Products mode");
             loadMyProducts();
         }
     }
+
+
+
 
     private void loadProducts() {
         try {
@@ -87,14 +112,7 @@ public class ProductListingController {
             List<ProductListing> allProducts = service.getAllOtherUsersProducts(getCurrentUser());
             productList.addAll(allProducts);
 
-            long availableCount = allProducts.stream()
-                    .filter(p -> "available".equalsIgnoreCase(p.getStatus()))
-                    .count();
 
-            System.out.println("🛒 Loaded " + allProducts.size() +
-                    " total products (" + availableCount + " available)");
-
-            updateStatsMarketplace(allProducts); // Update bottom labels
 
             Platform.runLater(() -> {
                 displayProductCards();
@@ -250,25 +268,6 @@ public class ProductListingController {
 
 
 
-
-
-
-
-    private void updateStatsMarketplace(List<ProductListing> products) {
-        if (lblTotalProducts != null) {
-            lblTotalProducts.setText(String.valueOf(products.size()));
-        }
-
-        if (lblAvailable != null) {
-            long available = products.stream()
-                    .filter(p -> "available".equalsIgnoreCase(p.getStatus()))
-                    .count();
-            lblAvailable.setText(String.valueOf(available));
-        }
-    }
-
-
-
     private void loadMyProducts() {
         try {
             ProductListingService service = new ProductListingService();
@@ -305,29 +304,6 @@ public class ProductListingController {
         }
     }
 
-
-    @FXML
-    private void handleSearch() {
-        String searchTerm = txtSearch.getText().toLowerCase().trim();
-
-        if (searchTerm.isEmpty()) {
-            displayProductCards();
-            return;
-        }
-
-        productsGrid.getChildren().clear();
-
-        for (ProductListing product : productList) {
-            if (product.getProduct_name().toLowerCase().contains(searchTerm)) {
-                VBox card = createProductCard(product);
-                productsGrid.getChildren().add(card);
-            }
-        }
-
-        if (productsScrollPane != null) {
-            productsScrollPane.setVvalue(0.0);
-        }
-    }
 
     private void displayProductCards() {
         Platform.runLater(() -> {
@@ -433,7 +409,6 @@ public class ProductListingController {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("🛒 Add to Cart - " + product.getProduct_name());
 
-        // ✅ CLEAN LAYOUT
         VBox content = new VBox(16);
         content.setPadding(new Insets(24));
         content.getStyleClass().add("dialog-content");
@@ -457,7 +432,6 @@ public class ProductListingController {
         Button okButton = (Button) dialog.getDialogPane().lookupButton(addBtn);
         okButton.setDisable(false);
 
-        // 🔥 REAL-TIME VALIDATION - CSS VERSION
         qtyField.textProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal.trim().isEmpty()) {
                 errorLabel.setText("");
@@ -598,12 +572,10 @@ public class ProductListingController {
                     return;
                 }
 
-                // Update the product object
                 product.setProduct_name(name);
                 product.setDescription(description);
                 product.setCategory(category);
 
-                // Map stock status to DB ENUM
                 String dbStatus;
                 if ("Available".equalsIgnoreCase(cmbStockStatus.getValue())) {
                     dbStatus = "available";
@@ -618,7 +590,6 @@ public class ProductListingController {
                 product.setQuantity(quantity);
                 product.setPicture(new File(imagePath).getName());
 
-                // Save to DB
                 ProductListingService service = new ProductListingService();
                 service.modifier(product);
 
@@ -662,18 +633,6 @@ public class ProductListingController {
         }
     }
 
-    private void updateStats(List<ProductListing> products) {
-        if (lblTotalCount != null) {
-            lblTotalCount.setText(String.valueOf(products.size()));
-        }
-
-        if (lblAvailableCount != null) {
-            long available = products.stream()
-                    .filter(p -> "available".equalsIgnoreCase(p.getStatus()))
-                    .count();
-            lblAvailableCount.setText(String.valueOf(available));
-        }
-    }
 
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
@@ -687,13 +646,96 @@ public class ProductListingController {
         txtSearch.clear();
         cmbCategory.setValue("All");
         loadProducts();
-        System.out.println("🔄 Show all clicked");
+    }
+    private void performLiveSearch(String searchTerm) {
+        if (productsGrid == null) return;
+
+        productsGrid.getChildren().clear();
+
+        if (searchTerm.isEmpty()) {
+            displayProductCards();
+            return;
+        }
+
+        boolean hasMatches = false;
+        for (ProductListing product : productList) {
+            if (product.getProduct_name().toLowerCase().startsWith(searchTerm)) {
+                VBox card = createProductCard(product);
+                productsGrid.getChildren().add(card);
+                hasMatches = true;
+            }
+        }
+
+        if (!hasMatches) {
+            Label noResults = new Label("No products found matching \"" + searchTerm + "\"");
+            noResults.getStyleClass().add("empty-label");
+            productsGrid.getChildren().add(noResults);
+        }
+
+        if (productsScrollPane != null) {
+            productsScrollPane.setVvalue(0.0);  // Scroll to top
+        }
+    }
+    private void performCategoryFilter() {
+        if (productsGrid == null) return;
+
+        String selectedCategory = cmbCategory.getValue();
+        if (selectedCategory == null || "All".equals(selectedCategory)) {
+            displayProductCards();  // Show all
+            return;
+        }
+
+        productsGrid.getChildren().clear();
+        boolean hasMatches = false;
+
+        for (ProductListing product : productList) {
+            if (selectedCategory.equalsIgnoreCase(product.getCategory())) {
+                VBox card = createProductCard(product);
+                productsGrid.getChildren().add(card);
+                hasMatches = true;
+            }
+        }
+
+        if (!hasMatches) {
+            Label noResults = new Label("No products in \"" + selectedCategory + "\"");
+            noResults.getStyleClass().add("empty-label");
+            productsGrid.getChildren().add(noResults);
+        }
+
+        if (productsScrollPane != null) {
+            productsScrollPane.setVvalue(0.0);
+        }
+    }
+    private void applySort() {
+        if (cmbSort == null || productsGrid == null) return;
+
+        String sortOption = cmbSort.getValue();
+        if (sortOption == null || "None".equals(sortOption)) {
+            // no sort: just redisplay current list
+            displayProductCards();
+            return;
+        }
+
+        // work on a copy so original order is preserved if needed
+        List<ProductListing> sorted = FXCollections.observableArrayList(productList);
+
+        if ("Price: Low → High".equals(sortOption)) {
+            sorted.sort((p1, p2) -> Double.compare(p1.getPrice_per_unit(), p2.getPrice_per_unit()));
+        } else if ("Price: High → Low".equals(sortOption)) {
+            sorted.sort((p1, p2) -> Double.compare(p2.getPrice_per_unit(), p1.getPrice_per_unit()));
+        }
+
+        productsGrid.getChildren().clear();
+        for (ProductListing p : sorted) {
+            productsGrid.getChildren().add(createProductCard(p));
+        }
+
+        if (productsScrollPane != null) {
+            productsScrollPane.setVvalue(0.0);
+        }
     }
 
-    @FXML
-    private void handleRefresh() {
-        loadProducts();
-        System.out.println("🔄 Refresh clicked");
-    }
+
+
 }
 

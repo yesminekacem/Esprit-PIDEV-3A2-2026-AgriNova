@@ -29,7 +29,6 @@ public class MarketplaceController {
         }
 
         initializeTabButtons();
-        updateUserInfo();     // ✅ NOW USES SessionManager
         updateTabsForUser();  // ✅ NOW USES SessionManager
     }
 
@@ -130,10 +129,7 @@ public class MarketplaceController {
         }
     }
 
-    // ✅ SIMPLIFIED - SessionManager magic!
-    private void updateUserInfo() {
-        lblUserInfo.setText("Logged in as: " + SessionManager.getInstance().getCurrentUserName());
-    }
+
 
     // ✅ SIMPLIFIED - SessionManager magic!
     private void updateTabsForUser() {

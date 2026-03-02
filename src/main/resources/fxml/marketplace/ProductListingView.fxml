@@ -16,6 +16,8 @@
 
         <Button text="Show All" onAction="#handleShowAll" styleClass="secondary-button"/>
         <ComboBox fx:id="cmbCategory" prefWidth="180" styleClass="combo-box"/>
+        <ComboBox fx:id="cmbSort" promptText="Sort by price"/>
+
     </HBox>
 
     <!-- Products Grid -->
@@ -24,16 +26,4 @@
                   style="-fx-background-color: transparent; -fx-padding: 4;"/>
     </ScrollPane>
 
-    <!-- Stats -->
-    <HBox spacing="16">
-        <VBox spacing="8" HBox.hgrow="ALWAYS" styleClass="stats-card stats-card-green">
-            <Label text="Total Products" styleClass="stats-label"/>
-            <Label fx:id="lblTotalProducts" text="0" styleClass="stats-value"/>
-        </VBox>
-
-        <VBox spacing="8" HBox.hgrow="ALWAYS" styleClass="stats-card stats-card-green">
-            <Label text="Available" styleClass="stats-label"/>
-            <Label fx:id="lblAvailable" text="0" styleClass="stats-value"/>
-        </VBox>
-    </HBox>
 </VBox>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.marketplace.controller.DeliveryMapDialogController"
+      spacing="10" prefWidth="900" prefHeight="650">
+
+    <WebView fx:id="mapWebView">
+        <VBox.vgrow>ALWAYS</VBox.vgrow>
+    </WebView>
+
+    <HBox spacing="10">
+        <Label fx:id="coordsLabel" text="Move the pin to choose a location"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button text="Cancel" onAction="#handleCancel"/>
+        <Button fx:id="confirmBtn" text="Confirm" onAction="#handleConfirm"/>
+    </HBox>
+
+    <TextArea fx:id="addressArea" prefRowCount="2"/>
+</VBox>

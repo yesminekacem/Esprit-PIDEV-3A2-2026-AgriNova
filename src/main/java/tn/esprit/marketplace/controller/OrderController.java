@@ -9,7 +9,6 @@ import javafx.scene.layout.*;
 import java.sql.SQLException;
 import java.util.List;
 import tn.esprit.utils.SessionManager;
-import tn.esprit.user.entity.User;
 
 public class OrderController {
     private OrderService orderService;
@@ -26,6 +25,7 @@ public class OrderController {
             loadUserOrders();
         }
     }
+
 
     private String getCurrentUserId() {
         return String.valueOf(SessionManager.getInstance().getCurrentUser().getId());
@@ -205,6 +205,8 @@ public class OrderController {
             showAlert("Error", "Failed to update order: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
+
 
     private void handleAdminValidateOrder(Order order) {
         try {

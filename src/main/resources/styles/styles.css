@@ -1151,7 +1151,7 @@
 }
 
 .cart-validate-btn {
-    -fx-background-color: #10b981;
+    -fx-background-color: #166534;
     -fx-text-fill: white;
     -fx-font-size: 16px;
     -fx-padding: 14 28;
@@ -1239,7 +1239,7 @@
 }
 
 .add-to-cart-btn {
-    -fx-background-color: #10b981;
+    -fx-background-color: #2E7D32;
     -fx-text-fill: white;
     -fx-padding: 12 24;
 }

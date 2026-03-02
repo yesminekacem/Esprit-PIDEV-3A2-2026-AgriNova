@@ -17,7 +17,6 @@
     <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 0 0 24 0;">
         <VBox spacing="4" HBox.hgrow="ALWAYS">
             <Label text="Marketplace" styleClass="page-title"/>
-            <Label fx:id="lblUserInfo" text="Logged in as: User1" styleClass="page-subtitle"/>
         </VBox>
     </HBox>
 
