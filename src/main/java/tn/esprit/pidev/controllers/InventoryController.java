@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import tn.esprit.pidev.services.AIService;
 import javafx.scene.text.TextAlignment;
 import tn.esprit.pidev.entities.Inventory;
 import tn.esprit.pidev.entities.InventoryRentalStatus;
@@ -55,6 +56,7 @@ public class InventoryController implements Initializable {
     // Data
     private List<Inventory> allInventory;
     private boolean isGridView = true;
+    private final AIService aiService = new AIService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -197,9 +199,10 @@ public class InventoryController implements Initializable {
         deleteBtn.setOnAction(e -> handleDeleteItem(item));
 
         // IMPORTANT: Added qrBtn to the list of children so it appears on screen
-        actionButtons.getChildren().addAll(qrBtn, editBtn, viewBtn, deleteBtn);
-        // --- END OF BUTTON ACTIONS ---
-
+        Button aiBtn = createActionButton("🤖", "AI Predict");
+        aiBtn.setStyle("-fx-background-color:#E3F2FD; -fx-text-fill:#1565C0;");
+        aiBtn.setOnAction(e -> handleAIPredict(item));
+        actionButtons.getChildren().addAll(aiBtn, qrBtn, editBtn, viewBtn, deleteBtn);
         maintenanceRow.getChildren().addAll(maintenanceLabel, actionSpacer, actionButtons);
         bottomSection.getChildren().addAll(divider, maintenanceRow);
 
@@ -625,6 +628,37 @@ public class InventoryController implements Initializable {
             alert.setContentText("An error occurred: " + e.getMessage());
             alert.showAndWait();
         }
+    }
+    private void handleAIPredict(Inventory item) {
+        new Thread(() -> {
+            AIService.AIResult result = aiService.predict(
+                    item.getItemType().name(),
+                    item.getTotalUsageHours(),
+                    item.getConditionStatus().name(),
+                    item.isRentable() ? 1 : 0,
+                    item.getRentalStatus().name(),
+                    item.getUnitPrice(),
+                    item.getRentalPricePerDay()
+            );
+            Platform.runLater(() -> {
+                if (result.isSuccess()) {
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setTitle("🤖 AI — " + item.getItemName());
+                    a.setHeaderText("Recommended Quantity: " + result.predictedQuantity);
+                    a.setContentText(result.maintenanceAdvice + "\n\n" + result.rentalAdvice);
+                    a.setHeaderText("Recommended Quantity: " + result.predictedQuantity);
+                    a.setContentText(result.maintenanceAdvice + "\n\n" + result.rentalAdvice);
+                    a.getDialogPane().setMinWidth(450);
+                    a.getDialogPane().setMinHeight(200);
+                    a.showAndWait();
+                    System.out.println("Maintenance: " + result.maintenanceAdvice);
+                    System.out.println("Rental: " + result.rentalAdvice);
+                    System.out.println("Confidence: " + result.confidence);
+                } else {
+                    showErrorAlert("AI error: " + result.errorMessage);
+                }
+            });
+        }).start();
     }
 }
 

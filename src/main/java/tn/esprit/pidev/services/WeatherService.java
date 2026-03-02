@@ -6,15 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 
-/**
- * WeatherService - Integrates OpenWeatherMap API
- * Used to suggest optimal maintenance windows for farm equipment.
- *
- * API: OpenWeatherMap (https://openweathermap.org/api)
- * Free tier: 1000 calls/day
- *
- * MODULE: Inventory - API #1
- */
+
 public class WeatherService {
 
     // ⚠️ Replace with your own key from https://openweathermap.org/api
