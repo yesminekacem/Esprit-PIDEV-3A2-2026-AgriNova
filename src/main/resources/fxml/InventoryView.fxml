@@ -34,8 +34,8 @@
                         <Label text="+" styleClass="button-icon"/>
                     </graphic>
                 </Button>
-                <Button text="🌤 Weather"    onAction="#handleWeatherCheck"/>
-                <Button text="📄 Export PDF" onAction="#handleExportInventoryPDF"/>
+                <Button text="🌤 Weather"    styleClass="btn-weather"    onAction="#handleWeatherCheck"/>
+                <Button text="📄 Export PDF" styleClass="btn-export-pdf" onAction="#handleExportInventoryPDF"/>
             </HBox>
 
 

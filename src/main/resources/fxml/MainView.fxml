@@ -132,7 +132,9 @@
                 <!-- Notification -->
                 <Button styleClass="header-icon-button">
                     <graphic>
-                        <Label text="🔔"/>
+                        <Button fx:id="calendarBtn" text="📅  Calendar"
+                                styleClass="nav-button" onAction="#showCalendar"
+                                maxWidth="Infinity"/>
                     </graphic>
                 </Button>
 

@@ -1,78 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
+<ScrollPane fitToWidth="true" styleClass="dash-scroll"
+            xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml/1"
-            styleClass="dashboard-root">
+            fx:controller="tn.esprit.pidev.controllers.DashboardController">
+    <content>
+        <VBox styleClass="dash-root" spacing="24">
+            <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
 
-    <center>
-        <VBox alignment="TOP_LEFT" spacing="16">
-
-            <!-- Padding for main VBox -->
-            <padding>
-                <Insets top="24" right="24" bottom="24" left="24"/>
-            </padding>
-
-            <Label text="Dashboard" styleClass="dashboard-title"/>
-            <Label text="High-level overview of your AgriRent activity."
-                   styleClass="dashboard-subtitle"/>
-
-            <GridPane hgap="16" vgap="16">
-
-                <!-- Padding for GridPane -->
-                <padding>
-                    <Insets top="8" right="8" bottom="8" left="8"/>
-                </padding>
-
-                <!-- Inventory summary card -->
-                <VBox styleClass="dashboard-card"
-                      GridPane.columnIndex="0"
-                      GridPane.rowIndex="0"
-                      spacing="6">
-                    <Label text="📦 Inventory"
-                           styleClass="dashboard-card-title"/>
-                    <Label text="Overview of all equipment"
-                           styleClass="dashboard-card-subtitle"/>
+            <!-- HEADER -->
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label fx:id="greetingLabel" text="Welcome back 👋" styleClass="dash-greeting"/>
+                    <Label text="Here's what's happening in your AgriRent system today." styleClass="dash-subheading"/>
                 </VBox>
-
-                <!-- Rentals summary card -->
-                <VBox styleClass="dashboard-card"
-                      GridPane.columnIndex="1"
-                      GridPane.rowIndex="0"
-                      spacing="6">
-                    <Label text="📝 Rentals"
-                           styleClass="dashboard-card-title"/>
-                    <Label text="Track active and overdue contracts"
-                           styleClass="dashboard-card-subtitle"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER_RIGHT" spacing="4">
+                    <Label fx:id="dateLabel" text="—" styleClass="dash-date"/>
+                    <Label fx:id="roleBadge" text="ADMIN" styleClass="dash-role-badge"/>
                 </VBox>
+            </HBox>
 
-                <!-- Revenue summary card -->
-                <VBox styleClass="dashboard-card"
-                      GridPane.columnIndex="0"
-                      GridPane.rowIndex="1"
-                      spacing="6">
-                    <Label text="💰 Revenue"
-                           styleClass="dashboard-card-title"/>
-                    <Label text="Monitor total rental income"
-                           styleClass="dashboard-card-subtitle"/>
+            <!-- KPI CARDS -->
+            <HBox spacing="16">
+                <VBox styleClass="kpi-card kpi-blue" spacing="6" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="📦" styleClass="kpi-icon"/>
+                        <VBox spacing="2">
+                            <Label text="TOTAL ITEMS" styleClass="kpi-label"/>
+                            <Label fx:id="kpiTotalItems" text="—" styleClass="kpi-value"/>
+                        </VBox>
+                    </HBox>
+                    <Label fx:id="kpiTotalValue" text="Value: —" styleClass="kpi-sub"/>
                 </VBox>
-
-                <!-- Maintenance summary card -->
-                <VBox styleClass="dashboard-card"
-                      GridPane.columnIndex="1"
-                      GridPane.rowIndex="1"
-                      spacing="6">
-                    <Label text="🛠 Maintenance"
-                           styleClass="dashboard-card-title"/>
-                    <Label text="Upcoming service tasks"
-                           styleClass="dashboard-card-subtitle"/>
+                <VBox styleClass="kpi-card kpi-green" spacing="6" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="✅" styleClass="kpi-icon"/>
+                        <VBox spacing="2">
+                            <Label text="AVAILABLE" styleClass="kpi-label"/>
+                            <Label fx:id="kpiAvailable" text="—" styleClass="kpi-value"/>
+                        </VBox>
+                    </HBox>
+                    <Label fx:id="kpiRentable" text="Rentable: —" styleClass="kpi-sub"/>
                 </VBox>
+                <VBox styleClass="kpi-card kpi-orange" spacing="6" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="🔄" styleClass="kpi-icon"/>
+                        <VBox spacing="2">
+                            <Label text="ACTIVE RENTALS" styleClass="kpi-label"/>
+                            <Label fx:id="kpiActiveRentals" text="—" styleClass="kpi-value"/>
+                        </VBox>
+                    </HBox>
+                    <Label fx:id="kpiOverdue" text="Overdue: —" styleClass="kpi-sub kpi-sub-danger"/>
+                </VBox>
+                <VBox styleClass="kpi-card kpi-purple" spacing="6" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="💰" styleClass="kpi-icon"/>
+                        <VBox spacing="2">
+                            <Label text="TOTAL REVENUE" styleClass="kpi-label"/>
+                            <Label fx:id="kpiRevenue" text="—" styleClass="kpi-value"/>
+                        </VBox>
+                    </HBox>
+                    <Label fx:id="kpiCompleted" text="Completed: —" styleClass="kpi-sub"/>
+                </VBox>
+            </HBox>
 
-            </GridPane>
+            <!-- CHARTS ROW -->
+            <HBox spacing="16">
+                <VBox styleClass="chart-card" spacing="12" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label text="🍩" style="-fx-font-size:16px;"/>
+                        <VBox spacing="2">
+                            <Label text="Inventory by Type" styleClass="chart-title"/>
+                            <Label text="Distribution across all categories" styleClass="chart-subtitle"/>
+                        </VBox>
+                    </HBox>
+                    <PieChart fx:id="inventoryPieChart" prefHeight="260" legendVisible="true" labelsVisible="true" styleClass="agri-pie-chart"/>
+                </VBox>
+                <VBox styleClass="chart-card" spacing="12" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label text="📊" style="-fx-font-size:16px;"/>
+                        <VBox spacing="2">
+                            <Label text="Rentals by Status" styleClass="chart-title"/>
+                            <Label text="Overview of all rental states" styleClass="chart-subtitle"/>
+                        </VBox>
+                    </HBox>
+                    <BarChart fx:id="rentalBarChart" prefHeight="260" animated="true" styleClass="agri-bar-chart" legendVisible="false">
+                        <xAxis><CategoryAxis label="Status"/></xAxis>
+                        <yAxis><NumberAxis label="Count" minorTickVisible="false"/></yAxis>
+                    </BarChart>
+                </VBox>
+            </HBox>
+
+            <!-- BOTTOM ROW -->
+            <HBox spacing="16">
+                <VBox styleClass="list-card" spacing="12" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label text="🛠️" style="-fx-font-size:16px;"/>
+                        <VBox spacing="2">
+                            <Label text="Maintenance Alerts" styleClass="chart-title"/>
+                            <Label text="Equipment due for service soon" styleClass="chart-subtitle"/>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="maintenanceCount" text="0 items" styleClass="badge-warning"/>
+                    </HBox>
+                    <ListView fx:id="maintenanceList" prefHeight="185" styleClass="agri-list-view"/>
+                </VBox>
+                <VBox styleClass="list-card" spacing="12" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label text="📋" style="-fx-font-size:16px;"/>
+                        <VBox spacing="2">
+                            <Label text="Condition Overview" styleClass="chart-title"/>
+                            <Label text="Equipment health at a glance" styleClass="chart-subtitle"/>
+                        </VBox>
+                    </HBox>
+                    <VBox spacing="12" style="-fx-padding: 4 0 0 0;">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="EXCELLENT" styleClass="cond-label" prefWidth="90"/>
+                            <ProgressBar fx:id="pbExcellent" progress="0" prefWidth="180" styleClass="pb-excellent"/>
+                            <Label fx:id="lblExcellent" text="0" styleClass="cond-count"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="GOOD" styleClass="cond-label" prefWidth="90"/>
+                            <ProgressBar fx:id="pbGood" progress="0" prefWidth="180" styleClass="pb-good"/>
+                            <Label fx:id="lblGood" text="0" styleClass="cond-count"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="FAIR" styleClass="cond-label" prefWidth="90"/>
+                            <ProgressBar fx:id="pbFair" progress="0" prefWidth="180" styleClass="pb-fair"/>
+                            <Label fx:id="lblFair" text="0" styleClass="cond-count"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="POOR" styleClass="cond-label" prefWidth="90"/>
+                            <ProgressBar fx:id="pbPoor" progress="0" prefWidth="180" styleClass="pb-poor"/>
+                            <Label fx:id="lblPoor" text="0" styleClass="cond-count"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="6" style="-fx-padding: 8 0 0 0;">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Label text="Currently Rented Out" styleClass="chart-subtitle"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="rentedOutPct" text="0%" styleClass="cond-count"/>
+                        </HBox>
+                        <ProgressBar fx:id="pbRentedOut" progress="0" prefWidth="999" maxWidth="999" styleClass="pb-rented"/>
+                    </VBox>
+                </VBox>
+            </HBox>
+
         </VBox>
-    </center>
-
-</BorderPane>
+    </content>
+</ScrollPane>

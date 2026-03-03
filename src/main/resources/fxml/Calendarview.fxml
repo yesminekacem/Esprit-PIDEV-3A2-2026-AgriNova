@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.pidev.controllers.CalendarController"
+      styleClass="cal-root" spacing="0">
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- LEFT: Calendar Panel                                       -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <VBox styleClass="cal-left" spacing="16" HBox.hgrow="ALWAYS">
+        <padding><Insets top="24" right="20" bottom="24" left="24"/></padding>
+
+        <!-- Header Row -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <VBox spacing="3">
+                <Label text="📅  Rental Calendar" styleClass="cal-title"/>
+                <Label text="Equipment availability at a glance" styleClass="cal-subtitle"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <ComboBox fx:id="equipmentFilter" prefWidth="200"
+                      promptText="All Equipment" styleClass="cal-combo"/>
+        </HBox>
+
+        <!-- Month Navigation -->
+        <HBox alignment="CENTER" spacing="12">
+            <Button fx:id="prevMonthBtn" text="‹" styleClass="cal-nav-btn"
+                    onAction="#goPrevMonth"/>
+            <Label fx:id="monthYearLabel" text="March 2026" styleClass="cal-month-label"/>
+            <Button fx:id="nextMonthBtn" text="›" styleClass="cal-nav-btn"
+                    onAction="#goNextMonth"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="todayBtn" text="Today" styleClass="cal-today-btn"
+                    onAction="#goToday"/>
+        </HBox>
+
+        <!-- Legend -->
+        <HBox alignment="CENTER_LEFT" spacing="20">
+            <HBox alignment="CENTER_LEFT" spacing="6">
+                <Label text="  " styleClass="legend-free"/>
+                <Label text="Available" styleClass="legend-text"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="6">
+                <Label text="  " styleClass="legend-booked"/>
+                <Label text="Booked" styleClass="legend-text"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="6">
+                <Label text="  " styleClass="legend-overdue"/>
+                <Label text="Overdue" styleClass="legend-text"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="6">
+                <Label text="  " styleClass="legend-today"/>
+                <Label text="Today" styleClass="legend-text"/>
+            </HBox>
+        </HBox>
+
+        <!-- Calendar Grid -->
+        <GridPane fx:id="calendarGrid" styleClass="cal-grid"
+                  hgap="6" vgap="6" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+            </columnConstraints>
+        </GridPane>
+
+        <!-- Monthly Summary Strip -->
+        <HBox styleClass="cal-summary-strip" spacing="0">
+            <VBox styleClass="summary-item" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="4">
+                <Label text="ACTIVE THIS MONTH" styleClass="summary-label"/>
+                <Label fx:id="summaryActive" text="0" styleClass="summary-value-green"/>
+            </VBox>
+            <Label text="|" styleClass="summary-divider"/>
+            <VBox styleClass="summary-item" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="4">
+                <Label text="OVERDUE" styleClass="summary-label"/>
+                <Label fx:id="summaryOverdue" text="0" styleClass="summary-value-red"/>
+            </VBox>
+            <Label text="|" styleClass="summary-divider"/>
+            <VBox styleClass="summary-item" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="4">
+                <Label text="PENDING APPROVAL" styleClass="summary-label"/>
+                <Label fx:id="summaryPending" text="0" styleClass="summary-value-orange"/>
+            </VBox>
+        </HBox>
+
+    </VBox>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- RIGHT: Detail Panel                                        -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <VBox styleClass="cal-right" spacing="16" prefWidth="320" minWidth="300">
+        <padding><Insets top="24" right="24" bottom="24" left="20"/></padding>
+
+        <VBox spacing="4">
+            <Label text="Day Details" styleClass="detail-title"/>
+            <Label fx:id="selectedDateLabel" text="Select a day"
+                   styleClass="detail-date"/>
+        </VBox>
+
+        <Separator styleClass="detail-sep"/>
+
+        <!-- Rental Cards -->
+        <ScrollPane fitToWidth="true" styleClass="detail-scroll" VBox.vgrow="ALWAYS">
+            <content>
+                <VBox spacing="12">
+                    <Label fx:id="noRentalsLabel"
+                           text="✅  No rentals on this day"
+                           styleClass="detail-empty"/>
+                    <VBox fx:id="rentalDetailBox" spacing="10"/>
+                </VBox>
+            </content>
+        </ScrollPane>
+
+    </VBox>
+
+</HBox>

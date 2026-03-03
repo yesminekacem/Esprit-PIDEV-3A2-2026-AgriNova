@@ -22,6 +22,7 @@ public class MainController implements Initializable {
     @FXML private Button usersBtn;
     @FXML private Button cropsBtn;
     @FXML private Button inventoryBtn;
+    @FXML private Button calendarBtn;
     @FXML private Button marketplaceBtn;
     @FXML private Button forumBtn;
     @FXML private Button settingsBtn;
@@ -73,6 +74,12 @@ public class MainController implements Initializable {
     private void showCrops() {
         setActiveButton(cropsBtn);
         showComingSoon("Crops");
+    }
+
+    @FXML
+    private void showCalendar() {
+        setActiveButton(calendarBtn);
+        loadView("/fxml/CalendarView.fxml", "/css/calendar-styles.css");
     }
 
     @FXML
@@ -150,4 +157,3 @@ public class MainController implements Initializable {
         contentPane.getChildren().add(placeholderRoot);
     }
 }
-
