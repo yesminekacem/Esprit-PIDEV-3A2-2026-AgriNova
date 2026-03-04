@@ -2,6 +2,7 @@ package tn.esprit.navigation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.StackPane;
 import tn.esprit.user.entity.User;
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 public class MainLayoutController {
 
+    public Button inventoryBtn;
     @FXML
     private StackPane contentArea;
 
@@ -51,6 +53,11 @@ public class MainLayoutController {
     }
 
     @FXML
+    private void showInventory() {
+        Router.go(Routes.Inventory);
+    }
+
+    @FXML
     private void openForum() {
         Router.go(Routes.FORUM_LIST);
     }
@@ -62,6 +69,16 @@ public class MainLayoutController {
     private void openCrops() {
         Router.go(Routes.CROPS);
     }
+
+    @FXML
+    private void openrenatals() {
+        Router.go(Routes.rentals);
+    }
+    @FXML
+    private void showDashboard() {
+        Router.go(Routes.dashboard);
+    }
+
 
     @FXML
     public void openSettings() {
@@ -97,8 +114,10 @@ public class MainLayoutController {
         }
     }
 
+
     // allow LoginController to request the admin dashboard be shown
     public void openAdminDashboard() {
         Router.go("/fxml/user/admin-dashboard.fxml");
     }
 }
+

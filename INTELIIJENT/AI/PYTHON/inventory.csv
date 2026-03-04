@@ -1,0 +1,11 @@
+item_name,item_type,quantity,total_usage_hours,condition_status,is_rentable,rental_status,next_maintenance_date,unit_price,rental_price_per_day
+John Deere 5075E Tractor,TOOL,1,450,GOOD,1,AVAILABLE,2025-02-20,350,12
+Seed Drill 3m,EQUIPMENT,1,120,GOOD,1,AVAILABLE,2025-06-01,8500,45
+Heavy Duty Plow,TOOL,2,80,GOOD,1,AVAILABLE,2025-08-15,1200,25
+Wheat Seeds - Premium,CONSUMABLE,100,0,EXCELLENT,0,AVAILABLE,,45,
+NPK Fertilizer 500kg,CONSUMABLE,20,0,EXCELLENT,1,AVAILABLE,,280,0.077
+Grain Storage Silo 10T,STORAGE,1,0,EXCELLENT,1,AVAILABLE,2025-03-01,15000,30
+Irrigation Pump 2HP,EQUIPMENT,1,320,FAIR,1,MAINTENANCE,2025-02-15,1800,15
+Harvester Blade Set,TOOL,3,50,GOOD,1,AVAILABLE,2025-09-01,350,20
+Dcihriv,TOOL,5,0,GOOD,1,AVAILABLE,,55,55
+Yassine,EQUIPMENT,55,0,POOR,1,AVAILABLE,,55,12
