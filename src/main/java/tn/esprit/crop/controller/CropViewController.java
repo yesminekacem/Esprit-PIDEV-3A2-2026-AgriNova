@@ -5,17 +5,28 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import tn.esprit.crop.dao.CropDAO;
 import tn.esprit.crop.entity.Crop;
-
 import java.time.LocalDate;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import tn.esprit.crop.service.DiseaseDetectionService;
+import java.io.File;;
+import java.util.Map;
+import java.util.stream.Collectors;
 public class CropViewController {
+    @FXML private Label totalAreaLabel;
+    @FXML private Label averageAreaLabel;
+    @FXML private Label maxAreaLabel;
 
+    @FXML private PieChart areaPieChart;
+
+    private ObservableList<Crop> cropList = FXCollections.observableArrayList();
     @FXML private TableView<Crop> cropsTable;
 
     @FXML private TableColumn<Crop, String> colName;
@@ -27,7 +38,10 @@ public class CropViewController {
     @FXML private TableColumn<Crop, String> colStatus;
     @FXML private TableColumn<Crop, Void> colAction;
 
+
+    @FXML private Label minAreaLabel;
     private final CropDAO cropDAO = new CropDAO();
+    private final DiseaseDetectionService diseaseService = new DiseaseDetectionService();
 
     @FXML
     public void initialize() {
@@ -45,9 +59,69 @@ public class CropViewController {
     }
 
     private void loadCrops() {
-        cropsTable.setItems(FXCollections.observableArrayList(
+
+        ObservableList<Crop> list = FXCollections.observableArrayList(
                 cropDAO.getAllCrops()
-        ));
+        );
+
+        cropsTable.setItems(list);
+
+        colName.setSortType(TableColumn.SortType.ASCENDING);
+        cropsTable.getSortOrder().clear();
+        cropsTable.getSortOrder().add(colName);
+        cropsTable.sort();
+
+        calculateStatistics(list);
+        updatePieChart(list);
+    }
+    private void calculateStatistics(ObservableList<Crop> crops) {
+
+        if (crops.isEmpty()) return;
+
+        double total = crops.stream()
+                .mapToDouble(Crop::getAreaSize)
+                .sum();
+
+        double average = crops.stream()
+                .mapToDouble(Crop::getAreaSize)
+                .average()
+                .orElse(0);
+
+        double max = crops.stream()
+                .mapToDouble(Crop::getAreaSize)
+                .max()
+                .orElse(0);
+
+        totalAreaLabel.setText(String.format("%.2f ha", total));
+        averageAreaLabel.setText(String.format("%.2f ha", average));
+        maxAreaLabel.setText(String.format("%.2f ha", max));
+    }
+    private void updatePieChart(ObservableList<Crop> crops) {
+
+        areaPieChart.getData().clear();
+
+        // Group area by crop type
+        Map<String, Double> areaByType = crops.stream()
+                .collect(Collectors.groupingBy(
+                        Crop::getType,
+                        Collectors.summingDouble(Crop::getAreaSize)
+                ));
+
+        double totalArea = areaByType.values().stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
+
+        for (Map.Entry<String, Double> entry : areaByType.entrySet()) {
+
+            double percentage = (entry.getValue() / totalArea) * 100;
+
+            PieChart.Data slice = new PieChart.Data(
+                    entry.getKey() + " (" + String.format("%.1f", percentage) + "%)",
+                    entry.getValue()
+            );
+
+            areaPieChart.getData().add(slice);
+        }
     }
 
     private void addActionButtons() {
@@ -125,4 +199,6 @@ public class CropViewController {
             e.printStackTrace();
         }
     }
+
+
 }

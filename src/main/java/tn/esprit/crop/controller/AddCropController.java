@@ -26,7 +26,7 @@ public class AddCropController implements Initializable {
     @FXML private Label lblTitle;
     @FXML private Label imageLabel;
 
-    private String selectedImagePath = null;
+    private String selectedImagePath ;
     private Crop currentCrop;
 
     private final CropDAO cropDAO = new CropDAO();
@@ -55,7 +55,7 @@ public class AddCropController implements Initializable {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            selectedImagePath = "/images/" + file.getName();
+            selectedImagePath = file.getAbsolutePath();
             imageLabel.setText(file.getName());
         }
     }
