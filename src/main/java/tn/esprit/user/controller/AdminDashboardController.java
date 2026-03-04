@@ -70,6 +70,10 @@ public class AdminDashboardController {
     private void openForum(ActionEvent e) {
         loadIntoContent("/fxml/forum/ForumView.fxml");
     }
+    @FXML
+    private void openMarketplace(ActionEvent e) {
+        loadIntoContent("/fxml/marketplace/MarketplaceView.fxml");
+    }
 
     private void loadIntoContent(String fxmlPath) {
         try {
