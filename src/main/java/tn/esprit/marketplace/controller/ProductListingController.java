@@ -40,16 +40,11 @@ public class ProductListingController {
 
     // Manage Products fields
     @FXML private FlowPane myProductsGrid;
-    @FXML private ScrollPane myProductsScrollPane;
-    @FXML private Label lblTotalProducts;
     @FXML private Label lblTotalCount;
-    @FXML private Label lblAvailable;
     @FXML private Label lblAvailableCount;
 
     private User currentSessionUser;
 
-
-    // ✅ ADD THESE TWO HELPER METHODS
     private String getCurrentUser() {
         return String.valueOf(SessionManager.getInstance().getCurrentUser().getId());
     }
@@ -140,37 +135,46 @@ public class ProductListingController {
         ButtonType createBtnType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(createBtnType, ButtonType.CANCEL);
 
-        // Layout - ✅ CLEAN VERSION
+        // Layout
         VBox content = new VBox(16);
         content.setPadding(new Insets(16));
-        content.getStyleClass().add("dialog-content");
+        content.getStyleClass().add("create-listing-form");
 
         // Fields
         TextField txtName = new TextField();
         txtName.setPromptText("Product Name");
+        txtName.getStyleClass().add("form-field");
 
         TextArea txtDescription = new TextArea();
         txtDescription.setPromptText("Product Description");
         txtDescription.setPrefRowCount(3);
+        txtDescription.getStyleClass().add("form-area");
 
         ComboBox<String> cmbCategory = new ComboBox<>();
         cmbCategory.getItems().addAll("Vegetables", "Grains", "Fruits");
         cmbCategory.setPromptText("Select Category");
+        cmbCategory.getStyleClass().add("form-combo");
 
         ComboBox<String> cmbStockStatus = new ComboBox<>();
         cmbStockStatus.getItems().addAll("Available", "Out of Stock");
         cmbStockStatus.setPromptText("Stock Status");
+        cmbStockStatus.getStyleClass().add("form-combo");
 
         TextField txtPrice = new TextField();
         txtPrice.setPromptText("Price per kg (TND)");
+        txtPrice.getStyleClass().add("form-field");
 
         TextField txtQuantity = new TextField();
         txtQuantity.setPromptText("Quantity (kg)");
+        txtQuantity.getStyleClass().add("form-field");
 
         TextField txtImagePath = new TextField();
         txtImagePath.setPromptText("No file selected");
         txtImagePath.setEditable(false);
+        txtImagePath.getStyleClass().add("form-field-readonly");
+
         Button btnBrowse = new Button("Browse...");
+        btnBrowse.getStyleClass().add("browse-btn");
         btnBrowse.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Product Image");
@@ -183,12 +187,22 @@ public class ProductListingController {
             }
         });
         HBox imageBox = new HBox(8, txtImagePath, btnBrowse);
+        imageBox.getStyleClass().add("image-box");
 
         content.getChildren().addAll(txtName, txtDescription, cmbCategory, cmbStockStatus, txtPrice, txtQuantity, imageBox);
         dialog.getDialogPane().setContent(content);
 
-        // Handle Create button click
+        // ✅ ADD STYLESHEET TO DIALOG
+        String css = getClass().getResource("/styles/styles.css").toExternalForm();
+        dialog.getDialogPane().getStylesheets().add(css);
+
+        // ✅ STYLE THE BUTTONS
         Button createBtn = (Button) dialog.getDialogPane().lookupButton(createBtnType);
+        createBtn.getStyleClass().add("btn-primary");
+
+        Button cancelBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelBtn.getStyleClass().add("btn-secondary");
+
         createBtn.setOnAction(e -> {
             String name = txtName.getText().trim();
             String description = txtDescription.getText().trim();
@@ -226,11 +240,11 @@ public class ProductListingController {
                 // Map stock status to DB ENUM
                 String dbStatus;
                 if ("Available".equalsIgnoreCase(stockStatus)) {
-                    dbStatus = "available";   // matches ENUM
+                    dbStatus = "available";
                 } else if ("Out of Stock".equalsIgnoreCase(stockStatus)) {
-                    dbStatus = "sold-out";    // matches ENUM
+                    dbStatus = "sold-out";
                 } else {
-                    dbStatus = "available";   // fallback
+                    dbStatus = "available";
                 }
 
                 ProductListing newProduct = new ProductListing(
@@ -264,7 +278,7 @@ public class ProductListingController {
 
         dialog.showAndWait();
     }
-
+    
 
 
 
@@ -425,11 +439,21 @@ public class ProductListingController {
         content.getChildren().addAll(stockInfo, qtyField, errorLabel);
         dialog.getDialogPane().setContent(content);
 
+        // ✅ ADD STYLESHEET TO DIALOG
+        String css = getClass().getResource("/styles/styles.css").toExternalForm();
+        dialog.getDialogPane().getStylesheets().add(css);
+
         ButtonType addBtn = new ButtonType("🛒 Add to Cart", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelBtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         dialog.getDialogPane().getButtonTypes().addAll(addBtn, cancelBtn);
 
+        // ✅ STYLE THE BUTTONS
         Button okButton = (Button) dialog.getDialogPane().lookupButton(addBtn);
+        okButton.getStyleClass().add("btn-primary");
+
+        Button cancelButton = (Button) dialog.getDialogPane().lookupButton(cancelBtn);
+        cancelButton.getStyleClass().add("btn-secondary");
+
         okButton.setDisable(false);
 
         qtyField.textProperty().addListener((obs, oldVal, newVal) -> {
@@ -538,7 +562,17 @@ public class ProductListingController {
         content.getChildren().addAll(txtName, txtDescription, cmbCategory, cmbStockStatus, txtPrice, txtQuantity, imageBox);
         dialog.getDialogPane().setContent(content);
 
+        // ✅ ADD STYLESHEET TO DIALOG
+        String css = getClass().getResource("/styles/styles.css").toExternalForm();
+        dialog.getDialogPane().getStylesheets().add(css);
+
+        // ✅ STYLE THE BUTTONS
         Button saveBtn = (Button) dialog.getDialogPane().lookupButton(saveBtnType);
+        saveBtn.getStyleClass().add("btn-primary");
+
+        Button cancelBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelBtn.getStyleClass().add("btn-secondary");
+
         saveBtn.setOnAction(e -> {
             String name = txtName.getText().trim();
             String description = txtDescription.getText().trim();
@@ -738,4 +772,3 @@ public class ProductListingController {
 
 
 }
-

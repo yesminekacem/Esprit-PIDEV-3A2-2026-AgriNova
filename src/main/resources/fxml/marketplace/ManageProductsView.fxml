@@ -14,7 +14,7 @@
         <Label text="📦 Manage My Products" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Button fx:id="createListingBtn" text="+ Create New Listing" onAction="#handleCreateListing"
-                style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 500; -fx-padding: 12 28; -fx-background-radius: 12;"/>
+                style="-fx-background-color: #166534; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 500; -fx-padding: 12 28; -fx-background-radius: 12;"/>
     </HBox>
 
     <!-- Main Content - ScrollPane with FlowPane -->
@@ -39,8 +39,11 @@
         <Region HBox.hgrow="ALWAYS"/>
         <VBox>
             <Label fx:id="lblAvailable" text="Active Listings" style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
-            <Label fx:id="lblAvailableCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+            <Label fx:id="lblAvailableCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #166534;"/>
         </VBox>
     </HBox>
+
+    <!-- Hidden Create Listing Form (for reference) -->
+    <VBox fx:id="createListingForm" visible="false" managed="false"/>
 
 </VBox>

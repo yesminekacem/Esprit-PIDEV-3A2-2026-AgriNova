@@ -8,6 +8,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import java.io.IOException;
 import tn.esprit.utils.SessionManager;
 
 public class OrderController {
@@ -170,19 +176,47 @@ public class OrderController {
 
 
     private void handleUpdateOrderDetails(Order order) {
-        // Step 1 — Ask for new delivery address (pre-filled with current)
-        TextInputDialog addressDialog = new TextInputDialog(order.getDeliveryAddress());
-        addressDialog.setTitle("Update Delivery Address");
-        addressDialog.setHeaderText("Update your delivery address:");
-        addressDialog.setContentText("Address:");
-        String address = addressDialog.showAndWait().orElse("").trim();
 
-        if (address.isEmpty()) {
-            showAlert("Cancelled", "Please enter a delivery address.", Alert.AlertType.WARNING);
+        String address;
+        Double lat;
+        Double lng;
+
+        // Step 1 — Open map with existing stored location
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/fxml/marketplace/DeliveryMapDialog.fxml"
+            ));
+            Parent root = loader.load();
+
+            DeliveryMapDialogController mapController = loader.getController();
+
+            // IMPORTANT: pass existing location (from DB / Order object)
+            if (order.getDeliveryLat() != null && order.getDeliveryLng() != null) {
+                mapController.setInitialLocation(order.getDeliveryLat(), order.getDeliveryLng());
+            }
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("Update delivery location");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
+
+            if (!mapController.isConfirmed()) {
+                showAlert("Cancelled", "Update cancelled.", Alert.AlertType.WARNING);
+                return;
+            }
+
+            address = mapController.getSelectedAddress();
+            lat = mapController.getSelectedLatitude();
+            lng = mapController.getSelectedLongitude();
+
+        } catch (IOException e) {
+            showAlert("Error", "Failed to open map: " + e.getMessage(), Alert.AlertType.ERROR);
             return;
         }
 
-        // Step 2 — Ask for new payment method (pre-selected with current)
+        // Step 2 — Ask payment method (keep your existing dialog)
         ChoiceDialog<String> paymentDialog = new ChoiceDialog<>(
                 order.getPaymentMethod(), "Cash on Delivery", "Credit Card", "Bank Transfer"
         );
@@ -196,15 +230,16 @@ public class OrderController {
             return;
         }
 
-        // Step 3 — Save to DB
+        // Step 3 — Save to DB (now includes lat/lng)
         try {
-            orderService.updateOrderDetails(order.getId(), address, payment);
+            orderService.updateOrderDetails(order.getId(), address, payment, lat, lng);
             loadUserOrders();
             showAlert("Success", "✅ Order updated successfully!", Alert.AlertType.INFORMATION);
         } catch (SQLException e) {
             showAlert("Error", "Failed to update order: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
 
 

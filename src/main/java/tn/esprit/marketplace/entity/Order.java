@@ -12,6 +12,9 @@ public class Order {
     private String deliveryAddress;
     private String paymentMethod;
     private Timestamp createdAt;
+    private Double deliveryLat;
+    private Double deliveryLng;
+
 
     // Constructors
     public Order() {}
@@ -102,4 +105,10 @@ public class Order {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+    public Double getDeliveryLat() { return deliveryLat; }
+    public void setDeliveryLat(Double deliveryLat) { this.deliveryLat = deliveryLat; }
+
+    public Double getDeliveryLng() { return deliveryLng; }
+    public void setDeliveryLng(Double deliveryLng) { this.deliveryLng = deliveryLng; }
+
 }

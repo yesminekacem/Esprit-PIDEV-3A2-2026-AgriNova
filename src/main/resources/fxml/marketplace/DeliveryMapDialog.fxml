@@ -11,18 +11,18 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="tn.esprit.marketplace.controller.DeliveryMapDialogController"
-      spacing="10" prefWidth="900" prefHeight="650">
+      spacing="10" prefWidth="900" prefHeight="650"
+      stylesheets="@../../styles/styles.css"
+      styleClass="delivery-map-dialog">
 
     <WebView fx:id="mapWebView">
         <VBox.vgrow>ALWAYS</VBox.vgrow>
     </WebView>
 
-    <HBox spacing="10">
-        <Label fx:id="coordsLabel" text="Move the pin to choose a location"/>
+    <HBox spacing="10" styleClass="button-container">
+        <Label fx:id="coordsLabel" text="Move the pin to choose a location" styleClass="coords-label"/>
         <Pane HBox.hgrow="ALWAYS"/>
-        <Button text="Cancel" onAction="#handleCancel"/>
-        <Button fx:id="confirmBtn" text="Confirm" onAction="#handleConfirm"/>
+        <Button text="Cancel" onAction="#handleCancel" styleClass="dialog-button,dialog-button-cancel"/>
+        <Button fx:id="confirmBtn" text="Confirm" onAction="#handleConfirm" styleClass="dialog-button,dialog-button-confirm"/>
     </HBox>
-
-    <TextArea fx:id="addressArea" prefRowCount="2"/>
 </VBox>

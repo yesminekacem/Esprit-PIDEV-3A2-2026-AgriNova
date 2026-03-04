@@ -23,14 +23,16 @@ public class OrderService {
 
         try {
             // 1. Insert order
-            String orderQuery = "INSERT INTO orders (user_id, total_price, delivery_address, payment_method) " +
-                    "VALUES (?, ?, ?, ?)";
+            String orderQuery = "INSERT INTO orders (user_id, total_price, delivery_address, payment_method, delivery_lat, delivery_lng) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement orderStmt = connection.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
             orderStmt.setString(1, order.getUserId());
             orderStmt.setDouble(2, order.getTotalPrice());
             orderStmt.setString(3, order.getDeliveryAddress());
             orderStmt.setString(4, order.getPaymentMethod());
+            orderStmt.setObject(5, order.getDeliveryLat(), java.sql.Types.DOUBLE);
+            orderStmt.setObject(6, order.getDeliveryLng(), java.sql.Types.DOUBLE);
             orderStmt.executeUpdate();
 
             // Get generated order ID
@@ -104,8 +106,13 @@ public class OrderService {
                 order.setTotalPrice(rs.getDouble("total_price"));
                 order.setStatus(rs.getString("status"));
                 order.setDeliveryAddress(rs.getString("delivery_address"));
+                order.setDeliveryLat((Double) rs.getObject("delivery_lat"));
+                order.setDeliveryLng((Double) rs.getObject("delivery_lng"));
                 order.setPaymentMethod(rs.getString("payment_method"));
                 order.setCreatedAt(rs.getTimestamp("created_at"));
+                order.setDeliveryLat((Double) rs.getObject("delivery_lat"));
+                order.setDeliveryLng((Double) rs.getObject("delivery_lng"));
+
 
                 orders.add(order);
             }
@@ -133,6 +140,9 @@ public class OrderService {
                 order.setDeliveryAddress(rs.getString("delivery_address"));
                 order.setPaymentMethod(rs.getString("payment_method"));
                 order.setCreatedAt(rs.getTimestamp("created_at"));
+                order.setDeliveryLat((Double) rs.getObject("delivery_lat"));
+                order.setDeliveryLng((Double) rs.getObject("delivery_lng"));
+
 
                 orders.add(order);
             }
@@ -213,14 +223,18 @@ public class OrderService {
             connection.setAutoCommit(true);
         }
     }
-    public void updateOrderDetails(int orderId, String deliveryAddress, String paymentMethod) throws SQLException {
-        String sql = "UPDATE orders SET delivery_address = ?, payment_method = ? WHERE id = ?";
+    public void updateOrderDetails(int orderId, String deliveryAddress, String paymentMethod,
+                                   Double deliveryLat, Double deliveryLng) throws SQLException {
+        String sql = "UPDATE orders SET delivery_address = ?, payment_method = ?, delivery_lat = ?, delivery_lng = ? WHERE id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, deliveryAddress);
         ps.setString(2, paymentMethod);
-        ps.setInt(3, orderId);
+        ps.setObject(3, deliveryLat, java.sql.Types.DOUBLE);
+        ps.setObject(4, deliveryLng, java.sql.Types.DOUBLE);
+        ps.setInt(5, orderId);
         ps.executeUpdate();
     }
+
     public void deleteOrder(int orderId) throws SQLException {
         String sql = "DELETE FROM orders WHERE id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);

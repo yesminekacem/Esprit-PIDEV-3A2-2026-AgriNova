@@ -1274,3 +1274,172 @@
     -fx-text-fill: red;
     -fx-font-size: 13px;
 }
+
+/* ===== Delivery Map Dialog ===== */
+.delivery-map-dialog {
+    -fx-background-color: #faf8f5;
+    -fx-padding: 0;
+    -fx-spacing: 10;
+}
+
+.map-web-view {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: white;
+}
+
+.coords-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6b7280;
+    -fx-font-weight: 500;
+}
+
+.address-area {
+    -fx-control-inner-background: white;
+    -fx-background-color: white;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+    -fx-font-size: 13px;
+    -fx-text-fill: #374151;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.address-area:focused {
+    -fx-border-color: #2E7D32;
+    -fx-border-width: 2;
+}
+
+.button-container {
+    -fx-spacing: 10;
+    -fx-alignment: center-right;
+    -fx-padding: 10 0 0 0;
+}
+
+.dialog-button {
+    -fx-padding: 10 20;
+    -fx-background-radius: 10;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-min-width: 100;
+}
+
+.dialog-button-cancel {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #374151;
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 1;
+}
+
+.dialog-button-cancel:hover {
+    -fx-background-color: #e5e7eb;
+}
+
+.dialog-button-confirm {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.25), 10, 0.2, 0, 2);
+}
+
+.dialog-button-confirm:hover {
+    -fx-background-color: #1B5E20;
+}
+
+.dialog-button-confirm:disabled {
+    -fx-background-color: #d1d5db;
+    -fx-text-fill: #9ca3af;
+    -fx-opacity: 0.6;
+    -fx-cursor: default;
+}
+
+/* ===== Create Listing Form ===== */
+.create-listing-form {
+    -fx-padding: 16;
+    -fx-spacing: 12;
+}
+
+.form-field {
+    -fx-background-color: white;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-padding: 10 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: #374151;
+    -fx-prompt-text-fill: #9ca3af;
+}
+
+.form-field:focused {
+    -fx-border-color: #2E7D32;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.15), 8, 0.2, 0, 0);
+}
+
+.form-field-readonly {
+    -fx-background-color: #f3f4f6;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-padding: 10 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: #6b7280;
+    -fx-opacity: 0.8;
+}
+
+.form-area {
+    -fx-control-inner-background: white;
+    -fx-background-color: white;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-padding: 10 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: #374151;
+    -fx-prompt-text-fill: #9ca3af;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.form-area:focused {
+    -fx-border-color: #2E7D32;
+    -fx-border-width: 2;
+}
+
+.form-combo {
+    -fx-background-color: white;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-padding: 10 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: #374151;
+}
+
+.form-combo:focused {
+    -fx-border-color: #2E7D32;
+    -fx-border-width: 2;
+}
+
+.image-box {
+    -fx-spacing: 8;
+    -fx-alignment: center-left;
+}
+
+.browse-btn {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-padding: 10 16;
+    -fx-background-radius: 8;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.2), 8, 0.2, 0, 2);
+}
+
+.browse-btn:hover {
+    -fx-background-color: #1B5E20;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.3), 10, 0.2, 0, 3);
+}
+

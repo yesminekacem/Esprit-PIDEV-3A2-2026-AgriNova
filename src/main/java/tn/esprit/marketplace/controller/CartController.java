@@ -260,7 +260,9 @@ public class CartController {
 
     private void handleValidateOrder(List<Cart> cartItems, double total) {
 
-        String address;
+        String address = null;
+        Double lat = null;
+        Double lng = null;
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -284,6 +286,8 @@ public class CartController {
             }
 
             address = mapController.getSelectedAddress();
+            lat = mapController.getSelectedLatitude();
+            lng = mapController.getSelectedLongitude();
 
         } catch (IOException e) {
             showAlert("Error", "Failed to open map: " + e.getMessage(), Alert.AlertType.ERROR);
@@ -291,7 +295,7 @@ public class CartController {
         }
 
         ChoiceDialog<String> paymentDialog = new ChoiceDialog<>("Cash on Delivery",
-                "Cash on Delivery", "Credit Card", "Bank Transfer");
+                "Cash on Delivery", "Credit Card", "Paypal");
         paymentDialog.setTitle("Payment Method");
         paymentDialog.setHeaderText("Choose payment method:");
         String payment = paymentDialog.showAndWait().orElse("").trim();
@@ -302,15 +306,23 @@ public class CartController {
 
         try {
             Order order = new Order(String.valueOf(currentSessionUser.getId()), total, address, payment);
+
+            // IMPORTANT: put coords into order so OrderService can insert them
+            order.setDeliveryLat(lat);
+            order.setDeliveryLng(lng);
+
             orderService.createOrder(order, cartItems);
+
             cartService.clearCart(String.valueOf(currentSessionUser.getId()));
             showAlert("Success!", "Order placed successfully!\nTotal: " + String.format("%.2f TND", total),
                     Alert.AlertType.INFORMATION);
             loadCart();
+
         } catch (SQLException e) {
             showAlert("Order Failed", "Failed to place order: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
 
     private void showAlert(String title, String message, Alert.AlertType type) {

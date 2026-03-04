@@ -64,8 +64,6 @@ public class DeliveryMapDialogController {
             if (addr != null) selectedAddress = String.valueOf(addr);
         }
 
-        coordsLabel.setText(String.format("Latitude: %.6f, Longitude: %.6f", selectedLatitude, selectedLongitude));
-        addressArea.setText(selectedAddress == null ? "" : selectedAddress);
     }
 
     @FXML
