@@ -9,8 +9,16 @@ import tn.esprit.navigation.Router;
 import tn.esprit.navigation.Routes;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
-
+import javafx.stage.FileChooser;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.concurrent.Task;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.UUID;
 import java.sql.SQLException;
+import tn.esprit.utils.GroqAiService;
 
 public class CreateTopicController {
 
@@ -20,11 +28,15 @@ public class CreateTopicController {
     @FXML private Label lblContentCounter;
     @FXML private Button btnPublish;
     @FXML private Label lblTitleCounter;
-
+    @FXML private Label lblPickedImage;
+    @FXML private ImageView imgPreview;
+    @FXML private ProgressIndicator aiLoading;
+    @FXML private Label aiHint;
     private PostDao postDao;
-
+    private String selectedImagePath;
     @FXML
     private void initialize() {
+        System.out.println("GROQ KEY = " + System.getenv("GROQ_API_KEY"));
         try {
             postDao = new PostDao(); // ✅ FIX
         } catch (SQLException e) {
@@ -81,6 +93,7 @@ public class CreateTopicController {
         p.setStatus("ACTIVE");
         p.setAuthor(u.getFullName());
         p.setAuthorId(u.getId());
+        p.setImagePath(selectedImagePath); // can be null if no image selected
 
         try {
             postDao.add(p);
@@ -151,4 +164,143 @@ public class CreateTopicController {
             return true;
         }
     }
+    @FXML
+    private void onPickPostImage() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Choose a post image");
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.webp")
+        );
+
+        File file = fc.showOpenDialog(txtTitle.getScene().getWindow());
+        if (file == null) return;
+
+        try {
+            // 1) Ensure uploads folder exists: <project>/uploads/posts
+            Path uploadsDir = Paths.get(System.getProperty("user.dir"), "uploads", "posts");
+            Files.createDirectories(uploadsDir);
+
+            // 2) Copy the file with a unique name
+            String ext = getFileExt(file.getName());
+            String newName = "post_" + UUID.randomUUID() + ext;
+            Path target = uploadsDir.resolve(newName);
+
+            Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+
+            // 3) Store RELATIVE path in DB (portable)
+            selectedImagePath = Paths.get("uploads", "posts", newName).toString();
+
+            // UI feedback
+            if (lblPickedImage != null) lblPickedImage.setText(file.getName());
+
+            if (imgPreview != null) {
+                imgPreview.setImage(new Image(target.toUri().toString()));
+                imgPreview.setVisible(true);
+                imgPreview.setManaged(true);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            alert(Alert.AlertType.ERROR, "File Error", "Could not save image: " + e.getMessage());
+        }
+    }
+
+    private String getFileExt(String name) {
+        int dot = name.lastIndexOf('.');
+        return (dot >= 0) ? name.substring(dot) : "";
+    }
+    @FXML
+    private void onGenerateTitleAndTags() {
+        String content = txtContent.getText() == null ? "" : txtContent.getText().trim();
+        if (content.length() < 20) {
+            if (aiHint != null) aiHint.setText("Write at least 20 characters so AI can understand your topic.");
+            return;
+        }
+
+        setAiLoading(true);
+        if (aiHint != null) aiHint.setText("Generating...");
+
+        Task<GroqAiService.Suggestion> task = new Task<>() {
+            @Override
+            protected GroqAiService.Suggestion call() throws Exception {
+                return GroqAiService.generateTitleAndTags(content);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            setAiLoading(false);
+            GroqAiService.Suggestion s = task.getValue();
+            if (s == null) {
+                if (aiHint != null) aiHint.setText("No suggestion returned.");
+                return;
+            }
+
+            if (s.title() != null && !s.title().isBlank()) {
+                txtTitle.setText(s.title().trim());
+                validateTitle();
+            }
+            if (aiHint != null) {
+                aiHint.setText("Suggested tags: " + String.join(", ", s.tags()));
+            }
+        });
+
+        task.setOnFailed(e -> {
+            setAiLoading(false);
+            Throwable ex = task.getException();
+            if (aiHint != null) aiHint.setText("AI error: " + (ex == null ? "unknown" : ex.getMessage()));
+            if (ex != null) ex.printStackTrace();
+        });
+
+        new Thread(task, "groq-ai-title-tags").start();
+    }
+
+    private void setAiLoading(boolean on) {
+        if (aiLoading != null) {
+            aiLoading.setVisible(on);
+            aiLoading.setManaged(on);
+        }
+    }
+    @FXML
+    private void onFixGrammar() {
+        String content = txtContent.getText() == null ? "" : txtContent.getText().trim();
+        if (content.length() < 20) {
+            if (aiHint != null) aiHint.setText("Write at least 20 characters so AI can correct properly.");
+            return;
+        }
+
+        setAiLoading(true);
+        if (aiHint != null) aiHint.setText("Correcting grammar...");
+
+        Task<String> task = new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                return GroqAiService.correctGrammar(content);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            setAiLoading(false);
+            String fixed = task.getValue();
+            if (fixed == null || fixed.isBlank()) {
+                if (aiHint != null) aiHint.setText("No correction returned.");
+                return;
+            }
+
+            // Replace content with corrected version
+            txtContent.setText(fixed.trim());
+            validateContent();
+
+            if (aiHint != null) aiHint.setText("Grammar corrected ✅");
+        });
+
+        task.setOnFailed(e -> {
+            setAiLoading(false);
+            Throwable ex = task.getException();
+            if (aiHint != null) aiHint.setText("AI error: " + (ex == null ? "unknown" : ex.getMessage()));
+            if (ex != null) ex.printStackTrace();
+        });
+
+        new Thread(task, "groq-ai-grammar").start();
+    }
+
 }

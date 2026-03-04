@@ -90,4 +90,14 @@ public class CommentDao {
         c.setCreatedAt(ts != null ? ts.toLocalDateTime() : LocalDateTime.now());
         return c;
     }
+    public boolean hasFlaggedComments(int postId) throws SQLException {
+        String sql = "SELECT 1 FROM comment WHERE id_post = ? AND content LIKE ? LIMIT 1";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, postId);
+            ps.setString(2, "%***%");
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
 }

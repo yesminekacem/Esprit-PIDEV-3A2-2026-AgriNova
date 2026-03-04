@@ -9,7 +9,16 @@ import tn.esprit.navigation.Router;
 import tn.esprit.navigation.Routes;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
-
+import javafx.stage.FileChooser;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.concurrent.Task;
+import javafx.scene.control.ProgressIndicator;
+import tn.esprit.utils.GroqAiService;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.UUID;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,10 +30,15 @@ public class EditTopicController {
     @FXML private TextArea txtContent;
     @FXML private Label lblTitleCounter;
     @FXML private Label lblContentCounter;
+    @FXML private Label lblPickedImage;
+    @FXML private ImageView imgPreview;
+    @FXML private ProgressIndicator aiLoading;
+    @FXML private Label aiHint;
+
 
     private int postId;
     private PostDao postDao;
-
+    private String selectedImagePath;
     @FXML
     private void initialize() {
         // ✅ INIT DAO (MOST IMPORTANT FIX)
@@ -88,7 +102,24 @@ public class EditTopicController {
             txtContent.setText(p.getContent());
 
             cbCategory.setValue((p.getCategory() == null || p.getCategory().isBlank()) ? "General" : p.getCategory());
+            selectedImagePath = p.getImagePath();
 
+            if (selectedImagePath != null && !selectedImagePath.isBlank()) {
+                Path imgFile = Paths.get(System.getProperty("user.dir"), selectedImagePath);
+                if (Files.exists(imgFile) && imgPreview != null) {
+                    imgPreview.setImage(new Image(imgFile.toUri().toString()));
+                    imgPreview.setVisible(true);
+                    imgPreview.setManaged(true);
+                }
+                if (lblPickedImage != null) lblPickedImage.setText(Paths.get(selectedImagePath).getFileName().toString());
+            } else {
+                if (imgPreview != null) {
+                    imgPreview.setImage(null);
+                    imgPreview.setVisible(false);
+                    imgPreview.setManaged(false);
+                }
+                if (lblPickedImage != null) lblPickedImage.setText("No image");
+            }
             validateTitle();
             validateContent();
 
@@ -128,6 +159,7 @@ public class EditTopicController {
             existing.setTitle(title);
             existing.setContent(content);
             existing.setCategory(category);
+            existing.setImagePath(selectedImagePath);
 
             postDao.update(existing);
 
@@ -206,6 +238,140 @@ public class EditTopicController {
         } else {
             txtContent.getStyleClass().add("input-valid");
             return true;
+        }
+    }
+    @FXML
+    private void onPickPostImage() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Choose a post image");
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.webp")
+        );
+
+        File file = fc.showOpenDialog(txtTitle.getScene().getWindow());
+        if (file == null) return;
+
+        try {
+            Path uploadsDir = Paths.get(System.getProperty("user.dir"), "uploads", "posts");
+            Files.createDirectories(uploadsDir);
+
+            String ext = getFileExt(file.getName());
+            String newName = "post_" + UUID.randomUUID() + ext;
+            Path target = uploadsDir.resolve(newName);
+
+            Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+
+            selectedImagePath = Paths.get("uploads", "posts", newName).toString();
+
+            if (lblPickedImage != null) lblPickedImage.setText(file.getName());
+
+            if (imgPreview != null) {
+                imgPreview.setImage(new Image(target.toUri().toString()));
+                imgPreview.setVisible(true);
+                imgPreview.setManaged(true);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("File Error", "Could not save image: " + e.getMessage());
+        }
+    }
+
+    private String getFileExt(String name) {
+        int dot = name.lastIndexOf('.');
+        return (dot >= 0) ? name.substring(dot) : "";
+    }
+    @FXML
+    private void onGenerateTitleAndTags() {
+        String content = txtContent.getText() == null ? "" : txtContent.getText().trim();
+        if (content.length() < 20) {
+            if (aiHint != null) aiHint.setText("Write at least 20 characters so AI can understand your topic.");
+            return;
+        }
+
+        setAiLoading(true);
+        if (aiHint != null) aiHint.setText("Generating...");
+
+        Task<GroqAiService.Suggestion> task = new Task<>() {
+            @Override
+            protected GroqAiService.Suggestion call() throws Exception {
+                return GroqAiService.generateTitleAndTags(content);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            setAiLoading(false);
+            GroqAiService.Suggestion s = task.getValue();
+            if (s == null) {
+                if (aiHint != null) aiHint.setText("No suggestion returned.");
+                return;
+            }
+
+            if (s.title() != null && !s.title().isBlank()) {
+                txtTitle.setText(s.title().trim());
+                validateTitle();
+            }
+            if (aiHint != null) {
+                aiHint.setText("Suggested tags: " + String.join(", ", s.tags()));
+            }
+        });
+
+        task.setOnFailed(e -> {
+            setAiLoading(false);
+            Throwable ex = task.getException();
+            if (aiHint != null) aiHint.setText("AI error: " + (ex == null ? "unknown" : ex.getMessage()));
+            if (ex != null) ex.printStackTrace();
+        });
+
+        new Thread(task, "groq-ai-title-tags-edit").start();
+    }
+
+    @FXML
+    private void onFixGrammar() {
+        String content = txtContent.getText() == null ? "" : txtContent.getText().trim();
+        if (content.length() < 20) {
+            if (aiHint != null) aiHint.setText("Write at least 20 characters so AI can correct properly.");
+            return;
+        }
+
+        setAiLoading(true);
+        if (aiHint != null) aiHint.setText("Correcting grammar...");
+
+        Task<String> task = new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                return GroqAiService.correctGrammar(content);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            setAiLoading(false);
+            String fixed = task.getValue();
+            if (fixed == null || fixed.isBlank()) {
+                if (aiHint != null) aiHint.setText("No correction returned.");
+                return;
+            }
+
+            txtContent.setText(fixed.trim());
+            validateContent();
+
+            if (aiHint != null) aiHint.setText("Grammar corrected ✅");
+        });
+
+        task.setOnFailed(e -> {
+            setAiLoading(false);
+            Throwable ex = task.getException();
+            if (aiHint != null) aiHint.setText("AI error: " + (ex == null ? "unknown" : ex.getMessage()));
+            if (ex != null) ex.printStackTrace();
+        });
+
+        new Thread(task, "groq-ai-grammar-edit").start();
+    }
+
+    private void setAiLoading(boolean on) {
+        if (aiLoading != null) {
+            aiLoading.setVisible(on);
+            aiLoading.setManaged(on);
         }
     }
 }

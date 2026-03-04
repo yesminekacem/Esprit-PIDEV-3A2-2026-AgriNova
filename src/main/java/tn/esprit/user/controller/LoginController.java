@@ -101,38 +101,47 @@ public class LoginController {
                 }
 
                 // close login window
+// Replace the existing main layout loading section with this:
                 Stage loginStage = (Stage) loginButton.getScene().getWindow();
-                // load the main layout (wraps content with sidebar/topbar)
+
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layout/MainLayout.fxml"));
+                    Stage stage = new Stage();
+                    FXMLLoader loader;
+                    String title;
+
+                    // Load different layouts based on user role
+                    if (user.getRole() == Role.ADMIN) {
+                        // Load admin dashboard directly (it has its own sidebar/navigation)
+                        loader = new FXMLLoader(getClass().getResource("/fxml/user/admin-dashboard.fxml"));
+                        title = "Digital Farm - Admin Panel";
+                    } else {
+                        // Load regular main layout for normal users
+                        loader = new FXMLLoader(getClass().getResource("/fxml/layout/MainLayout.fxml"));
+                        title = "Digital Farm";
+                    }
+
                     Scene scene = new Scene(loader.load());
-                    // ensure stylesheet is applied (fallback if FXML stylesheet isn't picked up)
+
+                    // Apply stylesheet
                     URL css = getClass().getResource("/styles/styles.css");
                     if (css != null) {
                         scene.getStylesheets().add(css.toExternalForm());
                     }
 
-                    Stage stage = new Stage();
-                    stage.setTitle("Digital Farm");
+                    stage.setTitle(title);
                     stage.setScene(scene);
-                    stage.setMinWidth(1000); // ✅ minimum window size
+                    stage.setMinWidth(1000);
                     stage.setMinHeight(700);
-                    stage.setMaximized(true); // ✅ always full window
                     stage.show();
-                    // close login after showing main window
+
+                    // Close login window
                     loginStage.close();
 
-                    // if admin, instruct main layout to open admin dashboard in the content area
-                    MainLayoutController mainController = loader.getController();
-                    if (user.getRole() == Role.ADMIN) {
-                        mainController.openAdminDashboard();
-                    }
-                    // otherwise MainLayoutController.initialize already routes to CROPS by default
-
                 } catch (IOException e) {
-                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to load main layout: " + e.getMessage());
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to load application: " + e.getMessage());
                     e.printStackTrace();
                 }
+
 
             } else {
                 showAlert(Alert.AlertType.ERROR, "Error", "Invalid email or password");
@@ -173,6 +182,28 @@ public class LoginController {
 
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to open forgot password dialog: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleFaceLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/face-login.fxml"));
+            Scene scene = new Scene(loader.load());
+            FaceLoginController ctrl = loader.getController();
+            Stage faceStage = new Stage();
+            faceStage.setTitle("Face ID Login — Agrinova");
+            faceStage.setScene(scene);
+            faceStage.setResizable(false);
+            faceStage.initModality(Modality.APPLICATION_MODAL);
+            ctrl.setStage(faceStage);
+            faceStage.showAndWait();
+            // if Face ID succeeded the session is now set; close login window
+            if (SessionManager.getInstance().getCurrentUser() != null) {
+                ((Stage) loginButton.getScene().getWindow()).close();
+            }
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Cannot open Face ID login: " + e.getMessage());
         }
     }
 

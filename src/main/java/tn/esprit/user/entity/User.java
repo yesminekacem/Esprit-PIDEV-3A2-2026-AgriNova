@@ -8,6 +8,7 @@ public class User {
     private Role role;
     private String profileImage;
     private boolean emailVerified;
+    private String faceData;
 
     public User() {}
 
@@ -84,6 +85,9 @@ public class User {
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
     }
+
+    public String getFaceData() { return faceData; }
+    public void setFaceData(String faceData) { this.faceData = faceData; }
 
     @Override
     public String toString() {

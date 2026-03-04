@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.user.controller.UsersListController"
+            styleClass="cream-background" prefWidth="1200" prefHeight="700"
+            stylesheets="@/styles/styles.css">
+
+
+
+
+    <!-- Main Content -->
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+
+            <!-- Header -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="User Management"
+                       style="-fx-font-family: 'System'; -fx-font-weight: bold; -fx-font-size: 24px; -fx-text-fill: #1a1a1a;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="refreshButton" text="🔄 Refresh" onAction="#handleRefresh"
+                        style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <!-- Search & Filter Bar -->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <!-- Search field -->
+                <HBox spacing="8" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-padding: 6 12;">
+                    <Label text="🔍" style="-fx-font-size: 14px;"/>
+                    <TextField fx:id="searchField" promptText="Search by name or email..."
+                               style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 13px;"
+                               HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+                <!-- Role filter -->
+                <ComboBox fx:id="roleFilter" promptText="All Roles"
+                          style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 13px; -fx-pref-width: 150px;"/>
+
+                <!-- Clear filters -->
+                <Button fx:id="clearFiltersButton" text="✕ Clear" onAction="#handleClearFilters"
+                        style="-fx-background-color: #f5f5f5; -fx-text-fill: #555; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand; -fx-font-size: 13px;"/>
+            </HBox>
+
+            <!-- Table Container -->
+            <VBox spacing="15" VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 15, 0, 0, 2);">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <!-- Result count -->
+                <Label fx:id="resultCountLabel" text="Showing 0 users"
+                       style="-fx-font-size: 12px; -fx-text-fill: #888;"/>
+
+                <!-- Table -->
+                <TableView fx:id="usersTable" VBox.vgrow="ALWAYS"
+                           style="-fx-background-color: transparent; -fx-table-cell-border-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="220" sortable="true"/>
+                        <TableColumn fx:id="emailColumn" text="Email" prefWidth="280" sortable="true"/>
+                        <TableColumn fx:id="roleColumn" text="Role" prefWidth="140" sortable="true"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+
+                <!-- Action Buttons -->
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="updateButton" text="✏ Update Selected" onAction="#handleUpdate"
+                            style="-fx-background-color: #FFA726; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+
+                    <Button fx:id="deleteButton" text="🗑 Delete Selected" onAction="#handleDelete"
+                            style="-fx-background-color: #EF5350; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

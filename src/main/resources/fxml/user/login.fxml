@@ -77,6 +77,23 @@
                 <!-- Login Button -->
                 <Button fx:id="loginButton" text="Sign In →" onAction="#handleLogin"
                         styleClass="primary-button" prefWidth="400"/>
+
+                <!-- Divider -->
+                <HBox spacing="10" alignment="CENTER" prefWidth="400">
+                    <Region HBox.hgrow="ALWAYS"
+                            style="-fx-border-color:#e0e0e0;-fx-border-width:1 0 0 0;"/>
+                    <Label text="or" style="-fx-text-fill:#9ca3af;-fx-font-size:12px;"/>
+                    <Region HBox.hgrow="ALWAYS"
+                            style="-fx-border-color:#e0e0e0;-fx-border-width:1 0 0 0;"/>
+                </HBox>
+
+                <!-- Face ID Login Button -->
+                <Button text="🪪   Login with Face ID" onAction="#handleFaceLogin"
+                        prefWidth="400"
+                        style="-fx-background-color:#1565C0;-fx-text-fill:white;
+                               -fx-background-radius:10;-fx-padding:12 0;-fx-cursor:hand;
+                               -fx-font-size:14px;-fx-font-weight:700;
+                               -fx-effect:dropshadow(gaussian,rgba(21,101,192,0.25),10,0.2,0,3);"/>
             </VBox>
 
 

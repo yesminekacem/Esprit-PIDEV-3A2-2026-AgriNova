@@ -3,120 +3,299 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.effect.DropShadow?>
 
 <BorderPane xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tn.esprit.forum.controller.PostViewController"
-            styleClass="page">
+            styleClass="page"
+            style="-fx-background-color: #f0f2f5;">
 
     <center>
-        <ScrollPane fitToWidth="true" pannable="true" styleClass="page-scroll">
+        <ScrollPane fx:id="spMain"
+                    fitToWidth="true"
+                    pannable="true"
+                    styleClass="page-scroll"
+                    style="-fx-background-color: transparent;">
+
             <content>
-                <VBox spacing="18" styleClass="container">
+                <VBox spacing="14"
+                      styleClass="container"
+                      style="-fx-padding: 18; -fx-background-color: transparent;">
 
-                    <!-- Back -->
-                    <HBox>
-                        <Button text="←  Back to Forum"
+                    <!-- Top bar -->
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Button text="← Back to Forum"
                                 onAction="#onBack"
-                                styleClass="btn-ghost"/>
-                    </HBox>
+                                styleClass="hover-lift press-pop"
+                                style="-fx-background-color: white;
+                                       -fx-text-fill: #111827;
+                                       -fx-font-weight: 800;
+                                       -fx-background-radius: 999;
+                                       -fx-padding: 10 14;
+                                       -fx-cursor: hand;
+                                       -fx-border-color: rgba(0,0,0,0.08);
+                                       -fx-border-radius: 999;"/>
 
-                    <!-- Title + badges -->
-                    <HBox alignment="CENTER_LEFT" spacing="12">
-                        <Label fx:id="lblTitle" text="Topic title" styleClass="topic-title" HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="lblPopular" text="Popular"
-                               visible="false" managed="false"
-                               styleClass="badge badge-popular"/>
-                        <Label fx:id="lblCategoryBadge" text="Organic Farming"
-                               styleClass="badge badge-category"/>
-                    </HBox>
+                        <Region HBox.hgrow="ALWAYS"/>
 
-                    <!-- Author row + stats + menu -->
-                    <HBox alignment="CENTER_LEFT" spacing="14" styleClass="author-row">
-
-                        <!-- Avatar circle (simple placeholder) -->
-                        <StackPane styleClass="avatar-lg">
-                            <Label fx:id="lblAvatarInitial" text="S" styleClass="avatar-initial"/>
-                        </StackPane>
-
-                        <VBox spacing="6" HBox.hgrow="ALWAYS">
-                            <HBox spacing="8" alignment="CENTER_LEFT">
-                                <Label fx:id="lblAuthorName" text="Sarah Johnson" styleClass="author-name"/>
-                                <Label text="•" styleClass="muted"/>
-                                <Label fx:id="lblAuthorRole" text="Organic Farmer" styleClass="muted"/>
-                                <Label text="•" styleClass="muted"/>
-                                <Label fx:id="lblTimeAgo" text="2 hours ago" styleClass="muted"/>
-                            </HBox>
-
-                            <HBox spacing="16" alignment="CENTER_LEFT">
-                                <HBox spacing="6" alignment="CENTER_LEFT">
-                                    <Label text="💬" styleClass="muted"/>
-                                    <Label fx:id="lblReplies" text="0 replies" styleClass="muted"/>
-                                </HBox>
-
-                                <HBox spacing="6" alignment="CENTER_LEFT">
-                                    <Label text="👍" styleClass="muted"/>
-                                    <Label fx:id="lblPostLikes" text="0 likes" styleClass="muted"/>
-                                </HBox>
-                            </HBox>
-                        </VBox>
-
-                        <MenuButton fx:id="menuPostActions" text="⋮" styleClass="btn-icon"
-                                    visible="false" managed="false">
+                        <!-- menu -->
+                        <MenuButton fx:id="menuPostActions"
+                                    text="⋯"
+                                    visible="false" managed="false"
+                                    styleClass="hover-lift press-pop"
+                                    style="-fx-background-color: white;
+                                           -fx-border-color: rgba(0,0,0,0.08);
+                                           -fx-border-radius: 999;
+                                           -fx-background-radius: 999;
+                                           -fx-padding: 6 14;
+                                           -fx-font-size: 16px;
+                                           -fx-cursor: hand;">
                             <items>
                                 <MenuItem fx:id="itemEditTopic" text="Edit Topic" onAction="#onEditTopic"/>
                                 <MenuItem fx:id="itemDeleteTopic" text="Delete Topic" onAction="#onDeleteTopic"/>
                             </items>
                         </MenuButton>
-
                     </HBox>
 
-                    <!-- Content card -->
-                    <VBox styleClass="card">
-                        <VBox spacing="10" styleClass="card-content">
-                            <Label fx:id="lblContent" wrapText="true" text="Post content..." styleClass="content-text"/>
+                    <!-- POST CARD (Facebook feed card) -->
+                    <VBox spacing="0"
+                          style="-fx-background-color: white;
+                                 -fx-background-radius: 16;
+                                 -fx-border-color: rgba(0,0,0,0.08);
+                                 -fx-border-radius: 16;">
+                        <effect>
+                            <DropShadow color="#00000014" radius="18" offsetY="6"/>
+                        </effect>
+
+                        <!-- Header -->
+                        <VBox spacing="12" style="-fx-padding: 16 16 12 16;">
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+
+                                <!-- Avatar -->
+                                <StackPane style="-fx-min-width: 46; -fx-min-height: 46;
+                                                  -fx-pref-width: 46; -fx-pref-height: 46;
+                                                  -fx-background-color: #dbeafe;
+                                                  -fx-background-radius: 999;">
+                                    <Label fx:id="lblAvatarInitial"
+                                           text="S"
+                                           style="-fx-font-size: 16px;
+                                                  -fx-font-weight: 900;
+                                                  -fx-text-fill: #1d4ed8;"/>
+                                </StackPane>
+
+                                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
+                                        <Label fx:id="lblAuthorName"
+                                               text="Sarah Johnson"
+                                               style="-fx-font-weight: 900;
+                                                      -fx-text-fill: #111827;
+                                                      -fx-font-size: 14px;"/>
+
+                                        <Label text="•" style="-fx-text-fill: #9ca3af;"/>
+
+                                        <Label fx:id="lblAuthorRole"
+                                               text="Organic Farmer"
+                                               style="-fx-text-fill: #6b7280;
+                                                      -fx-font-size: 12px;"/>
+                                    </HBox>
+
+                                    <Label fx:id="lblTimeAgo"
+                                           text="2 hours ago"
+                                           style="-fx-text-fill: #9ca3af;
+                                                  -fx-font-size: 12px;"/>
+                                </VBox>
+
+                                <!-- Badges on right -->
+                                <HBox spacing="8" alignment="CENTER_RIGHT">
+                                    <Label fx:id="lblPopular"
+                                           text="Popular"
+                                           visible="false" managed="false"
+                                           style="-fx-background-color: rgba(245,158,11,0.18);
+                                                  -fx-text-fill: #92400e;
+                                                  -fx-font-weight: 900;
+                                                  -fx-font-size: 12px;
+                                                  -fx-padding: 6 10;
+                                                  -fx-background-radius: 999;"/>
+
+                                    <Label fx:id="lblCategoryBadge"
+                                           text="Organic Farming"
+                                           style="-fx-background-color: rgba(37,99,235,0.14);
+                                                  -fx-text-fill: #1d4ed8;
+                                                  -fx-font-weight: 900;
+                                                  -fx-font-size: 12px;
+                                                  -fx-padding: 6 10;
+                                                  -fx-background-radius: 999;"/>
+                                </HBox>
+                            </HBox>
+
+                            <!-- Title -->
+                            <Label fx:id="lblTitle"
+                                   text="Topic title"
+                                   wrapText="true"
+                                   style="-fx-font-size: 22px;
+                                          -fx-font-weight: 900;
+                                          -fx-text-fill: #0f172a;"/>
+
+                            <!-- Content -->
+                            <Label fx:id="lblContent"
+                                   text="Post content..."
+                                   wrapText="true"
+                                   style="-fx-text-fill: #374151;
+                                          -fx-font-size: 14px;
+                                          -fx-line-spacing: 2;"/>
                         </VBox>
 
-                        <HBox styleClass="card-footer" alignment="CENTER_LEFT">
-                            <Button fx:id="btnLikePost" text="Like (0)"
+                        <!-- Image (full width inside card) -->
+                        <VBox style="-fx-padding: 0 16 12 16;">
+                            <ImageView fx:id="imgPost"
+                                       fitWidth="780"
+                                       preserveRatio="true"
+                                       smooth="true"
+                                       visible="false"
+                                       managed="false"
+                                       style="-fx-background-radius: 14; -fx-border-radius: 14;"/>
+                        </VBox>
+
+                        <!-- Stats row -->
+                        <HBox spacing="14" alignment="CENTER_LEFT"
+                              style="-fx-padding: 8 16;
+                                     -fx-border-color: rgba(0,0,0,0.06);
+                                     -fx-border-width: 1 0 0 0;">
+                            <Label fx:id="lblReplies"
+                                   text="0 replies"
+                                   style="-fx-text-fill: #6b7280; -fx-font-size: 12px;"/>
+                            <Label text="•" style="-fx-text-fill: #d1d5db;"/>
+                            <Label fx:id="lblPostLikes"
+                                   text="0 likes"
+                                   style="-fx-text-fill: #6b7280; -fx-font-size: 12px;"/>
+                        </HBox>
+
+                        <!-- Action buttons (segmented like FB) -->
+                        <HBox spacing="10" alignment="CENTER"
+                              style="-fx-padding: 10 16;
+                                     -fx-border-color: rgba(0,0,0,0.06);
+                                     -fx-border-width: 1 0 0 0;">
+
+                            <Button fx:id="btnLikePost"
+                                    text="👍  Like (0)"
                                     onAction="#onLikeTopic"
-                                    styleClass="btn-outline"/>
+                                    styleClass="hover-lift press-pop"
+                                    style="-fx-background-color: rgba(37,99,235,0.10);
+                                           -fx-text-fill: #1d4ed8;
+                                           -fx-font-weight: 900;
+                                           -fx-background-radius: 12;
+                                           -fx-padding: 10 14;
+                                           -fx-cursor: hand;
+                                           -fx-pref-width: 260;"/>
+
+                            <Button text="💬  Comment"
+                                    onAction="#scrollToComposer"
+                                    styleClass="hover-lift press-pop"
+                                    style="-fx-background-color: rgba(16,185,129,0.12);
+                                           -fx-text-fill: #065f46;
+                                           -fx-font-weight: 900;
+                                           -fx-background-radius: 12;
+                                           -fx-padding: 10 14;
+                                           -fx-cursor: hand;
+                                           -fx-pref-width: 260;"/>
                         </HBox>
                     </VBox>
 
-                    <!-- Comments header -->
-                    <Label fx:id="lblCommentsCount" text="Comments (0)" styleClass="section-title"/>
+                    <!-- COMMENTS SECTION CARD -->
+                    <VBox spacing="12"
+                          style="-fx-background-color: white;
+                                 -fx-background-radius: 16;
+                                 -fx-border-color: rgba(0,0,0,0.08);
+                                 -fx-border-radius: 16;
+                                 -fx-padding: 14;">
+                        <effect>
+                            <DropShadow color="#00000012" radius="18" offsetY="6"/>
+                        </effect>
 
-                    <!-- Composer card -->
-                    <VBox styleClass="card">
-                        <HBox spacing="14" styleClass="card-content">
+                        <!-- Comments header -->
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label fx:id="lblCommentsCount"
+                                   text="Comments (0)"
+                                   style="-fx-font-size: 18px;
+                                          -fx-font-weight: 900;
+                                          -fx-text-fill: #111827;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Be kind &amp; helpful 🌿"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;"/>
+                        </HBox>
 
-                            <StackPane styleClass="avatar-md">
-                                <Label text="J" styleClass="avatar-initial"/>
+                        <!-- Composer (FB style) -->
+                        <HBox spacing="10" alignment="TOP_LEFT"
+                              style="-fx-background-color: #f3f4f6;
+                                     -fx-background-radius: 14;
+                                     -fx-padding: 12;">
+
+                            <!-- small avatar -->
+                            <StackPane style="-fx-min-width: 38; -fx-min-height: 38;
+                                              -fx-pref-width: 38; -fx-pref-height: 38;
+                                              -fx-background-color: #dcfce7;
+                                              -fx-background-radius: 999;">
+                                <Label text="✍"
+                                       style="-fx-font-size: 14px; -fx-font-weight: 900; -fx-text-fill: #166534;"/>
                             </StackPane>
 
                             <VBox spacing="10" HBox.hgrow="ALWAYS">
                                 <TextArea fx:id="txtNewComment"
-                                          promptText="Share your thoughts or advice..."
+                                          promptText="Write a comment..."
                                           wrapText="true"
-                                          prefRowCount="3"
-                                          styleClass="composer-area"/>
+                                          prefRowCount="2"
+                                          style="-fx-background-color: white;
+                                                 -fx-background-radius: 12;
+                                                 -fx-border-color: rgba(0,0,0,0.08);
+                                                 -fx-border-radius: 12;
+                                                 -fx-padding: 10;
+                                                 -fx-font-size: 13px;"/>
 
-                                <HBox alignment="CENTER_RIGHT">
-                                    <Button text="Post Comment"
+                                <HBox spacing="10" alignment="CENTER_RIGHT">
+                                    <Label text="Tip: Ctrl+Enter to post"
+                                           style="-fx-text-fill: #9ca3af; -fx-font-size: 12px;"/>
+
+                                    <Region HBox.hgrow="ALWAYS"/>
+
+                                    <Button text="✕ Clear"
+                                            onAction="#onClearComment"
+                                            styleClass="hover-lift press-pop"
+                                            style="-fx-background-color: rgba(17,24,39,0.06);
+                                                   -fx-text-fill: #111827;
+                                                   -fx-font-weight: 900;
+                                                   -fx-background-radius: 999;
+                                                   -fx-padding: 9 14;
+                                                   -fx-cursor: hand;"/>
+
+                                    <Button text="➤ Post"
                                             onAction="#onAddComment"
-                                            styleClass="btn-primary"/>
+                                            styleClass="hover-lift press-pop"
+                                            style="-fx-background-color: linear-gradient(to bottom, #22c55e, #16a34a);
+                                                   -fx-text-fill: white;
+                                                   -fx-font-weight: 900;
+                                                   -fx-background-radius: 999;
+                                                   -fx-padding: 9 16;
+                                                   -fx-cursor: hand;
+                                                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 16, 0, 0, 5);"/>
                                 </HBox>
                             </VBox>
                         </HBox>
+
+                        <!-- Comments list -->
+                        <ListView fx:id="commentList"
+                                  styleClass="comment-list"
+                                  style="-fx-background-color: transparent;
+                                         -fx-control-inner-background: transparent;
+                                         -fx-border-color: transparent;"/>
                     </VBox>
 
-                    <!-- Comments list -->
-                    <ListView fx:id="commentList" styleClass="comment-list" />
-
                     <Region prefHeight="12"/>
+
                 </VBox>
             </content>
+
             <padding>
                 <Insets top="18" right="0" bottom="18" left="0"/>
             </padding>
