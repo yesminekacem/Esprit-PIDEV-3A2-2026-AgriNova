@@ -27,6 +27,17 @@ public class Order {
         this.paymentMethod = paymentMethod;
         this.status = "pending";
     }
+    public Order(String userId, double totalPrice, String deliveryAddress,
+                 Double deliveryLat, Double deliveryLng, String paymentMethod) {
+        this.userId = userId;
+        this.totalPrice = totalPrice;
+        this.deliveryAddress = deliveryAddress;
+        this.deliveryLat = deliveryLat;
+        this.deliveryLng = deliveryLng;
+        this.paymentMethod = paymentMethod;
+        this.status = "pending";
+    }
+
 
     // Constructor with all fields
     public Order(int id, String userId, LocalDateTime orderDate, double totalPrice,

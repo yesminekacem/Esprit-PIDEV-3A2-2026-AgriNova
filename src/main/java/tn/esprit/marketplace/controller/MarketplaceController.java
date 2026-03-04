@@ -51,7 +51,7 @@ public class MarketplaceController {
             loadView("/fxml/marketplace/OrdersView.fxml", cartTab);
         } else {
             Dialog<String> choiceDialog = new Dialog<>();
-            choiceDialog.setTitle("View");
+            choiceDialog.setTitle("Cart");
             choiceDialog.setHeaderText("What would you like to view?");
 
             ButtonType cartButton = new ButtonType("🛒 Cart", ButtonBar.ButtonData.OK_DONE);
