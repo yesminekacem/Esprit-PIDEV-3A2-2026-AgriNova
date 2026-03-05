@@ -37,7 +37,12 @@ public class EmailVerificationController {
     private Timeline countdownTimer;
     private int timeRemaining = 600; // 10 minutes in seconds
     private Stage stage;
+    private Stage signupStage;
     private boolean isPasswordReset = false;
+
+    public void setSignupStage(Stage signupStage) {
+        this.signupStage = signupStage;
+    }
 
     public void initialize() {
         emailService = new EmailService();
@@ -198,14 +203,11 @@ public class EmailVerificationController {
         if (countdownTimer != null) {
             countdownTimer.stop();
         }
-
-        // Clean up verification code
         if (isPasswordReset) {
             verificationManager.clearPasswordResetCode(pendingUser.getEmail());
         } else {
             verificationManager.clearVerificationCode(pendingUser.getEmail());
         }
-
         stage.close();
     }
 
@@ -316,12 +318,24 @@ public class EmailVerificationController {
 
     private void loadLoginScene() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
-        Scene scene = new Scene(loader.load());
+        Scene loginScene = new Scene(loader.load());
+        java.net.URL css = getClass().getResource("/styles/styles.css");
+        if (css != null) loginScene.getStylesheets().add(css.toExternalForm());
 
-        Stage currentStage = (Stage) stage.getScene().getWindow();
-        currentStage.setScene(scene);
-        currentStage.setTitle("Login - Agrinova Platform");
-        currentStage.centerOnScreen();
+        // Close signup (owner stage) if present
+        if (signupStage != null) {
+            signupStage.close();
+        }
+
+        stage.setScene(loginScene);
+        stage.setTitle("AgriNova - Login");
+        stage.setResizable(true);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+        stage.setWidth(1200);
+        stage.setHeight(840);
+        stage.centerOnScreen();
+        stage.show();
     }
 
     private void clearError() {

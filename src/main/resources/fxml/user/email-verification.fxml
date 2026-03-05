@@ -7,7 +7,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="tn.esprit.user.controller.EmailVerificationController"
-      prefWidth="400" prefHeight="300" spacing="20"
+      prefWidth="420" prefHeight="360" spacing="20"
       style="-fx-background-color: #f8f9fa; -fx-background-radius: 12;">
 
     <padding>
@@ -17,9 +17,9 @@
     <!-- Header -->
     <VBox spacing="10" alignment="CENTER">
         <Label text="📧" style="-fx-font-size: 36px;"/>
-        <Label text="Email Verification" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2E7D32;"/>
+        <Label text="Email Verification" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2E7D32;"/>
         <Label fx:id="instructionLabel" text="We've sent a verification code to your email. Please enter it below:"
-               style="-fx-text-fill: #555; -fx-text-alignment: center;" wrapText="true"/>
+               style="-fx-text-fill: #555; -fx-text-alignment: center;" wrapText="true" maxWidth="360"/>
     </VBox>
 
     <!-- Email display -->
@@ -33,8 +33,7 @@
         <Label text="Verification Code:" style="-fx-font-weight: bold;"/>
         <TextField fx:id="codeField" promptText="Enter 6-digit code"
                    style="-fx-font-size: 16px; -fx-text-alignment: center; -fx-font-weight: bold;"
-                   maxWidth="200" alignment="CENTER"
-                   editable="true" focusTraversable="true" disable="false"/>
+                   maxWidth="200" alignment="CENTER"/>
         <Label fx:id="errorLabel" text="" style="-fx-text-fill: #d32f2f; -fx-font-size: 12px;"/>
     </VBox>
 

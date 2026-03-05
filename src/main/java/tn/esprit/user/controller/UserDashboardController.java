@@ -182,10 +182,14 @@ public class UserDashboardController {
             setPasswordFeedback("⚠  New password cannot be empty.", "#ef4444");
             return;
         }
-        if (newPw.length() < 6) {
-            setPasswordFeedback("⚠  Password must be at least 6 characters.", "#ef4444");
+
+        // Full password validation (same rules as signup)
+        String pwError = tn.esprit.utils.ValidationUtil.getPasswordValidationMessage(newPw);
+        if (!pwError.isEmpty()) {
+            setPasswordFeedback("✖  " + pwError, "#ef4444");
             return;
         }
+
         if (!newPw.equals(confPw)) {
             setPasswordFeedback("✖  Passwords do not match.", "#ef4444");
             return;
@@ -284,18 +288,10 @@ public class UserDashboardController {
     private void handleLogout() {
         SessionManager.getInstance().logout();
         TokenManager.clearToken();
-        try {
-            Stage stage = (Stage) (logoutButton != null
-                    ? logoutButton.getScene().getWindow()
-                    : contentArea.getScene().getWindow());
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
-            Scene scene = new Scene(loader.load());
-            stage.setTitle("Digital Farm - Login");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to logout: " + e.getMessage());
-        }
+        Stage stage = (Stage) (logoutButton != null
+                ? logoutButton.getScene().getWindow()
+                : contentArea.getScene().getWindow());
+        tn.esprit.MainFX.loadLoginOnStage(stage);
     }
 
     // ── Helpers ───────────────────────────────────────────────────────

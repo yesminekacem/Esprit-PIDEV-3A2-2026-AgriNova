@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -21,14 +20,13 @@
                     <Label text="🍃" styleClass="logo-icon"/>
                 </StackPane>
                 <VBox>
-                    <Label text="Digital Farm" styleClass="logo-title"/>
+                    <Label text="AgriNova" styleClass="logo-title"/>
                     <Label text="Admin Panel" styleClass="logo-subtitle"/>
                 </VBox>
             </HBox>
 
             <!-- Navigation -->
             <VBox styleClass="nav" spacing="6">
-                <Button text="Dashboard" styleClass="nav-item" onAction="#openAdminDashboard"/>
                 <Button text="Users" styleClass="nav-item" onAction="#openAdminUsers"/>
                 <Button text="Crops" styleClass="nav-item" onAction="#handleManageCrops"/>
                 <Button text="Inventory" styleClass="nav-item"/>
@@ -61,28 +59,33 @@
 
     <!-- TOP BAR -->
     <top>
-        <HBox styleClass="topbar" spacing="16" alignment="CENTER_LEFT">
+        <HBox styleClass="topbar" spacing="12" alignment="CENTER_LEFT">
 
-            <!-- Search (optional UI only) -->
-            <HBox styleClass="search-wrap" spacing="8" HBox.hgrow="ALWAYS">
-                <Label text="🔍" styleClass="search-icon"/>
-                <TextField promptText="Search users, roles..."
-                           styleClass="search-input"
-                           HBox.hgrow="ALWAYS"/>
+            <!-- Admin profile section -->
+            <HBox spacing="10" alignment="CENTER" styleClass="topbar-profile">
+                <StackPane styleClass="topbar-avatar">
+                    <Label text="🛡" style="-fx-font-size: 18px;"/>
+                </StackPane>
+                <VBox spacing="1" alignment="CENTER_LEFT">
+                    <Label fx:id="adminNameLabel" text="Admin User"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <Label text="Administrator"
+                           style="-fx-font-size: 11px; -fx-text-fill: #2E7D32;"/>
+                </VBox>
             </HBox>
 
-            <!-- Admin name -->
-            <VBox spacing="2" alignment="CENTER_RIGHT">
-                <Label fx:id="adminNameLabel" text="Admin User"
-                       style="-fx-font-weight: 700;"/>
-                <Label text="Administrator" style="-fx-text-fill: #2E7D32;"/>
-            </VBox>
+            <!-- Divider -->
+            <Separator orientation="VERTICAL" style="-fx-padding: 4 0;"/>
+
+            <!-- Settings -->
+            <Button text="⚙ Settings" onAction="#openSettings" styleClass="topbar-action-btn"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
 
             <!-- Logout -->
-            <Button fx:id="logoutButton"
-                    text="Logout"
-                    onAction="#handleLogout"
-                    styleClass="icon-btn"/>
+            <Button fx:id="logoutButton" text="⏻ Logout" onAction="#handleLogout"
+                    styleClass="topbar-logout-btn"/>
+
         </HBox>
     </top>
 

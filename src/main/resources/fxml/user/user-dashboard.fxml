@@ -160,7 +160,7 @@
                             <VBox spacing="6" HBox.hgrow="ALWAYS">
                                 <Label text="New Password"
                                        style="-fx-font-size:12px;-fx-font-weight:700;-fx-text-fill:#64748b;"/>
-                                <PasswordField fx:id="newPasswordField" promptText="Min. 6 characters"
+                                <PasswordField fx:id="newPasswordField" promptText="Min. 8 characters"
                                                style="-fx-background-color:#f8fafc;-fx-background-radius:10;
                                                       -fx-border-color:#e2e8f0;-fx-border-radius:10;
                                                       -fx-padding:10 14;-fx-font-size:14px;"/>

@@ -24,6 +24,8 @@
                 <Label text="User Management"
                        style="-fx-font-family: 'System'; -fx-font-weight: bold; -fx-font-size: 24px; -fx-text-fill: #1a1a1a;"/>
                 <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="exportExcelButton" text="📊 Export Excel" onAction="#handleExportExcel"
+                        style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"/>
                 <Button fx:id="refreshButton" text="🔄 Refresh" onAction="#handleRefresh"
                         style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"/>
             </HBox>
@@ -63,9 +65,10 @@
                 <TableView fx:id="usersTable" VBox.vgrow="ALWAYS"
                            style="-fx-background-color: transparent; -fx-table-cell-border-color: transparent;">
                     <columns>
-                        <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="220" sortable="true"/>
-                        <TableColumn fx:id="emailColumn" text="Email" prefWidth="280" sortable="true"/>
-                        <TableColumn fx:id="roleColumn" text="Role" prefWidth="140" sortable="true"/>
+                        <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="200" sortable="true"/>
+                        <TableColumn fx:id="emailColumn" text="Email" prefWidth="240" sortable="true"/>
+                        <TableColumn fx:id="roleColumn" text="Role" prefWidth="120" sortable="true"/>
+                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="100" sortable="true"/>
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -79,6 +82,9 @@
 
                     <Button fx:id="deleteButton" text="🗑 Delete Selected" onAction="#handleDelete"
                             style="-fx-background-color: #EF5350; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+
+                    <Button fx:id="banButton" text="🚫 Ban / Unban" onAction="#handleBanToggle"
+                            style="-fx-background-color: #6A1B9A; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"/>
                 </HBox>
             </VBox>
         </VBox>

@@ -16,16 +16,19 @@ public class UserCrud {
             "INSERT INTO `user`(full_name,email,password,role,email_verified) VALUES (?,?,?,?,?)";
 
     private static final String SELECT_BY_ID_SQL =
-            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data FROM `user` WHERE id=?";
+            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data, banned FROM `user` WHERE id=?";
 
     private static final String SELECT_BY_EMAIL_SQL =
-            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data FROM `user` WHERE email=?";
+            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data, banned FROM `user` WHERE email=?";
 
     private static final String SELECT_ALL_SQL =
-            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data FROM `user`";
+            "SELECT id, full_name, email, password, role, profile_image, email_verified, face_data, banned FROM `user`";
 
     private static final String UPDATE_SQL =
-            "UPDATE `user` SET full_name=?, email=?, password=?, role=?, profile_image=?, email_verified=?, face_data=? WHERE id=?";
+            "UPDATE `user` SET full_name=?, email=?, password=?, role=?, profile_image=?, email_verified=?, face_data=?, banned=? WHERE id=?";
+
+    private static final String UPDATE_BAN_SQL =
+            "UPDATE `user` SET banned=? WHERE id=?";
 
     private static final String UPDATE_EMAIL_VERIFICATION_SQL =
             "UPDATE `user` SET email_verified=? WHERE email=?";
@@ -83,7 +86,7 @@ public class UserCrud {
         return list;
     }
 
-    // UPDATE - Updated to include profile_image and email_verified
+    // UPDATE - Updated to include profile_image, email_verified, face_data, banned
     public boolean update(User u) throws SQLException {
         try (PreparedStatement ps = DbConnect.getInstance().getConnection().prepareStatement(UPDATE_SQL)) {
             ps.setString(1, u.getFullName());
@@ -93,7 +96,17 @@ public class UserCrud {
             ps.setString(5, u.getProfileImage());
             ps.setBoolean(6, u.isEmailVerified());
             ps.setString(7, u.getFaceData());
-            ps.setInt(8, u.getId());
+            ps.setBoolean(8, u.isBanned());
+            ps.setInt(9, u.getId());
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    // TOGGLE BAN
+    public boolean setBanned(int id, boolean banned) throws SQLException {
+        try (PreparedStatement ps = DbConnect.getInstance().getConnection().prepareStatement(UPDATE_BAN_SQL)) {
+            ps.setBoolean(1, banned);
+            ps.setInt(2, id);
             return ps.executeUpdate() > 0;
         }
     }
@@ -115,7 +128,7 @@ public class UserCrud {
         }
     }
 
-    // Helper mapper - Updated to include email_verified and face_data
+    // Helper mapper - Updated to include email_verified, face_data, banned
     private User mapRowToUser(ResultSet rs) throws SQLException {
         User u = new User();
         u.setId(rs.getInt("id"));
@@ -126,6 +139,7 @@ public class UserCrud {
         u.setProfileImage(rs.getString("profile_image"));
         u.setEmailVerified(rs.getBoolean("email_verified"));
         u.setFaceData(rs.getString("face_data"));
+        try { u.setBanned(rs.getBoolean("banned")); } catch (SQLException ignored) {}
         return u;
     }
 }

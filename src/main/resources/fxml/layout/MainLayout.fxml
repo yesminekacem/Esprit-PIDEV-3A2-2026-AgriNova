@@ -19,7 +19,7 @@
                     <Label text="🍃" styleClass="logo-icon"/>
                 </StackPane>
                 <VBox>
-                    <Label text="Digital Farm" styleClass="logo-title"/>
+                    <Label text="AgriNova" styleClass="logo-title"/>
                     <Label text="Management System" styleClass="logo-subtitle"/>
                 </VBox>
             </HBox>
@@ -62,29 +62,30 @@
 
     <!-- TOP BAR -->
     <top>
-        <HBox styleClass="topbar" spacing="16" alignment="CENTER_LEFT">
+        <HBox styleClass="topbar" spacing="12" alignment="CENTER_LEFT">
 
-            <!-- Search -->
-            <HBox styleClass="search-wrap" spacing="8" HBox.hgrow="ALWAYS">
-                <Label text="🔍" styleClass="search-icon"/>
-                <TextField promptText="Search crops, inventory, orders..."
-                           styleClass="search-input"
-                           HBox.hgrow="ALWAYS"/>
+            <!-- Profile section -->
+            <HBox spacing="10" alignment="CENTER" styleClass="topbar-profile">
+                <StackPane styleClass="topbar-avatar">
+                    <Label text="👤" style="-fx-font-size: 18px;"/>
+                </StackPane>
+                <VBox spacing="1" alignment="CENTER_LEFT">
+                    <Label fx:id="profileMenu" text="My Account"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <Label text="User" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;"/>
+                </VBox>
             </HBox>
 
-            <!-- Notifications (design only) -->
-            <Button text="🔔" styleClass="icon-btn"/>
-            <!-- Profile (dynamic) -->
-            <MenuButton fx:id="profileMenu" styleClass="profile-btn">
-                <items>
-                    <MenuItem text="Profile" onAction="#openSettings"/>
-                    <MenuItem text="Billing"/>
-                    <MenuItem text="Team"/>
-                    <SeparatorMenuItem/>
-                    <!-- wired to MainLayoutController.handleLogout -->
-                    <MenuItem text="Log out" onAction="#handleLogout"/>
-                </items>
-            </MenuButton>
+            <!-- Divider -->
+            <Separator orientation="VERTICAL" style="-fx-padding: 4 0;"/>
+
+            <!-- Settings -->
+            <Button text="⚙ Settings" onAction="#openSettings" styleClass="topbar-action-btn"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Logout -->
+            <Button text="⏻ Logout" onAction="#handleLogout" styleClass="topbar-logout-btn"/>
 
         </HBox>
     </top>
@@ -92,7 +93,7 @@
     <!-- CONTENT -->
     <center>
         <StackPane fx:id="contentArea" styleClass="content-area">
-            <Label text="Welcome to Digital Farm System"
+            <Label text="Welcome to AgriNova"
                    styleClass="welcome"/>
         </StackPane>
     </center>

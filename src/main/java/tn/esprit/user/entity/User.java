@@ -9,6 +9,7 @@ public class User {
     private String profileImage;
     private boolean emailVerified;
     private String faceData;
+    private boolean banned;
 
     public User() {}
 
@@ -88,6 +89,11 @@ public class User {
 
     public String getFaceData() { return faceData; }
     public void setFaceData(String faceData) { this.faceData = faceData; }
+
+    public boolean isBanned() { return banned; }
+    public void setBanned(boolean banned) { this.banned = banned; }
+
+    public String getStatus() { return banned ? "Banned" : "Active"; }
 
     @Override
     public String toString() {

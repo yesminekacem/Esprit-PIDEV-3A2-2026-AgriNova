@@ -24,11 +24,14 @@ import tn.esprit.navigation.MainLayoutController;
 public class LoginController {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private TextField passwordVisible;
+    @FXML private Button togglePasswordBtn;
     @FXML private CheckBox rememberMeCheckbox;
     @FXML private Button loginButton;
     @FXML private Hyperlink signupLink;
     @FXML private Hyperlink forgotPasswordLink;
 
+    private boolean passwordShown = false;
     private UserCrud userCrud = new UserCrud();
     private Preferences prefs = Preferences.userNodeForPackage(LoginController.class);
 
@@ -46,12 +49,35 @@ public class LoginController {
         // Allow pressing Enter on either field to trigger login
         emailField.setOnAction(event -> passwordField.requestFocus());
         passwordField.setOnAction(event -> handleLogin());
+        if (passwordVisible != null) {
+            passwordVisible.setOnAction(event -> handleLogin());
+        }
+    }
+
+    @FXML
+    private void togglePassword() {
+        passwordShown = !passwordShown;
+        if (passwordShown) {
+            passwordVisible.setText(passwordField.getText());
+            passwordVisible.setVisible(true);
+            passwordVisible.setManaged(true);
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            togglePasswordBtn.setText("🙈");
+        } else {
+            passwordField.setText(passwordVisible.getText());
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            passwordVisible.setVisible(false);
+            passwordVisible.setManaged(false);
+            togglePasswordBtn.setText("👁");
+        }
     }
 
     @FXML
     private void handleLogin() {
         String email = emailField.getText().trim();
-        String password = passwordField.getText();
+        String password = passwordShown ? passwordVisible.getText() : passwordField.getText();
 
         if (email.isEmpty() || password.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "Please fill all fields");
@@ -68,6 +94,13 @@ public class LoginController {
             User user = userCrud.findByEmail(email);
 
             if (user != null && PasswordUtil.checkPassword(password, user.getPasswordHash())) {
+                // Check if user is banned
+                if (user.isBanned()) {
+                    showAlert(Alert.AlertType.ERROR, "Account Banned",
+                        "Your account has been suspended. Please contact support.");
+                    return;
+                }
+
                 // Check if email is verified
                 if (!user.isEmailVerified()) {
                     showAlert(Alert.AlertType.WARNING, "Email Not Verified",
@@ -113,11 +146,11 @@ public class LoginController {
                     if (user.getRole() == Role.ADMIN) {
                         // Load admin dashboard directly (it has its own sidebar/navigation)
                         loader = new FXMLLoader(getClass().getResource("/fxml/user/admin-dashboard.fxml"));
-                        title = "Digital Farm - Admin Panel";
+                        title = "AgriNova - Admin Panel";
                     } else {
                         // Load regular main layout for normal users
                         loader = new FXMLLoader(getClass().getResource("/fxml/layout/MainLayout.fxml"));
-                        title = "Digital Farm";
+                        title = "AgriNova";
                     }
 
                     Scene scene = new Scene(loader.load());
@@ -132,6 +165,8 @@ public class LoginController {
                     stage.setScene(scene);
                     stage.setMinWidth(1000);
                     stage.setMinHeight(700);
+                    stage.setMaximized(true);
+                    stage.getIcons().add(tn.esprit.MainFX.getAppIcon());
                     stage.show();
 
                     // Close login window
@@ -156,8 +191,12 @@ public class LoginController {
     private void handleSignupLink() {
         try {
             Stage stage = (Stage) signupLink.getScene().getWindow();
-            stage.close();
-            loadScene("/fxml/user/signup.fxml", "Sign Up");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/signup.fxml"));
+            Scene scene = new Scene(loader.load(), stage.getWidth(), stage.getHeight());
+            URL css = getClass().getResource("/styles/styles.css");
+            if (css != null) scene.getStylesheets().add(css.toExternalForm());
+            stage.setTitle("AgriNova - Sign Up");
+            stage.setScene(scene);
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load signup page: " + e.getMessage());
         }
@@ -211,11 +250,11 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
-        stage.setTitle("Digital Farm - " + title);
+        stage.setTitle("AgriNova - " + title);
         stage.setScene(scene);
-        stage.setMinWidth(800); // Reasonable minimum size
+        stage.setMinWidth(800);
         stage.setMinHeight(600);
-        stage.centerOnScreen(); // Center the window instead of maximizing
+        stage.setMaximized(true);
         stage.show();
     }
 

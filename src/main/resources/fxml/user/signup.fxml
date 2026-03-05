@@ -6,33 +6,38 @@
 
 <HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="tn.esprit.user.controller.SignupController"
-      prefWidth="1200" prefHeight="750"
+      minWidth="800" minHeight="600"
       stylesheets="@/styles/styles.css">
 
     <!-- Left Side - Illustration -->
-    <VBox alignment="CENTER" spacing="30" styleClass="green-gradient" prefWidth="600">
+    <VBox alignment="CENTER" spacing="30" styleClass="green-gradient"
+          prefWidth="504" minWidth="320" HBox.hgrow="ALWAYS">
         <padding>
-            <Insets top="60" right="60" bottom="60" left="60"/>
+            <Insets top="60" right="50" bottom="60" left="50"/>
         </padding>
 
-        <Label text="🌱" style="-fx-font-size: 120px;"/>
+        <Label text="🌱" style="-fx-font-size: 100px;"/>
 
         <Label text="Join Our Community" styleClass="welcome-title"
-               wrapText="true" maxWidth="450" alignment="CENTER"/>
+               wrapText="true" maxWidth="400" alignment="CENTER"/>
 
         <Label text="Start your digital farming journey&#10;Connect with thousands of farmers"
-               styleClass="welcome-subtitle" wrapText="true" maxWidth="400" alignment="CENTER"/>
+               styleClass="welcome-subtitle" wrapText="true" maxWidth="380" alignment="CENTER"/>
     </VBox>
 
     <!-- Right Side - Signup Form -->
-    <VBox alignment="CENTER" styleClass="cream-background" prefWidth="600">
-        <padding>
-            <Insets top="30" right="30" bottom="30" left="30"/>
-        </padding>
+    <VBox alignment="CENTER" styleClass="cream-background"
+          prefWidth="696" minWidth="420" HBox.hgrow="ALWAYS">
 
-        <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;"
-                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
-            <VBox alignment="CENTER" spacing="18" styleClass="login-card" maxWidth="450">
+        <StackPane alignment="CENTER"
+                   style="-fx-background-color: transparent;">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <VBox alignment="CENTER" spacing="25" styleClass="login-card"
+                  maxWidth="450" minWidth="360"
+                  StackPane.alignment="CENTER">
 
                 <!-- Logo -->
                 <StackPane styleClass="logo-box">
@@ -42,11 +47,11 @@
                 <!-- Title -->
                 <VBox alignment="CENTER" spacing="8">
                     <Label text="Create Account" styleClass="title"/>
-                    <Label text="Join Digital Farm community today" styleClass="subtitle"/>
+                    <Label text="Join the AgriNova community today" styleClass="subtitle"/>
                 </VBox>
 
                 <!-- Form -->
-                <VBox spacing="14" alignment="CENTER_LEFT">
+                <VBox spacing="20" alignment="CENTER_LEFT">
 
                     <!-- Full Name Field -->
                     <VBox spacing="8">
@@ -66,41 +71,48 @@
                                        styleClass="custom-text-field" prefWidth="400"/>
                             <Label text="✉" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
                         </StackPane>
-                        <Label text="We'll never share your email"
-                               style="-fx-text-fill: #888888; -fx-font-size: 10px; -fx-padding: 0 0 0 5;"/>
                     </VBox>
 
                     <!-- Password Field -->
                     <VBox spacing="8">
                         <Label text="Password" styleClass="form-label"/>
-                        <StackPane alignment="CENTER_LEFT">
+                        <StackPane alignment="CENTER_LEFT" prefWidth="400">
                             <PasswordField fx:id="passwordField" promptText="••••••••"
                                            styleClass="custom-text-field" prefWidth="400"/>
+                            <TextField fx:id="passwordVisible" promptText="••••••••"
+                                       styleClass="custom-text-field" prefWidth="400" visible="false" managed="false"/>
                             <Label text="🔒" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                            <Button fx:id="togglePasswordBtn" text="👁" onAction="#togglePassword"
+                                    style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand; -fx-font-size: 16px; -fx-padding: 0 10 0 0;"
+                                    StackPane.alignment="CENTER_RIGHT"/>
                         </StackPane>
-
-                        <!-- Password Strength Indicator -->
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <ProgressBar fx:id="passwordStrengthBar" prefWidth="200" prefHeight="6"
                                          progress="0" style="-fx-accent: #EF5350;"/>
                             <Label fx:id="passwordStrengthLabel"
                                    style="-fx-text-fill: #666666; -fx-font-size: 11px; -fx-font-weight: bold;"/>
                         </HBox>
-
-                        <!-- Password Requirements -->
-                        <Label text="Password must contain:&#10;• At least 8 characters&#10;• Uppercase letter (A-Z)&#10;• Lowercase letter (a-z)&#10;• Digit (0-9)&#10;• Special character (!@#$%...)"
-                               style="-fx-text-fill: #666666; -fx-font-size: 10px; -fx-background-color: #f9f9f9; -fx-padding: 8; -fx-background-radius: 6; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 6;"
-                               wrapText="true" maxWidth="400"/>
+                        <Label fx:id="passwordErrorLabel" text=""
+                               style="-fx-text-fill: #EF5350; -fx-font-size: 11px; -fx-font-weight: bold;"
+                               wrapText="true" maxWidth="400" managed="false" visible="false"/>
                     </VBox>
 
                     <!-- Confirm Password Field -->
                     <VBox spacing="8">
                         <Label text="Confirm Password" styleClass="form-label"/>
-                        <StackPane alignment="CENTER_LEFT">
+                        <StackPane alignment="CENTER_LEFT" prefWidth="400">
                             <PasswordField fx:id="confirmPasswordField" promptText="••••••••"
                                            styleClass="custom-text-field" prefWidth="400"/>
+                            <TextField fx:id="confirmPasswordVisible" promptText="••••••••"
+                                       styleClass="custom-text-field" prefWidth="400" visible="false" managed="false"/>
                             <Label text="🔒" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                            <Button fx:id="toggleConfirmPasswordBtn" text="👁" onAction="#toggleConfirmPassword"
+                                    style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand; -fx-font-size: 16px; -fx-padding: 0 10 0 0;"
+                                    StackPane.alignment="CENTER_RIGHT"/>
                         </StackPane>
+                        <Label fx:id="confirmPasswordErrorLabel" text=""
+                               style="-fx-text-fill: #EF5350; -fx-font-size: 11px; -fx-font-weight: bold;"
+                               wrapText="true" maxWidth="400" managed="false" visible="false"/>
                     </VBox>
 
                     <!-- Signup Button -->
@@ -108,7 +120,7 @@
                             styleClass="primary-button" prefWidth="400"/>
                 </VBox>
 
-                <!-- Login Link -->
+                <!-- Sign In Link -->
                 <HBox spacing="5" alignment="CENTER">
                     <Label text="Already have an account?" style="-fx-text-fill: #666666; -fx-font-size: 13px;"/>
                     <Hyperlink fx:id="loginLink" text="Sign in" onAction="#handleLoginLink"
@@ -120,6 +132,6 @@
                        style="-fx-text-fill: #999999; -fx-font-size: 11px;"
                        wrapText="true" maxWidth="400" alignment="CENTER"/>
             </VBox>
-        </ScrollPane>
+        </StackPane>
     </VBox>
 </HBox>

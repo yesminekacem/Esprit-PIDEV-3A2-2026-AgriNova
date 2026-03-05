@@ -20,11 +20,20 @@ public class SignupController {
     @FXML private TextField fullNameField;
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private TextField passwordVisible;
+    @FXML private Button togglePasswordBtn;
     @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField confirmPasswordVisible;
+    @FXML private Button toggleConfirmPasswordBtn;
     @FXML private ProgressBar passwordStrengthBar;
     @FXML private Label passwordStrengthLabel;
+    @FXML private Label passwordErrorLabel;
+    @FXML private Label confirmPasswordErrorLabel;
     @FXML private Button signupButton;
     @FXML private Hyperlink loginLink;
+
+    private boolean passwordShown = false;
+    private boolean confirmPasswordShown = false;
 
     private UserCrud userCrud = new UserCrud();
     private EmailService emailService = new EmailService();
@@ -39,6 +48,46 @@ public class SignupController {
         emailField.setOnAction(event -> passwordField.requestFocus());
         passwordField.setOnAction(event -> confirmPasswordField.requestFocus());
         confirmPasswordField.setOnAction(event -> handleSignup());
+    }
+
+    @FXML
+    private void togglePassword() {
+        passwordShown = !passwordShown;
+        if (passwordShown) {
+            passwordVisible.setText(passwordField.getText());
+            passwordVisible.setVisible(true);
+            passwordVisible.setManaged(true);
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            togglePasswordBtn.setText("🙈");
+        } else {
+            passwordField.setText(passwordVisible.getText());
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            passwordVisible.setVisible(false);
+            passwordVisible.setManaged(false);
+            togglePasswordBtn.setText("👁");
+        }
+    }
+
+    @FXML
+    private void toggleConfirmPassword() {
+        confirmPasswordShown = !confirmPasswordShown;
+        if (confirmPasswordShown) {
+            confirmPasswordVisible.setText(confirmPasswordField.getText());
+            confirmPasswordVisible.setVisible(true);
+            confirmPasswordVisible.setManaged(true);
+            confirmPasswordField.setVisible(false);
+            confirmPasswordField.setManaged(false);
+            toggleConfirmPasswordBtn.setText("🙈");
+        } else {
+            confirmPasswordField.setText(confirmPasswordVisible.getText());
+            confirmPasswordField.setVisible(true);
+            confirmPasswordField.setManaged(true);
+            confirmPasswordVisible.setVisible(false);
+            confirmPasswordVisible.setManaged(false);
+            toggleConfirmPasswordBtn.setText("👁");
+        }
     }
 
     private void setupRealtimeValidation() {
@@ -68,31 +117,83 @@ public class SignupController {
             }
         });
 
-        // Password validation with strength indicator
+        // Password validation with strength indicator + inline error
         passwordField.textProperty().addListener((obs, oldVal, newVal) -> {
             updatePasswordStrength(newVal);
-
             if (!newVal.isEmpty()) {
-                if (ValidationUtil.isValidPassword(newVal)) {
+                String msg = ValidationUtil.getPasswordValidationMessage(newVal);
+                if (msg.isEmpty()) {
                     passwordField.setStyle("-fx-border-color: #2E7D32; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(passwordErrorLabel, null);
                 } else {
-                    passwordField.setStyle("-fx-border-color: #FFA726; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    passwordField.setStyle("-fx-border-color: #EF5350; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(passwordErrorLabel, msg);
                 }
             } else {
                 passwordField.setStyle("");
+                setFieldError(passwordErrorLabel, null);
+            }
+            // Re-validate confirm field too whenever password changes
+            String confirm = confirmPasswordShown ? confirmPasswordVisible.getText() : confirmPasswordField.getText();
+            if (!confirm.isEmpty()) {
+                if (confirm.equals(newVal)) {
+                    confirmPasswordField.setStyle("-fx-border-color: #2E7D32; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(confirmPasswordErrorLabel, null);
+                } else {
+                    confirmPasswordField.setStyle("-fx-border-color: #EF5350; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(confirmPasswordErrorLabel, "Passwords do not match");
+                }
             }
         });
 
-        // Confirm password validation
-        confirmPasswordField.textProperty().addListener((obs, oldVal, newVal) -> {
+        // Also mirror listener on visible text field
+        passwordVisible.textProperty().addListener((obs, oldVal, newVal) -> {
+            updatePasswordStrength(newVal);
             if (!newVal.isEmpty()) {
-                if (newVal.equals(passwordField.getText())) {
+                String msg = ValidationUtil.getPasswordValidationMessage(newVal);
+                if (msg.isEmpty()) {
+                    passwordVisible.setStyle("-fx-border-color: #2E7D32; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(passwordErrorLabel, null);
+                } else {
+                    passwordVisible.setStyle("-fx-border-color: #EF5350; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(passwordErrorLabel, msg);
+                }
+            } else {
+                passwordVisible.setStyle("");
+                setFieldError(passwordErrorLabel, null);
+            }
+        });
+
+        // Confirm password validation with inline error
+        confirmPasswordField.textProperty().addListener((obs, oldVal, newVal) -> {
+            String pw = passwordShown ? passwordVisible.getText() : passwordField.getText();
+            if (!newVal.isEmpty()) {
+                if (newVal.equals(pw)) {
                     confirmPasswordField.setStyle("-fx-border-color: #2E7D32; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(confirmPasswordErrorLabel, null);
                 } else {
                     confirmPasswordField.setStyle("-fx-border-color: #EF5350; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(confirmPasswordErrorLabel, "Passwords do not match");
                 }
             } else {
                 confirmPasswordField.setStyle("");
+                setFieldError(confirmPasswordErrorLabel, null);
+            }
+        });
+
+        confirmPasswordVisible.textProperty().addListener((obs, oldVal, newVal) -> {
+            String pw = passwordShown ? passwordVisible.getText() : passwordField.getText();
+            if (!newVal.isEmpty()) {
+                if (newVal.equals(pw)) {
+                    confirmPasswordVisible.setStyle("-fx-border-color: #2E7D32; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(confirmPasswordErrorLabel, null);
+                } else {
+                    confirmPasswordVisible.setStyle("-fx-border-color: #EF5350; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                    setFieldError(confirmPasswordErrorLabel, "Passwords do not match");
+                }
+            } else {
+                confirmPasswordVisible.setStyle("");
+                setFieldError(confirmPasswordErrorLabel, null);
             }
         });
     }
@@ -137,8 +238,8 @@ public class SignupController {
     private void handleSignup() {
         String fullName = fullNameField.getText().trim();
         String email = emailField.getText().trim();
-        String password = passwordField.getText();
-        String confirmPassword = confirmPasswordField.getText();
+        String password = passwordShown ? passwordVisible.getText() : passwordField.getText();
+        String confirmPassword = confirmPasswordShown ? confirmPasswordVisible.getText() : confirmPasswordField.getText();
 
         // Validate full name
         String nameError = ValidationUtil.getFullNameValidationMessage(fullName);
@@ -222,8 +323,12 @@ public class SignupController {
     private void handleLoginLink() {
         try {
             Stage stage = (Stage) loginLink.getScene().getWindow();
-            stage.close();
-            loadScene("/fxml/user/login.fxml", "Login");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
+            Scene scene = new Scene(loader.load(), stage.getWidth(), stage.getHeight());
+            java.net.URL css = getClass().getResource("/styles/styles.css");
+            if (css != null) scene.getStylesheets().add(css.toExternalForm());
+            stage.setTitle("AgriNova - Login");
+            stage.setScene(scene);
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load login page: " + e.getMessage());
         }
@@ -233,8 +338,11 @@ public class SignupController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
-        stage.setTitle("Digital Farm - " + title);
+        stage.setTitle("AgriNova - " + title);
         stage.setScene(scene);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -245,28 +353,39 @@ public class SignupController {
 
             EmailVerificationController controller = loader.getController();
             controller.setPendingUser(user);
-            controller.setPasswordResetMode(false); // This is email verification, not password reset
+            controller.setPasswordResetMode(false);
+
+            Stage currentStage = (Stage) signupButton.getScene().getWindow();
 
             Stage verificationStage = new Stage();
-            verificationStage.setTitle("Email Verification - Agrinova");
+            verificationStage.setTitle("Email Verification - AgriNova");
             verificationStage.setScene(scene);
             verificationStage.setResizable(false);
             verificationStage.initModality(Modality.APPLICATION_MODAL);
+            verificationStage.initOwner(currentStage);
 
             controller.setStage(verificationStage);
-
-            // Initialize the dialog with proper timer and field setup
             controller.initializeDialog();
 
-            // Close current signup window
-            Stage currentStage = (Stage) signupButton.getScene().getWindow();
-            currentStage.close();
 
             verificationStage.showAndWait();
 
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to open verification dialog.");
             e.printStackTrace();
+        }
+    }
+
+    private void setFieldError(Label label, String message) {
+        if (label == null) return;
+        if (message == null || message.isEmpty()) {
+            label.setText("");
+            label.setVisible(false);
+            label.setManaged(false);
+        } else {
+            label.setText("✖  " + message);
+            label.setVisible(true);
+            label.setManaged(true);
         }
     }
 
@@ -278,3 +397,4 @@ public class SignupController {
         alert.showAndWait();
     }
 }
+

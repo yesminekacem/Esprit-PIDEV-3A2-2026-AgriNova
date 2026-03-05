@@ -2,7 +2,7 @@ package tn.esprit.navigation;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
@@ -18,7 +18,7 @@ public class MainLayoutController {
     private StackPane contentArea;
 
     @FXML
-    private MenuButton profileMenu;
+    private Label profileMenu;
 
     // When true the controller will not auto-navigate to CROPS in initialize()
     private boolean skipInitialRoute = false;
@@ -36,12 +36,12 @@ public class MainLayoutController {
             Router.go(Routes.CROPS);
         }
 
-        // set profile menu text from session user if available
+        // set profile name label from session user if available
         User u = SessionManager.getInstance().getCurrentUser();
         if (u != null) {
-            profileMenu.setText(u.getFullName() + " ▾");
+            profileMenu.setText(u.getFullName());
         } else {
-            profileMenu.setText("Account ▾");
+            profileMenu.setText("My Account");
         }
     }
 
@@ -74,27 +74,10 @@ public class MainLayoutController {
      */
     @FXML
     private void handleLogout() {
-        // clear session and persistent token
         SessionManager.getInstance().logout();
         TokenManager.clearToken();
-
-        try {
-            Stage stage = (Stage) contentArea.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            // ensure stylesheet fallback
-            java.net.URL css = getClass().getResource("/styles/styles.css");
-            if (css != null) scene.getStylesheets().add(css.toExternalForm());
-            stage.setTitle("Digital Farm - Login");
-            stage.setScene(scene);
-            stage.setMinWidth(1000); // ✅ minimum window size
-            stage.setMinHeight(700);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // no UI alert here to keep handler simple; controller-level handlers show errors elsewhere
-        }
+        Stage stage = (Stage) contentArea.getScene().getWindow();
+        tn.esprit.MainFX.loadLoginOnStage(stage);
     }
 
     // allow LoginController to request the admin dashboard be shown

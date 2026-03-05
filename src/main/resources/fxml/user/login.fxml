@@ -3,111 +3,125 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.*?>
 
 <HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="tn.esprit.user.controller.LoginController"
-      prefWidth="1400" prefHeight="800"
+      minWidth="800" minHeight="600"
       stylesheets="@/styles/styles.css">
 
     <!-- Left Side - Illustration -->
-    <VBox alignment="CENTER" spacing="30" styleClass="green-gradient" prefWidth="600">
+    <VBox alignment="CENTER" spacing="30" styleClass="green-gradient"
+          prefWidth="504" minWidth="320" HBox.hgrow="ALWAYS">
         <padding>
-            <Insets top="60" right="60" bottom="60" left="60"/>
+            <Insets top="60" right="50" bottom="60" left="50"/>
         </padding>
 
-        <Label text="🌾" style="-fx-font-size: 120px;"/>
+        <Label text="🌾" style="-fx-font-size: 100px;"/>
 
-        <Label text="Digital Farm Management" styleClass="welcome-title"
-               wrapText="true" maxWidth="450" alignment="CENTER"/>
+        <Label text="AgriNova" styleClass="welcome-title"
+               wrapText="true" maxWidth="400" alignment="CENTER"/>
 
         <Label text="Grow smarter, harvest better,&#10;connect with farmers worldwide"
-               styleClass="welcome-subtitle" wrapText="true" maxWidth="400" alignment="CENTER"/>
+               styleClass="welcome-subtitle" wrapText="true" maxWidth="380" alignment="CENTER"/>
     </VBox>
 
     <!-- Right Side - Login Form -->
-    <VBox alignment="CENTER" styleClass="cream-background" prefWidth="600">
-        <padding>
-            <Insets top="40" right="40" bottom="40" left="40"/>
-        </padding>
+    <VBox alignment="CENTER" styleClass="cream-background"
+          prefWidth="696" minWidth="420" HBox.hgrow="ALWAYS">
 
-        <VBox alignment="CENTER" spacing="25" styleClass="login-card" maxWidth="450">
+        <!-- StackPane fills the right panel and keeps the card centred at all sizes -->
+        <StackPane alignment="CENTER"
+                   style="-fx-background-color: transparent;">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
 
-            <!-- Logo -->
-            <StackPane styleClass="logo-box">
-                <Label text="🌿" style="-fx-font-size: 35px;"/>
-            </StackPane>
+            <VBox alignment="CENTER" spacing="25" styleClass="login-card"
+                  maxWidth="450" minWidth="360"
+                  StackPane.alignment="CENTER">
 
-            <!-- Title -->
-            <VBox alignment="CENTER" spacing="8">
-                <Label text="Welcome Back" styleClass="title"/>
-                <Label text="Sign in to your Digital Farm account" styleClass="subtitle"/>
-            </VBox>
+                <!-- Logo -->
+                <StackPane styleClass="logo-box">
+                    <Label text="🌿" style="-fx-font-size: 35px;"/>
+                </StackPane>
 
-            <!-- Form -->
-            <VBox spacing="20" alignment="CENTER_LEFT">
-
-                <!-- Email Field -->
-                <VBox spacing="8">
-                    <Label text="Email Address" styleClass="form-label"/>
-                    <StackPane alignment="CENTER_LEFT">
-                        <TextField fx:id="emailField" promptText="farmer@example.com"
-                                   styleClass="custom-text-field" prefWidth="400"/>
-                        <Label text="✉" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
-                    </StackPane>
+                <!-- Title -->
+                <VBox alignment="CENTER" spacing="8">
+                    <Label text="Welcome Back" styleClass="title"/>
+                    <Label text="Sign in to your AgriNova account" styleClass="subtitle"/>
                 </VBox>
 
-                <!-- Password Field -->
-                <VBox spacing="8">
-                    <Label text="Password" styleClass="form-label"/>
-                    <StackPane alignment="CENTER_LEFT">
-                        <PasswordField fx:id="passwordField" promptText="••••••••"
+                <!-- Form -->
+                <VBox spacing="20" alignment="CENTER_LEFT">
+
+                    <!-- Email Field -->
+                    <VBox spacing="8">
+                        <Label text="Email Address" styleClass="form-label"/>
+                        <StackPane alignment="CENTER_LEFT">
+                            <TextField fx:id="emailField" promptText="farmer@example.com"
                                        styleClass="custom-text-field" prefWidth="400"/>
-                        <Label text="🔒" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
-                    </StackPane>
+                            <Label text="✉" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Password Field -->
+                    <VBox spacing="8">
+                        <Label text="Password" styleClass="form-label"/>
+                        <StackPane alignment="CENTER_LEFT" prefWidth="400">
+                            <PasswordField fx:id="passwordField" promptText="••••••••"
+                                           styleClass="custom-text-field" prefWidth="400"/>
+                            <TextField fx:id="passwordVisible" promptText="••••••••"
+                                       styleClass="custom-text-field" prefWidth="400" visible="false" managed="false"/>
+                            <Label text="🔒" style="-fx-font-size: 18px; -fx-padding: 0 0 0 12;"/>
+                            <Button fx:id="togglePasswordBtn" text="👁" onAction="#togglePassword"
+                                    style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand; -fx-font-size: 16px; -fx-padding: 0 10 0 0;"
+                                    StackPane.alignment="CENTER_RIGHT"/>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="400">
+                        <CheckBox fx:id="rememberMeCheckbox" text="Remember me" styleClass="check-box"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Hyperlink text="Forgot password?" styleClass="secondary-button" onAction="#handleForgotPasswordLink"/>
+                    </HBox>
+
+                    <!-- Login Button + Face ID Icon -->
+                    <HBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
+                        <Button fx:id="loginButton" text="Sign In →" onAction="#handleLogin"
+                                styleClass="primary-button" prefWidth="344"/>
+                        <Button fx:id="faceIdIconBtn" onAction="#handleFaceLogin"
+                                prefWidth="48" prefHeight="48" minWidth="48" minHeight="48"
+                                style="-fx-background-color: linear-gradient(to right,#2E7D32,#388E3C);
+                                       -fx-background-radius:8;-fx-padding:0;-fx-cursor:hand;
+                                       -fx-effect:dropshadow(gaussian,rgba(46,125,50,0.3),15,0,0,3);"
+                                HBox.hgrow="NEVER">
+                            <graphic>
+                                <ImageView fitWidth="26" fitHeight="26" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/faceid.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
                 </VBox>
 
-                <!-- Remember Me & Forgot Password -->
-                <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="400">
-                    <CheckBox fx:id="rememberMeCheckbox" text="Remember me" styleClass="check-box"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Hyperlink text="Forgot password?" styleClass="secondary-button" onAction="#handleForgotPasswordLink" />
+                <!-- Sign Up Link -->
+                <HBox spacing="5" alignment="CENTER">
+                    <Label text="Don't have an account?" style="-fx-text-fill: #666666; -fx-font-size: 13px;"/>
+                    <Hyperlink fx:id="signupLink" text="Create account" onAction="#handleSignupLink"
+                               styleClass="link-text"/>
                 </HBox>
 
-                <!-- Login Button -->
-                <Button fx:id="loginButton" text="Sign In →" onAction="#handleLogin"
-                        styleClass="primary-button" prefWidth="400"/>
-
-                <!-- Divider -->
-                <HBox spacing="10" alignment="CENTER" prefWidth="400">
-                    <Region HBox.hgrow="ALWAYS"
-                            style="-fx-border-color:#e0e0e0;-fx-border-width:1 0 0 0;"/>
-                    <Label text="or" style="-fx-text-fill:#9ca3af;-fx-font-size:12px;"/>
-                    <Region HBox.hgrow="ALWAYS"
-                            style="-fx-border-color:#e0e0e0;-fx-border-width:1 0 0 0;"/>
-                </HBox>
-
-                <!-- Face ID Login Button -->
-                <Button text="🪪   Login with Face ID" onAction="#handleFaceLogin"
-                        prefWidth="400"
-                        style="-fx-background-color:#1565C0;-fx-text-fill:white;
-                               -fx-background-radius:10;-fx-padding:12 0;-fx-cursor:hand;
-                               -fx-font-size:14px;-fx-font-weight:700;
-                               -fx-effect:dropshadow(gaussian,rgba(21,101,192,0.25),10,0.2,0,3);"/>
+                <!-- Terms -->
+                <Label text="By signing in, you agree to our Terms of Service and Privacy Policy"
+                       style="-fx-text-fill: #999999; -fx-font-size: 11px;"
+                       wrapText="true" maxWidth="400" alignment="CENTER"/>
             </VBox>
-
-
-            <!-- Sign Up Link -->
-            <HBox spacing="5" alignment="CENTER">
-                <Label text="Don't have an account?" style="-fx-text-fill: #666666; -fx-font-size: 13px;"/>
-                <Hyperlink fx:id="signupLink" text="Create account" onAction="#handleSignupLink"
-                           styleClass="link-text"/>
-            </HBox>
-
-            <!-- Terms -->
-            <Label text="By signing in, you agree to our Terms of Service and Privacy Policy"
-                   style="-fx-text-fill: #999999; -fx-font-size: 11px;"
-                   wrapText="true" maxWidth="400" alignment="CENTER"/>
-        </VBox>
+        </StackPane>
     </VBox>
 </HBox>

@@ -134,7 +134,7 @@ public class FaceLoginController {
             URL css = getClass().getResource("/styles/styles.css");
             if (css != null) scene.getStylesheets().add(css.toExternalForm());
             Stage main = new Stage();
-            main.setTitle("Digital Farm");
+            main.setTitle("AgriNova");
             main.setScene(scene);
             main.setMinWidth(1200);
             main.setMinHeight(700);

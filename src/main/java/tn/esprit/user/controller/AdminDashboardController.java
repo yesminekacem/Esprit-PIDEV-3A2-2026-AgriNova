@@ -36,25 +36,8 @@ public class AdminDashboardController {
     private void handleLogout(ActionEvent event) {
         SessionManager.getInstance().logout();
         TokenManager.clearToken();
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage loginStage = new Stage();
-            loginStage.setTitle("Login");
-            loginStage.setScene(scene);
-            loginStage.show();
-
-            Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-            currentStage.close();
-
-        } catch (IOException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Error");
-            a.setHeaderText(null);
-            a.setContentText("Failed to open login.fxml: " + e.getMessage());
-            a.showAndWait();
-        }
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        tn.esprit.MainFX.loadLoginOnStage(stage);
     }
 
     @FXML
