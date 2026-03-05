@@ -35,12 +35,11 @@
                           style="-fx-background-color:white;-fx-background-radius:16;
                                  -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.07),20,0,0,4);
                                  -fx-min-width:200;-fx-max-width:200;-fx-padding:28 20;">
-                        <StackPane alignment="CENTER">
-                            <Circle radius="52"
+                        <StackPane fx:id="avatarPane" alignment="CENTER">
+                            <Circle fx:id="avatarCircle" radius="52"
                                     style="-fx-fill:linear-gradient(to bottom right,#2E7D32,#66BB6A);"/>
                             <ImageView fx:id="profileImageView" fitWidth="104" fitHeight="104"
-                                       preserveRatio="true"
-                                       style="-fx-effect:dropshadow(gaussian,rgba(0,0,0,0.18),8,0,0,2);"/>
+                                       preserveRatio="false"/>
                         </StackPane>
                         <VBox spacing="2" alignment="CENTER">
                             <Label fx:id="nameLabel" text="User Name"

@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -32,6 +33,7 @@ public class UserDashboardController {
 
     // ── Avatar / header ───────────────────────────────────────────────
     @FXML private ImageView profileImageView;
+    @FXML private Circle avatarCircle;
     @FXML private Label welcomeLabel;
     @FXML private Label nameLabel;
     @FXML private Label emailValueLabel;
@@ -71,6 +73,10 @@ public class UserDashboardController {
         }
 
         populateUI(current);
+
+        // Apply circular clip to the profile image
+        Circle clip = new Circle(52, 52, 52);
+        profileImageView.setClip(clip);
 
         // Admins don't need to enter current password
         boolean isAdmin = current.getRole() == Role.ADMIN;
@@ -121,8 +127,28 @@ public class UserDashboardController {
         String imgPath = u.getProfileImage();
         if (imgPath != null && !imgPath.isEmpty()) {
             File f = new File(imgPath);
-            if (f.exists()) profileImageView.setImage(new Image(f.toURI().toString()));
+            if (f.exists()) {
+                Image img = new Image(f.toURI().toString());
+                profileImageView.setImage(img);
+                applyTopbarAvatar(img);
+            }
         }
+    }
+
+    /** Finds the topbar ImageView in the current scene and shows the profile photo clipped to a circle. */
+    private void applyTopbarAvatar(Image img) {
+        Platform.runLater(() -> {
+            Scene scene = profileImageView.getScene();
+            if (scene == null) return;
+            Node node = scene.lookup("#topbarAvatarView");
+            if (node instanceof ImageView topbar) {
+                topbar.setImage(img);
+                topbar.setVisible(true);
+                // Apply circular clip (radius = half of fitWidth 40 → 20)
+                Circle c = new Circle(20, 20, 20);
+                topbar.setClip(c);
+            }
+        });
     }
 
     // ── Personal info ─────────────────────────────────────────────────
@@ -226,7 +252,9 @@ public class UserDashboardController {
                 new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif"));
         File file = chooser.showOpenDialog(profileImageView.getScene().getWindow());
         if (file != null) {
-            profileImageView.setImage(new Image(file.toURI().toString()));
+            Image img = new Image(file.toURI().toString());
+            profileImageView.setImage(img);
+            applyTopbarAvatar(img);
             current.setProfileImage(file.getAbsolutePath());
             try {
                 userCrud.update(current);

@@ -8,7 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import tn.esprit.navigation.Router;          // ✅ ADD THIS
 import tn.esprit.utils.SessionManager;
@@ -21,11 +24,25 @@ public class AdminDashboardController {
     @FXML private Label adminNameLabel;
     @FXML private StackPane contentArea;
     @FXML private Button logoutButton;
+    @FXML private ImageView topbarAvatarView;
 
     @FXML
     public void initialize() {
-        if (SessionManager.getInstance().getCurrentUser() != null) {
-            adminNameLabel.setText(SessionManager.getInstance().getCurrentUserName());
+        // Hide avatar ImageView by default (emoji label shows instead)
+        if (topbarAvatarView != null) topbarAvatarView.setVisible(false);
+
+        tn.esprit.user.entity.User u = SessionManager.getInstance().getCurrentUser();
+        if (u != null) {
+            adminNameLabel.setText(u.getFullName());
+            // Load profile image into topbar avatar
+            if (u.getProfileImage() != null && !u.getProfileImage().isEmpty()) {
+                java.io.File f = new java.io.File(u.getProfileImage());
+                if (f.exists() && topbarAvatarView != null) {
+                    topbarAvatarView.setImage(new Image(f.toURI().toString()));
+                    topbarAvatarView.setClip(new Circle(20, 20, 20));
+                    topbarAvatarView.setVisible(true);
+                }
+            }
         }
 
         // ✅ IMPORTANT: allow Router.go(...) to inject pages inside the dashboard center

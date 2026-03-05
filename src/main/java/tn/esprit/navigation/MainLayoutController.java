@@ -5,7 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
 import tn.esprit.utils.TokenManager;
@@ -27,6 +30,9 @@ public class MainLayoutController {
     @FXML
     private Label profileMenu;
 
+    @FXML
+    private ImageView topbarAvatarView;
+
     // When true the controller will not auto-navigate to CROPS in initialize()
     private boolean skipInitialRoute = false;
 
@@ -38,6 +44,9 @@ public class MainLayoutController {
     @FXML
     public void initialize() {
         Router.init(contentArea);
+
+        // Hide avatar ImageView by default (emoji label shows instead)
+        if (topbarAvatarView != null) topbarAvatarView.setVisible(false);
 
         // SAFE INIT: If Crops fails, it won't break the Dashboard button anymore
         if (!skipInitialRoute) {
@@ -52,6 +61,15 @@ public class MainLayoutController {
         User u = SessionManager.getInstance().getCurrentUser();
         if (u != null) {
             profileMenu.setText(u.getFullName());
+            // Load profile image into topbar avatar
+            if (u.getProfileImage() != null && !u.getProfileImage().isEmpty()) {
+                java.io.File f = new java.io.File(u.getProfileImage());
+                if (f.exists() && topbarAvatarView != null) {
+                    topbarAvatarView.setImage(new Image(f.toURI().toString()));
+                    topbarAvatarView.setClip(new Circle(20, 20, 20));
+                    topbarAvatarView.setVisible(true);
+                }
+            }
         } else {
             profileMenu.setText("My Account");
         }
