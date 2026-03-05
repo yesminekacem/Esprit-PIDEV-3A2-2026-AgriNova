@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.inventory.controllers.RentalController"
+            styleClass="root-pane">
+
+    <stylesheets>
+        <URL value="@../../styles/rental-styles.css"/>
+    </stylesheets>
+
+    <!-- TOP: Header with search, filter, and add button -->
+    <top>
+        <VBox spacing="0">
+            <!-- Row 1: Search + Filter + Add Rental + Calendar -->
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <padding>
+                    <Insets top="20" right="30" bottom="10" left="30"/>
+                </padding>
+                <!-- Search Field -->
+                <TextField fx:id="searchField"
+                           promptText="Search by renter name, equipment..."
+                           styleClass="search-field"
+                           HBox.hgrow="ALWAYS"
+                           maxWidth="400"/>
+
+                <!-- Status Filter -->
+                <ComboBox fx:id="statusFilter"
+                          promptText="All Status"
+                          prefWidth="150"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="dashboardBtn" text="Dashboard" onAction="#showDashboard" />
+
+
+                <!-- Add Rental Button -->
+                <Button fx:id="addRentalBtn"
+                        text="+ New Rental"
+                        styleClass="add-button"
+                        onAction="#handleAddRental"/>
+
+                <!-- Calendar Button (relocated from nav) -->
+                <Button text="📅 Calendar"
+                        styleClass="btn-calendar"
+                        onAction="#handleOpenCalendar"/>
+
+
+            </HBox>
+
+            <!-- Row 2: Page Title -->
+            <HBox alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="0" right="30" bottom="16" left="30"/>
+                </padding>
+                <VBox spacing="5">
+                    <Label text="Rental Management" styleClass="page-title"/>
+                    <Label text="Track and manage all equipment rentals"
+                           styleClass="page-subtitle"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CENTER: Tabbed Rental Lists -->
+    <center>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" styleClass="rental-tab-pane">
+
+            <!-- TAB 1: All Rentals -->
+            <tabs>
+                <Tab text="📋 All Rentals">
+                    <content>
+                        <ScrollPane fitToWidth="true" styleClass="content-scroll">
+                            <content>
+                                <VBox spacing="20">
+                                    <padding>
+                                        <Insets top="24" right="24" bottom="24" left="24"/>
+                                    </padding>
+                                    <GridPane fx:id="allRentalsGrid" hgap="20" vgap="20"/>
+
+                                    <VBox fx:id="emptyStateAll"
+                                          alignment="CENTER"
+                                          spacing="15"
+                                          visible="false"
+                                          managed="false">
+                                        <Label text="📝"
+                                               style="-fx-font-size:60px;-fx-opacity:0.3"/>
+                                        <Label text="No rentals found"
+                                               styleClass="empty-title"/>
+                                        <Label text="Create the first rental using the button above"
+                                               styleClass="empty-subtitle"/>
+                                    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+
+                <!-- TAB 2: Active Rentals -->
+                <Tab text="⚡ Active">
+                    <content>
+                        <ScrollPane fitToWidth="true" styleClass="content-scroll">
+                            <content>
+                                <VBox spacing="20">
+                                    <padding>
+                                        <Insets top="24" right="24" bottom="24" left="24"/>
+                                    </padding>
+                                    <GridPane fx:id="activeRentalsGrid" hgap="20" vgap="20"/>
+
+                                    <VBox fx:id="emptyStateActive"
+                                          alignment="CENTER"
+                                          spacing="15"
+                                          visible="false"
+                                          managed="false">
+                                        <Label text="✅"
+                                               style="-fx-font-size:60px;-fx-opacity:0.3"/>
+                                        <Label text="No active rentals"
+                                               styleClass="empty-title"/>
+                                    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+
+                <!-- TAB 3: Pending Rentals -->
+                <Tab text="⏳ Pending">
+                    <content>
+                        <ScrollPane fitToWidth="true" styleClass="content-scroll">
+                            <content>
+                                <VBox spacing="20">
+                                    <padding>
+                                        <Insets top="24" right="24" bottom="24" left="24"/>
+                                    </padding>
+                                    <GridPane fx:id="pendingRentalsGrid" hgap="20" vgap="20"/>
+
+                                    <VBox fx:id="emptyStatePending"
+                                          alignment="CENTER"
+                                          spacing="15"
+                                          visible="false"
+                                          managed="false">
+                                        <Label text="⏳"
+                                               style="-fx-font-size:60px;-fx-opacity:0.3"/>
+                                        <Label text="No pending requests"
+                                               styleClass="empty-title"/>
+                                    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+
+                <!-- TAB 4: Overdue Rentals -->
+                <Tab text="⚠️ Overdue">
+                    <content>
+                        <ScrollPane fitToWidth="true" styleClass="content-scroll">
+                            <content>
+                                <VBox spacing="20">
+                                    <padding>
+                                        <Insets top="24" right="24" bottom="24" left="24"/>
+                                    </padding>
+
+                                    <!-- Overdue Warning Banner -->
+                                    <HBox fx:id="overdueWarningBanner"
+                                          visible="false"
+                                          managed="false"
+                                          styleClass="overdue-banner">
+                                        <Label fx:id="overdueCountLabel"
+                                               text="0 rentals are overdue!"
+                                               style="-fx-text-fill:#F44336;-fx-font-weight:bold;-fx-font-size:14px"/>
+                                    </HBox>
+
+                                    <GridPane fx:id="overdueRentalsGrid" hgap="20" vgap="20"/>
+
+                                    <VBox fx:id="emptyStateOverdue"
+                                          alignment="CENTER"
+                                          spacing="15"
+                                          visible="false"
+                                          managed="false">
+                                        <Label text="🎉"
+                                               style="-fx-font-size:60px;-fx-opacity:0.3"/>
+                                        <Label text="No overdue rentals!"
+                                               styleClass="empty-title"/>
+                                    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+
+    <!-- BOTTOM: Rental Stats Footer -->
+    <bottom>
+        <HBox styleClass="rental-stats-footer" alignment="CENTER_LEFT" spacing="24">
+
+            <!-- Block 1: Total Rentals -->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <VBox alignment="CENTER"
+                      styleClass="stat-icon-box, stat-icon-primary"
+                      prefWidth="44"
+                      prefHeight="44">
+                    <Label text="📝" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="TOTAL RENTALS" styleClass="stat-label"/>
+                    <Label fx:id="totalRentalsLabel"
+                           text="0"
+                           styleClass="stat-value, stat-total"/>
+                </VBox>
+            </HBox>
+
+            <Separator orientation="VERTICAL" styleClass="stat-divider"/>
+
+            <!-- Block 2: Active -->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <VBox alignment="CENTER"
+                      styleClass="stat-icon-box, stat-icon-success"
+                      prefWidth="44"
+                      prefHeight="44">
+                    <Label text="⚡" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="ACTIVE" styleClass="stat-label"/>
+                    <Label fx:id="activeRentalsLabel"
+                           text="0"
+                           styleClass="stat-value, stat-active"/>
+                </VBox>
+            </HBox>
+
+            <Separator orientation="VERTICAL" styleClass="stat-divider"/>
+
+            <!-- Block 3: Pending -->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <VBox alignment="CENTER"
+                      styleClass="stat-icon-box, stat-icon-warning"
+                      prefWidth="44"
+                      prefHeight="44">
+                    <Label text="⏳" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="PENDING" styleClass="stat-label"/>
+                    <Label fx:id="pendingRentalsLabel"
+                           text="0"
+                           styleClass="stat-value, stat-pending"/>
+                </VBox>
+            </HBox>
+
+            <Separator orientation="VERTICAL" styleClass="stat-divider"/>
+
+            <!-- Block 4: Overdue -->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <VBox alignment="CENTER"
+                      styleClass="stat-icon-box, stat-icon-danger"
+                      prefWidth="44"
+                      prefHeight="44">
+                    <Label text="⚠" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="OVERDUE" styleClass="stat-label"/>
+                    <Label fx:id="overdueRentalsLabel"
+                           text="0"
+                           styleClass="stat-value, stat-overdue"/>
+                </VBox>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Block 5: Total Revenue -->
+            <HBox spacing="12" alignment="CENTER_RIGHT">
+                <VBox alignment="CENTER"
+                      styleClass="stat-icon-box, stat-icon-revenue"
+                      prefWidth="44"
+                      prefHeight="44">
+                    <Label text="💰" styleClass="stat-icon"/>
+                </VBox>
+                <VBox spacing="2">
+                    <Label text="TOTAL REVENUE" styleClass="stat-label"/>
+                    <Label fx:id="totalRevenueLabel"
+                           text="0.00 TND"
+                           styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+        </HBox>
+    </bottom>
+</BorderPane>
+

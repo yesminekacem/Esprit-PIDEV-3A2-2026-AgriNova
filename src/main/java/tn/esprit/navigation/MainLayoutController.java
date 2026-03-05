@@ -3,6 +3,8 @@ package tn.esprit.navigation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.layout.StackPane;
 import tn.esprit.user.entity.User;
 import tn.esprit.utils.SessionManager;
@@ -11,8 +13,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import tn.esprit.user.entity.User;      // your User entity
+import tn.esprit.utils.SessionManager;  // your SessionManager
+import javafx.event.ActionEvent;
 
 public class MainLayoutController {
+    @FXML
+    protected Button dashboardBtn;
 
     @FXML
     private StackPane contentArea;
@@ -31,9 +38,14 @@ public class MainLayoutController {
     @FXML
     public void initialize() {
         Router.init(contentArea);
-        // ensure the first shown page is the Crops page unless we're asked to skip it
+
+        // SAFE INIT: If Crops fails, it won't break the Dashboard button anymore
         if (!skipInitialRoute) {
-            Router.go(Routes.CROPS);
+            try {
+                Router.go(Routes.CROPS);
+            } catch (Exception e) {
+                System.err.println("⚠️ Warning: Initial route (CROPS) failed: " + e.getMessage());
+            }
         }
 
         // set profile name label from session user if available
@@ -46,21 +58,31 @@ public class MainLayoutController {
     }
 
     @FXML
-    private void openHome() {
+    public void openHome() {
         Router.go(Routes.CROPS);
     }
 
     @FXML
-    private void openForum() {
+    public void showInventory() {
+        Router.go(Routes.Inventory);
+    }
+
+    @FXML
+    public void openForum() {
         Router.go(Routes.FORUM_LIST);
     }
     @FXML
-    private void openMarketplace() {
+    public void openMarketplace() {
         Router.go(Routes.MARKETPLACE);
     }
     @FXML
-    private void openCrops() {
+    public void openCrops() {
         Router.go(Routes.CROPS);
+    }
+
+    @FXML
+    public void openrenatals() {
+        Router.go(Routes.rentals);
     }
 
     @FXML

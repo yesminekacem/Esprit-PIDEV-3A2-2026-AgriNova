@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -27,10 +28,13 @@
 
             <!-- Navigation -->
             <VBox styleClass="nav" spacing="6">
+                <Button text="Dashboard" styleClass="nav-item" onAction="#openAdminDashboard"/>
                 <Button text="Users" styleClass="nav-item" onAction="#openAdminUsers"/>
                 <Button text="Crops" styleClass="nav-item" onAction="#handleManageCrops"/>
                 <Button text="Inventory" styleClass="nav-item"/>
                 <Button text="Marketplace" styleClass="nav-item" onAction="#openMarketplace"/>
+                <Button text="Inventory" styleClass="nav-item" onAction="#openInventory"/>
+                <Button text="Marketplace" styleClass="nav-item"/>
                 <!-- add more later -->
                 <Button text="Forum" styleClass="nav-item" onAction="#openForum"/>
                 <Button text="Settings" styleClass="nav-item" onAction="#openSettings"/>

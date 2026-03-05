@@ -9,5 +9,9 @@ public class Routes {
     public static final String FORUM_CREATE = "/fxml/forum/CreateTopicView.fxml";
     public static final String FORUM_POST = "/fxml/forum/PostView.fxml";
     public static final String FORUM_EDIT = "/fxml/forum/EditTopicView.fxml";
-
+    // Inventory module routes
+    public static final String Inventory = "/fxml/inventory/InventoryView.fxml";
+    public static final String rentals   = "/fxml/inventory/RentalView.fxml";
+    public static final String CALENDAR  = "/fxml/inventory/CalendarView.fxml";
+    public static final String dashboard  = "/fxml/inventory/DashboardView.fxml";
 }

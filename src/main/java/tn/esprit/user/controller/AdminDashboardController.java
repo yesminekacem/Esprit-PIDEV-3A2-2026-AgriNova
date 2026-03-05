@@ -76,4 +76,18 @@ public class AdminDashboardController {
         Router.go("/fxml/crop/CropView.fxml");
     }
 
+    @FXML
+    private void openInventory(ActionEvent e) {
+        loadIntoContent("/fxml/inventory/InventoryView.fxml");
+    }
+
+    @FXML
+    private void openCalendar(ActionEvent e) {
+        loadIntoContent("/fxml/inventory/CalendarView.fxml");
+    }
+
+    @FXML
+    private void openDashboard(ActionEvent e) {
+        loadIntoContent("/fxml/inventory/DashboardView.fxml");
+    }
 }

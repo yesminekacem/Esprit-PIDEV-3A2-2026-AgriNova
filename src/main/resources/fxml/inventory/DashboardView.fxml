@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.inventory.controllers.DashboardController"
+      spacing="24"
+      styleClass="dash-root"
+      prefWidth="800" prefHeight="600"
+      stylesheets="@/styles/dashboard-styles.css">
+
+
+    <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
+
+    <!-- HEADER -->
+    <HBox alignment="CENTER_LEFT" spacing="16">
+        <VBox spacing="4">
+            <Label fx:id="greetingLabel" text="Welcome back 👋" styleClass="dash-greeting"/>
+            <Label text="Here's what's happening in your AgriRent system today." styleClass="dash-subheading"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <VBox alignment="CENTER_RIGHT" spacing="4">
+            <Label fx:id="dateLabel" text="—" styleClass="dash-date"/>
+            <Label fx:id="roleBadge" text="ADMIN" styleClass="dash-role-badge"/>
+        </VBox>
+    </HBox>
+
+    <!-- KPI CARDS -->
+    <HBox spacing="16">
+        <VBox styleClass="kpi-card kpi-blue" spacing="6" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="📦" styleClass="kpi-icon"/>
+                <VBox spacing="2">
+                    <Label text="TOTAL ITEMS" styleClass="kpi-label"/>
+                    <Label fx:id="kpiTotalItems" text="—" styleClass="kpi-value"/>
+                </VBox>
+            </HBox>
+            <Label fx:id="kpiTotalValue" text="Value: —" styleClass="kpi-sub"/>
+        </VBox>
+        <VBox styleClass="kpi-card kpi-green" spacing="6" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="✅" styleClass="kpi-icon"/>
+                <VBox spacing="2">
+                    <Label text="AVAILABLE" styleClass="kpi-label"/>
+                    <Label fx:id="kpiAvailable" text="—" styleClass="kpi-value"/>
+                </VBox>
+            </HBox>
+            <Label fx:id="kpiRentable" text="Rentable: —" styleClass="kpi-sub"/>
+        </VBox>
+        <VBox styleClass="kpi-card kpi-orange" spacing="6" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="🔄" styleClass="kpi-icon"/>
+                <VBox spacing="2">
+                    <Label text="ACTIVE RENTALS" styleClass="kpi-label"/>
+                    <Label fx:id="kpiActiveRentals" text="—" styleClass="kpi-value"/>
+                </VBox>
+            </HBox>
+            <Label fx:id="kpiOverdue" text="Overdue: —" styleClass="kpi-sub kpi-sub-danger"/>
+        </VBox>
+        <VBox styleClass="kpi-card kpi-purple" spacing="6" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="💰" styleClass="kpi-icon"/>
+                <VBox spacing="2">
+                    <Label text="TOTAL REVENUE" styleClass="kpi-label"/>
+                    <Label fx:id="kpiRevenue" text="—" styleClass="kpi-value"/>
+                </VBox>
+            </HBox>
+            <Label fx:id="kpiCompleted" text="Completed: —" styleClass="kpi-sub"/>
+        </VBox>
+    </HBox>
+
+    <!-- CHARTS ROW -->
+    <HBox spacing="16">
+        <VBox styleClass="chart-card" spacing="12" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="🍩" style="-fx-font-size:16px;"/>
+                <VBox spacing="2">
+                    <Label text="Inventory by Type" styleClass="chart-title"/>
+                    <Label text="Distribution across all categories" styleClass="chart-subtitle"/>
+                </VBox>
+            </HBox>
+            <PieChart fx:id="inventoryPieChart" prefHeight="260" legendVisible="true" labelsVisible="true" styleClass="agri-pie-chart"/>
+        </VBox>
+        <VBox styleClass="chart-card" spacing="12" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="📊" style="-fx-font-size:16px;"/>
+                <VBox spacing="2">
+                    <Label text="Rentals by Status" styleClass="chart-title"/>
+                    <Label text="Overview of all rental states" styleClass="chart-subtitle"/>
+                </VBox>
+            </HBox>
+            <BarChart fx:id="rentalBarChart" prefHeight="260" animated="true" styleClass="agri-bar-chart" legendVisible="false">
+                <xAxis><CategoryAxis label="Status"/></xAxis>
+                <yAxis><NumberAxis label="Count" minorTickVisible="false"/></yAxis>
+            </BarChart>
+        </VBox>
+    </HBox>
+
+</VBox>

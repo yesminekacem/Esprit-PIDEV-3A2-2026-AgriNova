@@ -1,0 +1,210 @@
+/* ============================================================
+   AGRIRENT DASHBOARD — Full Styles
+   Matches inventory/rental theme
+============================================================ */
+
+.dash-scroll {
+    -fx-background-color: #FAF8F5;
+    -fx-border-color: transparent;
+}
+.dash-scroll > .viewport {
+    -fx-background-color: #FAF8F5;
+}
+.dash-root {
+    -fx-background-color: #FAF8F5;
+}
+
+/* ── HEADER ─────────────────────────────────────────────── */
+.dash-greeting {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+    -fx-font-family: "Segoe UI";
+}
+.dash-subheading {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B7280;
+    -fx-font-family: "Segoe UI";
+}
+.dash-date {
+    -fx-font-size: 12px;
+    -fx-text-fill: #9CA3AF;
+    -fx-font-family: "Segoe UI";
+}
+.dash-role-badge {
+    -fx-background-color: #1B1F4E;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 3 10 3 10;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-font-family: "Segoe UI";
+}
+
+/* ── KPI CARDS ──────────────────────────────────────────── */
+.kpi-card {
+    -fx-background-radius: 14px;
+    -fx-padding: 18 20 18 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 12, 0, 0, 3);
+    -fx-min-width: 150;
+}
+.kpi-blue   { -fx-background-color: #EFF6FF; -fx-border-color: #BFDBFE; -fx-border-width: 1; -fx-border-radius: 14; }
+.kpi-green  { -fx-background-color: #F0FDF4; -fx-border-color: #BBF7D0; -fx-border-width: 1; -fx-border-radius: 14; }
+.kpi-orange { -fx-background-color: #FFF7ED; -fx-border-color: #FED7AA; -fx-border-width: 1; -fx-border-radius: 14; }
+.kpi-purple { -fx-background-color: #FAF5FF; -fx-border-color: #E9D5FF; -fx-border-width: 1; -fx-border-radius: 14; }
+
+.kpi-icon {
+    -fx-font-size: 28px;
+}
+.kpi-label {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9CA3AF;
+    -fx-font-family: "Segoe UI";
+}
+.kpi-value {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+    -fx-font-family: "Segoe UI";
+}
+.kpi-sub {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B7280;
+    -fx-font-family: "Segoe UI";
+}
+.kpi-sub-danger {
+    -fx-text-fill: #EF4444;
+    -fx-font-weight: bold;
+}
+
+/* ── CHART CARDS ────────────────────────────────────────── */
+.chart-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14px;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 14px;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);
+}
+.chart-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+    -fx-font-family: "Segoe UI";
+}
+.chart-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #9CA3AF;
+    -fx-font-family: "Segoe UI";
+}
+
+/* Pie chart clean look */
+.agri-pie-chart {
+    -fx-background-color: transparent;
+}
+.agri-pie-chart .chart-title { -fx-font-size: 0; }
+.agri-pie-chart .chart-legend {
+    -fx-background-color: transparent;
+}
+.agri-pie-chart .chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+/* Bar chart clean look */
+.agri-bar-chart {
+    -fx-background-color: transparent;
+}
+.agri-bar-chart .chart-plot-background {
+    -fx-background-color: #FAFAFA;
+}
+.agri-bar-chart .chart-vertical-grid-lines { -fx-stroke: transparent; }
+.agri-bar-chart .chart-horizontal-grid-lines {
+    -fx-stroke: #E5E7EB;
+    -fx-stroke-dash-array: 4 4;
+}
+.agri-bar-chart .axis-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6B7280;
+}
+.agri-bar-chart .tick-label {
+    -fx-font-size: 11px;
+    -fx-fill: #6B7280;
+}
+.agri-bar-chart .chart-legend { -fx-background-color: transparent; }
+
+/* ── LIST CARD ──────────────────────────────────────────── */
+.list-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14px;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 14px;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);
+}
+
+/* Maintenance list */
+.agri-list-view {
+    -fx-background-color: #F9FAFB;
+    -fx-background-radius: 8;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI";
+}
+.agri-list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #374151;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 12px;
+}
+.agri-list-view .list-cell:odd {
+    -fx-background-color: #F3F4F6;
+}
+.agri-list-view .list-cell:selected {
+    -fx-background-color: #E8F5E9;
+    -fx-text-fill: #1B5E20;
+}
+
+/* Warning badge */
+.badge-warning {
+    -fx-background-color: #FEF3C7;
+    -fx-text-fill: #D97706;
+    -fx-background-radius: 20;
+    -fx-padding: 4 12 4 12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+}
+
+/* ── CONDITION BARS ─────────────────────────────────────── */
+.cond-label {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9CA3AF;
+    -fx-font-family: "Segoe UI";
+}
+.cond-count {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+    -fx-font-family: "Segoe UI";
+}
+
+/* Progress bar base */
+.progress-bar > .bar { -fx-background-radius: 6; }
+.progress-bar > .track { -fx-background-color: #E5E7EB; -fx-background-radius: 6; }
+
+.pb-excellent > .bar { -fx-background-color: #10B981; }
+.pb-good      > .bar { -fx-background-color: #3B82F6; }
+.pb-fair      > .bar { -fx-background-color: #F59E0B; }
+.pb-poor      > .bar { -fx-background-color: #EF4444; }
+.pb-rented    > .bar { -fx-background-color: #8B5CF6; }
+
+/* Scrollbar */
+.scroll-bar:vertical .thumb { -fx-background-color: #D1D5DB; -fx-background-radius: 5; }
+.scroll-bar:vertical .thumb:hover { -fx-background-color: #9CA3AF; }
+.scroll-bar:vertical { -fx-background-color: transparent; }

@@ -1,0 +1,280 @@
+/* ============================================================
+   AGRIRENT CALENDAR STYLES
+   Matches inventory/rental/dashboard theme
+============================================================ */
+
+/* ── ROOT ────────────────────────────────────────────────── */
+.cal-root {
+    -fx-background-color: #FAF8F5;
+    -fx-font-family: "Segoe UI";
+}
+
+/* ── LEFT PANEL ──────────────────────────────────────────── */
+.cal-left {
+    -fx-background-color: #FAF8F5;
+}
+.cal-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+.cal-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #9CA3AF;
+}
+
+/* ── NAVIGATION ──────────────────────────────────────────── */
+.cal-nav-btn {
+    -fx-background-color: white;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 16 6 16;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #374151;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 4, 0, 0, 1);
+}
+.cal-nav-btn:hover {
+    -fx-background-color: #F3F4F6;
+    -fx-border-color: #D1D5DB;
+}
+.cal-month-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+    -fx-min-width: 200;
+    -fx-alignment: center;
+}
+.cal-today-btn {
+    -fx-background-color: linear-gradient(to right, #2E7D32, #388E3C);
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 7 18 7 18;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.25), 8, 0, 0, 2);
+}
+.cal-today-btn:hover {
+    -fx-background-color: linear-gradient(to right, #1B5E20, #2E7D32);
+}
+.cal-combo {
+    -fx-background-color: white;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 13px;
+}
+
+/* ── LEGEND ──────────────────────────────────────────────── */
+.legend-free    { -fx-background-color: #D1FAE5; -fx-background-radius: 4; -fx-min-height:14; -fx-min-width:14; }
+.legend-booked  { -fx-background-color: #FED7AA; -fx-background-radius: 4; -fx-min-height:14; -fx-min-width:14; }
+.legend-overdue { -fx-background-color: #FECACA; -fx-background-radius: 4; -fx-min-height:14; -fx-min-width:14; }
+.legend-today   { -fx-background-color: #BFDBFE; -fx-background-radius: 4; -fx-min-height:14; -fx-min-width:14; }
+.legend-text    { -fx-font-size: 12px; -fx-text-fill: #6B7280; }
+
+/* ── GRID ────────────────────────────────────────────────── */
+.cal-grid {
+    -fx-background-color: transparent;
+}
+
+/* Day-of-week header */
+.cal-header {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9CA3AF;
+    -fx-padding: 6 4 6 4;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+/* ── DAY CELLS ───────────────────────────────────────────── */
+.cal-day-free {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 1);
+}
+.cal-day-free:hover {
+    -fx-background-color: #F0FDF4;
+    -fx-border-color: #A7F3D0;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.12), 8, 0, 0, 2);
+}
+.cal-day-booked {
+    -fx-background-color: #FFF7ED;
+    -fx-background-radius: 10;
+    -fx-border-color: #FED7AA;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(234,88,12,0.08), 6, 0, 0, 2);
+}
+.cal-day-booked:hover {
+    -fx-background-color: #FFEDD5;
+    -fx-border-color: #FB923C;
+}
+.cal-day-overdue {
+    -fx-background-color: #FFF1F2;
+    -fx-background-radius: 10;
+    -fx-border-color: #FECACA;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(239,68,68,0.1), 6, 0, 0, 2);
+}
+.cal-day-overdue:hover {
+    -fx-background-color: #FFE4E6;
+    -fx-border-color: #F87171;
+}
+.cal-day-today {
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 10;
+    -fx-border-color: #2563EB;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.18), 10, 0, 0, 3);
+}
+
+/* Day number */
+.cal-day-num {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+.cal-day-today .cal-day-num {
+    -fx-text-fill: #1D4ED8;
+}
+
+/* Rental chips inside cells */
+.cal-chip-green {
+    -fx-background-color: #D1FAE5;
+    -fx-text-fill: #065F46;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+.cal-chip-red {
+    -fx-background-color: #FECACA;
+    -fx-text-fill: #991B1B;
+    -fx-background-radius: 4;
+    -fx-padding: 2 6 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+.cal-chip-more {
+    -fx-font-size: 10px;
+    -fx-text-fill: #6B7280;
+    -fx-font-style: italic;
+    -fx-padding: 0 2 0 2;
+}
+
+/* ── SUMMARY STRIP ───────────────────────────────────────── */
+.cal-summary-strip {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-padding: 14 0 14 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 6, 0, 0, 2);
+}
+.summary-item { -fx-padding: 0 20 0 20; }
+.summary-label {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9CA3AF;
+}
+.summary-value-green  { -fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2E7D32; }
+.summary-value-red    { -fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #EF4444; }
+.summary-value-orange { -fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #F59E0B; }
+.summary-divider      { -fx-text-fill: #E5E7EB; -fx-font-size: 24px; -fx-padding: 0 4 0 4; }
+
+/* ── RIGHT PANEL ─────────────────────────────────────────── */
+.cal-right {
+    -fx-background-color: white;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 0 0 0 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 12, 0, -2, 0);
+}
+.detail-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+.detail-date {
+    -fx-font-size: 13px;
+    -fx-text-fill: #2E7D32;
+    -fx-font-weight: 600;
+}
+.detail-sep {
+    -fx-background-color: #E5E7EB;
+    -fx-pref-height: 1;
+}
+.detail-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.detail-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+.detail-empty {
+    -fx-font-size: 13px;
+    -fx-text-fill: #9CA3AF;
+    -fx-padding: 20 0 0 0;
+}
+
+/* Rental detail cards */
+.detail-card {
+    -fx-background-color: #F9FAFB;
+    -fx-background-radius: 10;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-padding: 12 14 12 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 1);
+}
+.detail-item-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+.detail-badge-green {
+    -fx-background-color: #D1FAE5;
+    -fx-text-fill: #065F46;
+    -fx-background-radius: 20;
+    -fx-padding: 3 10 3 10;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+.detail-badge-red {
+    -fx-background-color: #FECACA;
+    -fx-text-fill: #991B1B;
+    -fx-background-radius: 20;
+    -fx-padding: 3 10 3 10;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+.detail-row {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B7280;
+}
+.detail-row-danger {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #EF4444;
+}
+.detail-row-info {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #2563EB;
+}
+
+/* Scrollbar */
+.scroll-bar:vertical .thumb { -fx-background-color: #D1D5DB; -fx-background-radius: 5; }
+.scroll-bar:vertical .thumb:hover { -fx-background-color: #9CA3AF; }
+.scroll-bar:vertical { -fx-background-color: transparent; }
