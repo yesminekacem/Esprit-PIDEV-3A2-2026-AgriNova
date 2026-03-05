@@ -32,10 +32,8 @@
                 <Button text="Marketplace" styleClass="nav-item" onAction="#openMarketplace"/>
 
 
-                <Button  text="inventory" onAction="#showInventory"
-                        styleClass="nav-button">
-
-                </Button>
+                <Button text="inventory" onAction="#showInventory"
+                        styleClass="nav-item"/>
 
                 <!-- ONLY FORUM HAS ACTION -->
                 <Button text="Forum" styleClass="nav-item" onAction="#openForum"/>
