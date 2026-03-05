@@ -35,6 +35,8 @@
                           prefWidth="150"/>
 
                 <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="dashboardBtn" text="Dashboard" onAction="#showDashboard" />
+
 
                 <!-- Add Rental Button -->
                 <Button fx:id="addRentalBtn"
@@ -47,14 +49,7 @@
                         styleClass="btn-calendar"
                         onAction="#handleOpenCalendar"/>
 
-                  <Button fx:id="dashboardBtn" onAction="#showDashboard" styleClass="nav-button, nav-active">
-                <graphic>
-                    <HBox spacing="12" alignment="CENTER_LEFT">
-                        <Label text="📊" styleClass="nav-icon"/>
-                        <Label text="Dashboard" styleClass="nav-label"/>
-                    </HBox>
-                </graphic>
-            </Button>
+
             </HBox>
 
             <!-- Row 2: Page Title -->

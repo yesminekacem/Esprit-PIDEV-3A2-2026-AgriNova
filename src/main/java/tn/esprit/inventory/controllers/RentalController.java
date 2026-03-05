@@ -22,6 +22,7 @@ import tn.esprit.navigation.Router;
 import tn.esprit.navigation.Routes;
 import tn.esprit.utils.SessionManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -44,6 +45,7 @@ public class RentalController implements Initializable {
     // ── FXML fields ──────────────────────────────────────────────
     @FXML private TextField searchField;
     @FXML private ComboBox<String> statusFilter;
+
     @FXML private Button addRentalBtn;
     @FXML private TabPane mainTabPane;
     @FXML private GridPane allRentalsGrid;
@@ -149,6 +151,12 @@ public class RentalController implements Initializable {
             if (addRentalBtn != null) {
                 addRentalBtn.setVisible(false);
                 addRentalBtn.setManaged(false);
+                dashboardBtn.setVisible(true);
+                dashboardBtn.setManaged(true);
+            }else{
+                dashboardBtn.setVisible(false);
+                dashboardBtn.setManaged(false);
+
             }
             return;
         }
@@ -1077,4 +1085,22 @@ public class RentalController implements Initializable {
         String returnCondition;
         int rating;
     }
+    @FXML
+    private void showDashboard() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/fxml/inventory/DashboardView.fxml")
+            );
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Dashboard");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

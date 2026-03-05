@@ -566,6 +566,11 @@ public class InventoryController implements Initializable {
 
     @FXML
     private void showDashboard() {
+        if (!isAdmin()) {
+            showErrorAlert("❌ Access denied. Admins only.");
+            return;
+        }
+
         InventoryService.InventoryStatistics stats = inventoryService.getStatistics();
         StringBuilder sb = new StringBuilder();
         sb.append("INVENTORY DASHBOARD\n\n");

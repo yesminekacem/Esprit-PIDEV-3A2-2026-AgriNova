@@ -14,8 +14,4 @@ public class Routes {
     public static final String rentals   = "/fxml/inventory/RentalView.fxml";
     public static final String CALENDAR  = "/fxml/inventory/CalendarView.fxml";
     public static final String dashboard  = "/fxml/inventory/DashboardView.fxml";
-
-
-
-
 }

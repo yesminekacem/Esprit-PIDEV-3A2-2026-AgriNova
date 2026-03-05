@@ -28,7 +28,7 @@ public class EmailService {
     // ⚠️ Replace with your Gmail address and App Password
     // To get an App Password: Google Account > Security > 2-Step Verification > App Passwords
     private static final String SENDER_EMAIL = "yassinearfaoui689@gmail.com";
-    private static final String SENDER_PASSWORD = "xxxx xxxx xxxx xxxx";
+    private static final String SENDER_PASSWORD = "xxcl lzlh goaj xuwm";
     private static final String SENDER_NAME = "AgriRent System";
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd MMM yyyy");

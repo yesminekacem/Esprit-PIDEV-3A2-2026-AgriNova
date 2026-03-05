@@ -27,20 +27,14 @@
             <!-- Navigation -->
             <VBox styleClass="nav" spacing="6">
 
-
                 <Button text="Crops" styleClass="nav-item" onAction="#openCrops"/>
 
                 <Button text="Marketplace" styleClass="nav-item" onAction="#openMarketplace"/>
 
 
-                <Button fx:id="inventoryBtn" onAction="#showInventory"
+                <Button  text="inventory" onAction="#showInventory"
                         styleClass="nav-button">
-                    <graphic>
-                        <HBox  alignment="CENTER_LEFT">
-                            <Label text="📦" styleClass="nav-icon"/>
-                            <Label text="Inventory" styleClass="nav-item"/>
-                        </HBox>
-                    </graphic>
+
                 </Button>
 
                 <!-- ONLY FORUM HAS ACTION -->

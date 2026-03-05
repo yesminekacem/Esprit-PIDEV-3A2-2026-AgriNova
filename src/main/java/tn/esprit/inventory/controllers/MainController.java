@@ -8,7 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-
+import tn.esprit.utils.SessionManager;
+import tn.esprit.user.entity.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,6 +21,7 @@ public class MainController implements Initializable {
 
     @FXML private Button dashboardBtn;
     @FXML private Button usersBtn;
+
     @FXML private Button cropsBtn;
     @FXML private Button inventoryBtn;
     @FXML private Button calendarBtn;
@@ -35,6 +37,8 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
         // When scene is ready, expose this controller via root properties
         contentPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null && newScene.getRoot() != null) {
@@ -45,6 +49,7 @@ public class MainController implements Initializable {
         currentActiveButton = inventoryBtn;
         showInventory();
     }
+
 
     @FXML
     private void showDashboard() {
