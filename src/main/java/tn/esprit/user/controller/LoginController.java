@@ -166,7 +166,7 @@ public class LoginController {
                     stage.setMinWidth(1000);
                     stage.setMinHeight(700);
                     stage.setMaximized(true);
-                    stage.getIcons().add(tn.esprit.MainFX.getAppIcon());
+                    stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
                     stage.show();
 
                     // Close login window
@@ -215,6 +215,8 @@ public class LoginController {
             forgotPasswordStage.setScene(scene);
             forgotPasswordStage.setResizable(false);
             forgotPasswordStage.initModality(Modality.APPLICATION_MODAL);
+            forgotPasswordStage.initOwner((Stage) loginButton.getScene().getWindow());
+            forgotPasswordStage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
 
             controller.setStage(forgotPasswordStage);
             forgotPasswordStage.showAndWait();
@@ -233,8 +235,11 @@ public class LoginController {
             Stage faceStage = new Stage();
             faceStage.setTitle("Face ID Login — Agrinova");
             faceStage.setScene(scene);
-            faceStage.setResizable(false);
+            faceStage.setResizable(true);
+            faceStage.setMinWidth(580);
+            faceStage.setMinHeight(560);
             faceStage.initModality(Modality.APPLICATION_MODAL);
+            faceStage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
             ctrl.setStage(faceStage);
             faceStage.showAndWait();
             // if Face ID succeeded the session is now set; close login window
@@ -255,6 +260,7 @@ public class LoginController {
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.setMaximized(true);
+        stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
         stage.show();
     }
 

@@ -343,6 +343,7 @@ public class SignupController {
         stage.setMinWidth(800);
         stage.setMinHeight(600);
         stage.centerOnScreen();
+        stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
         stage.show();
     }
 
@@ -350,21 +351,27 @@ public class SignupController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/email-verification.fxml"));
             Scene scene = new Scene(loader.load());
+            java.net.URL css = getClass().getResource("/styles/styles.css");
+            if (css != null) scene.getStylesheets().add(css.toExternalForm());
 
             EmailVerificationController controller = loader.getController();
             controller.setPendingUser(user);
             controller.setPasswordResetMode(false);
 
-            Stage currentStage = (Stage) signupButton.getScene().getWindow();
+            Stage signupStage = (Stage) signupButton.getScene().getWindow();
 
+            // Open verification as a modal on top of the signup window
             Stage verificationStage = new Stage();
             verificationStage.setTitle("Email Verification - AgriNova");
             verificationStage.setScene(scene);
             verificationStage.setResizable(false);
             verificationStage.initModality(Modality.APPLICATION_MODAL);
-            verificationStage.initOwner(currentStage);
+            verificationStage.initOwner(signupStage);
+            verificationStage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
 
+            // Pass the SIGNUP stage so loadLoginScene redirects it to login on success
             controller.setStage(verificationStage);
+            controller.setOwnerStage(signupStage);
             controller.initializeDialog();
 
 

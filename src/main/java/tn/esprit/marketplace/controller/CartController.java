@@ -282,6 +282,7 @@ public class CartController {
             dialogStage.setTitle("Select delivery location");
             dialogStage.setScene(new Scene(root));
             dialogStage.setResizable(false);
+            dialogStage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
 
             dialogStage.showAndWait();
 

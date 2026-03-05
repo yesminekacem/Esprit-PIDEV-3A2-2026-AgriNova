@@ -114,23 +114,18 @@ public class ForgotPasswordController {
             Stage verificationStage = new Stage();
             verificationStage.setTitle("Password Reset Verification - Agrinova");
             verificationStage.setScene(scene);
-            verificationStage.setResizable(false);
-
-            // DON'T make this modal to avoid stacking issues
-            // verificationStage.initModality(Modality.APPLICATION_MODAL);
+            verificationStage.setResizable(true);
+            verificationStage.initModality(Modality.APPLICATION_MODAL);
+            verificationStage.initOwner(stage);
+            verificationStage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
 
             controller.setStage(verificationStage);
-
-            // Initialize the dialog with proper timer and field setup for password reset
             controller.initializeDialog();
 
-            // Close current stage BEFORE showing verification dialog
+            // Close the forgot-password dialog before showing verification
             stage.close();
 
-            // Show verification dialog normally (not modal)
             verificationStage.show();
-
-            // Bring to front and focus
             verificationStage.toFront();
             verificationStage.requestFocus();
 

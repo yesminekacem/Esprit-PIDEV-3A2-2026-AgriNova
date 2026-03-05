@@ -1096,6 +1096,7 @@ public class RentalController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Dashboard");
             stage.setScene(new Scene(root));
+            stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
             stage.show();
 
         } catch (IOException e) {

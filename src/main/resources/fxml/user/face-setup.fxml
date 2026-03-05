@@ -24,7 +24,8 @@
 
         <!-- Live webcam feed with countdown overlay -->
         <StackPane style="-fx-background-color:#111827;-fx-background-radius:14;" prefHeight="315">
-            <ImageView fx:id="webcamView" fitWidth="532" fitHeight="315" preserveRatio="true"/>
+            <ImageView fx:id="webcamView" fitWidth="532" fitHeight="315" preserveRatio="true"
+                       style="-fx-scale-x:-1;"/>
             <!-- face guide ring -->
             <Label text="◯"
                    style="-fx-font-size:140px;-fx-text-fill:rgba(255,255,255,0.18);-fx-font-weight:100;"

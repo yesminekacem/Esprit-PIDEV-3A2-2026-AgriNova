@@ -2,16 +2,12 @@ package tn.esprit.user.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.esprit.user.entity.User;
 import tn.esprit.user.service.UserCrud;
 import tn.esprit.utils.PasswordUtil;
 import tn.esprit.utils.ValidationUtil;
-
-import java.io.IOException;
 
 public class PasswordResetController {
     @FXML private Label emailLabel;
@@ -148,16 +144,7 @@ public class PasswordResetController {
 
             if (updated) {
                 showSuccessAlert("Password reset successfully! You can now login with your new password.");
-
-                // Close dialog and redirect to login
-                Platform.runLater(() -> {
-                    try {
-                        loadLoginScene();
-                        stage.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+                Platform.runLater(() -> stage.close());
             } else {
                 showError("Failed to reset password. Please try again.");
             }
@@ -176,15 +163,6 @@ public class PasswordResetController {
         stage.close();
     }
 
-    private void loadLoginScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
-        Scene scene = new Scene(loader.load());
-
-        Stage currentStage = (Stage) stage.getScene().getWindow();
-        currentStage.setScene(scene);
-        currentStage.setTitle("Login - Agrinova Platform");
-        currentStage.centerOnScreen();
-    }
 
     private void clearError() {
         errorLabel.setText("");

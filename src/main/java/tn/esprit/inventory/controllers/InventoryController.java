@@ -642,6 +642,7 @@ public class InventoryController implements Initializable {
             Stage qrStage = new Stage();
             qrStage.setTitle("QR Code — " + item.getItemName());
             qrStage.initModality(Modality.APPLICATION_MODAL);
+            qrStage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
 
             ImageView imageView = new ImageView(qrImage);
             imageView.setFitWidth(300);

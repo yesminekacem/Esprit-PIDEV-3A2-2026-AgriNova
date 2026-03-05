@@ -287,6 +287,7 @@ public class UserDashboardController {
             dialog.setScene(scene);
             dialog.setResizable(false);
             dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
             dialog.setOnCloseRequest(e -> ctrl.onClose());
             dialog.showAndWait();
             refreshFaceIdStatus(SessionManager.getInstance().getCurrentUser());

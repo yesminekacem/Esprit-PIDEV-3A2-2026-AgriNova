@@ -8,40 +8,43 @@
       fx:controller="tn.esprit.user.controller.FaceLoginController"
       spacing="16" alignment="TOP_CENTER"
       style="-fx-background-color:#f0f2f5;"
-      prefWidth="560" prefHeight="520">
+      prefWidth="560" prefHeight="580">
     <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
 
     <!-- Header -->
     <VBox spacing="4" alignment="CENTER">
         <Label text="🪪  Face ID Login"
                style="-fx-font-size:22px;-fx-font-weight:800;-fx-text-fill:#111827;"/>
-        <Label text="Look straight at the camera, then click Verify."
+        <Label text="Look straight at the camera — you'll be signed in automatically."
                style="-fx-font-size:13px;-fx-text-fill:#6b7280;"/>
     </VBox>
 
-    <!-- Live webcam feed -->
+    <!-- Live webcam feed (mirrored like a selfie camera) -->
     <StackPane style="-fx-background-color:#111827;-fx-background-radius:14;" prefHeight="315">
-        <ImageView fx:id="webcamView" fitWidth="512" fitHeight="315" preserveRatio="true"/>
+        <ImageView fx:id="webcamView" fitWidth="512" fitHeight="315" preserveRatio="true"
+                   style="-fx-scale-x:-1;"/>
         <Label text="◯"
                style="-fx-font-size:140px;-fx-text-fill:rgba(255,255,255,0.18);-fx-font-weight:100;"
                mouseTransparent="true"/>
     </StackPane>
 
-    <!-- Status + result -->
-    <Label fx:id="statusLabel" text="Position your face and click Verify."
+    <!-- Status -->
+    <Label fx:id="statusLabel" text="Position your face in the circle."
            style="-fx-font-size:13px;-fx-text-fill:#374151;" wrapText="true" maxWidth="512"/>
 
     <ProgressBar fx:id="progressBar" maxWidth="Infinity" style="-fx-accent:#2E7D32;"/>
 
-    <Label fx:id="resultLabel" text=""
+    <Label fx:id="resultLabel"
            style="-fx-font-size:13px;-fx-font-weight:700;" wrapText="true" maxWidth="512"/>
 
-    <!-- Buttons -->
-    <HBox spacing="12" alignment="CENTER">
-        <Button fx:id="verifyButton" text="🔍  Verify Face" onAction="#handleVerify"
-                style="-fx-background-color:#2E7D32;-fx-text-fill:white;-fx-background-radius:10;
-                       -fx-padding:11 28;-fx-cursor:hand;-fx-font-size:13px;-fx-font-weight:800;
-                       -fx-effect:dropshadow(gaussian,rgba(46,125,50,0.3),10,0.2,0,3);"/>
+    <!-- Account picker (shown only when multiple accounts match) -->
+    <VBox fx:id="accountPickerBox" spacing="10"
+          style="-fx-background-color:white;-fx-background-radius:12;-fx-padding:16;
+                 -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.08),16,0,0,4);"
+          maxWidth="512"/>
+
+    <!-- Cancel -->
+    <HBox alignment="CENTER">
         <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"
                 style="-fx-background-color:#e5e7eb;-fx-text-fill:#374151;-fx-background-radius:10;
                        -fx-padding:11 22;-fx-cursor:hand;-fx-font-size:13px;-fx-font-weight:700;"/>

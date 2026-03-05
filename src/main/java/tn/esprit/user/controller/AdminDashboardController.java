@@ -47,6 +47,9 @@ public class AdminDashboardController {
 
         // ✅ IMPORTANT: allow Router.go(...) to inject pages inside the dashboard center
         Router.init(contentArea);
+
+        // Open users list as default view
+        loadIntoContent("/fxml/user/UsersList.fxml");
     }
 
     @FXML

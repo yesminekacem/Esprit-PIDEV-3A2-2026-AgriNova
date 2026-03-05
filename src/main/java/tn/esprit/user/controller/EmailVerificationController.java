@@ -38,10 +38,16 @@ public class EmailVerificationController {
     private int timeRemaining = 600; // 10 minutes in seconds
     private Stage stage;
     private Stage signupStage;
+    private Stage ownerStage; // the main window to redirect to login on success
     private boolean isPasswordReset = false;
 
     public void setSignupStage(Stage signupStage) {
         this.signupStage = signupStage;
+    }
+
+    /** For signup flow: the signup window that should be redirected to login on success. */
+    public void setOwnerStage(Stage owner) {
+        this.ownerStage = owner;
     }
 
     public void initialize() {
@@ -246,25 +252,19 @@ public class EmailVerificationController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/password-reset.fxml"));
             Scene scene = new Scene(loader.load());
+            java.net.URL css = getClass().getResource("/styles/styles.css");
+            if (css != null) scene.getStylesheets().add(css.toExternalForm());
 
             PasswordResetController controller = loader.getController();
             controller.setUserEmail(pendingUser.getEmail());
 
-            Stage resetStage = new Stage();
-            resetStage.setTitle("Reset Password - Agrinova");
-            resetStage.setScene(scene);
-            resetStage.setResizable(false);
-            resetStage.initModality(Modality.APPLICATION_MODAL);
+            // Stop timer before swapping scene
+            if (countdownTimer != null) countdownTimer.stop();
 
-            controller.setStage(resetStage);
-
-            // Close current stage
-            if (countdownTimer != null) {
-                countdownTimer.stop();
-            }
-            stage.close();
-
-            resetStage.showAndWait();
+            // Reuse the same window — just swap the scene
+            controller.setStage(stage);
+            stage.setTitle("Reset Password - Agrinova");
+            stage.setScene(scene);
 
         } catch (IOException e) {
             showError("Failed to open password reset dialog.");
@@ -317,25 +317,28 @@ public class EmailVerificationController {
     }
 
     private void loadLoginScene() throws IOException {
+        // Forgot-password flow: verification stage has an owner but no ownerStage set → just close.
+        // The login window is already visible behind it.
+        if (stage.getOwner() != null && ownerStage == null) {
+            stage.close();
+            return;
+        }
+
+        // Signup flow: close verification modal, then redirect the signup window (ownerStage) to login.
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/login.fxml"));
         Scene loginScene = new Scene(loader.load());
         java.net.URL css = getClass().getResource("/styles/styles.css");
         if (css != null) loginScene.getStylesheets().add(css.toExternalForm());
 
-        // Close signup (owner stage) if present
-        if (signupStage != null) {
-            signupStage.close();
-        }
+        Stage target = (ownerStage != null) ? ownerStage : stage;
+        stage.close(); // close the verification modal
 
-        stage.setScene(loginScene);
-        stage.setTitle("AgriNova - Login");
-        stage.setResizable(true);
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
-        stage.setWidth(1200);
-        stage.setHeight(840);
-        stage.centerOnScreen();
-        stage.show();
+        target.setScene(loginScene);
+        target.setTitle("AgriNova - Login");
+        target.setResizable(true);
+        target.setMinWidth(800);
+        target.setMinHeight(600);
+        target.show();
     }
 
     private void clearError() {

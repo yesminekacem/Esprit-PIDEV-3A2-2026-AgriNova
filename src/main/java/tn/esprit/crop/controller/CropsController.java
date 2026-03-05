@@ -182,6 +182,7 @@ public class CropsController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Add Task - " + crop.getName());
+            stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
             stage.show();
 
         } catch (Exception e) {
@@ -202,6 +203,7 @@ public class CropsController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Add Crop");
+            stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
             stage.showAndWait();
 
             loadCrops();
@@ -221,6 +223,7 @@ public class CropsController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Task Management");
+            stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
             stage.show();
 
         } catch (Exception e) {
@@ -238,7 +241,7 @@ public class CropsController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Crop Management - Admin");
-
+            stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
             stage.showAndWait();
             loadCrops();
 

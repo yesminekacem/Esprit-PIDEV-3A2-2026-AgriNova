@@ -45,6 +45,7 @@ public class PayPalCheckoutDialog {
         dialogStage.setTitle("PayPal Checkout");
         dialogStage.setWidth(900);
         dialogStage.setHeight(750);
+        dialogStage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
 
 
 

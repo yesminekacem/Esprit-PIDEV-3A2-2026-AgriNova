@@ -467,6 +467,7 @@ public class UsersListController {
         Stage stage = new Stage();
         stage.setTitle("AgriNova - " + title);
         stage.setScene(scene);
+        stage.getIcons().setAll(tn.esprit.MainFX.getAppIcon());
         stage.show();
     }
 
