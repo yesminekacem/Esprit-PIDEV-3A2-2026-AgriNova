@@ -1,6 +1,10 @@
 # 🌱 AgriNova — Digital Farm Management System
 
-> A comprehensive JavaFX desktop application for modern farm management, featuring crop tracking, AI-powered task generation, disease detection, a community forum, a marketplace with PayPal checkout, and a full user authentication system with Face ID.
+> **Repository:** `Esprit-PIDEV-3A2-2026-AgriNova`
+
+This project was developed as part of the **PIDEV – 3rd Year Engineering Program** at **Esprit School of Engineering** (Academic Year 2025–2026).
+
+AgriNova is a comprehensive JavaFX desktop application for modern farm management, featuring crop tracking, AI-powered task generation, disease detection, a community forum, a marketplace with PayPal checkout, and a full user authentication system with Face ID.
 
 ---
 
@@ -10,7 +14,7 @@ AgriNova is a full-stack desktop application built with **JavaFX 22** and **MySQ
 
 ---
 
-## 🚀 Features at a Glance
+## 🚀 Features
 
 | Module | Key Features |
 |---|---|
@@ -23,10 +27,10 @@ AgriNova is a full-stack desktop application built with **JavaFX 22** and **MySQ
 
 ## 🛠️ Tech Stack
 
+### Backend
 | Layer | Technology |
 |---|---|
 | **Language** | Java 17 |
-| **UI Framework** | JavaFX 22 |
 | **Build Tool** | Maven |
 | **Database** | MySQL 8 (JDBC) |
 | **Password Security** | BCrypt (jBCrypt 0.4) |
@@ -40,9 +44,16 @@ AgriNova is a full-stack desktop application built with **JavaFX 22** and **MySQ
 | **PDF Export** | iText 5.5.13 |
 | **Webcam** | Sarxos Webcam Capture 0.3.12 |
 
+### Frontend
+| Layer | Technology |
+|---|---|
+| **UI Framework** | JavaFX 22 |
+| **Styling** | CSS (JavaFX stylesheets) |
+| **Layout** | FXML |
+
 ---
 
-## 📁 Project Structure
+## 🏗️ Architecture
 
 ```
 AgriNova/
@@ -66,7 +77,7 @@ AgriNova/
 │   │   ├── service/
 │   │   └── controller/
 │   ├── navigation/                    # Routing & layout controllers
-│   └── utils/                         # Shared utilities
+│   └── utils/                        # Shared utilities
 ├── src/main/resources/
 │   ├── fxml/                          # All FXML view files
 │   ├── styles/styles.css              # Global stylesheet
@@ -117,7 +128,9 @@ PayPal REST API (Sandbox) — java.net.http
 
 ---
 
-## ⚙️ Prerequisites
+## ⚙️ Getting Started
+
+### Prerequisites
 
 - **Java 17+**
 - **Maven 3.8+**
@@ -125,9 +138,7 @@ PayPal REST API (Sandbox) — java.net.http
 - **Python 3.9+** (for AI APIs — optional)
 - **Ollama** (for local LLM task generation — optional)
 
----
-
-## 🗄️ Database Setup
+### Database Setup
 
 1. Create a MySQL database:
 ```sql
@@ -139,83 +150,46 @@ CREATE DATABASE agrinova;
 SOURCE database-updates.sql;
 ```
 
-3. Configure your DB connection in:
-```
-src/main/java/tn/esprit/utils/DbConnect.java
-```
+3. Configure your DB connection in `src/main/java/tn/esprit/utils/DbConnect.java`:
 ```java
 private static final String URL = "jdbc:mysql://localhost:3306/agrinova";
 private static final String USER = "root";
 private static final String PASSWORD = "yourpassword";
 ```
 
----
+### Python AI APIs (Optional)
 
-## 🤖 Python AI APIs (Optional)
-
-### Crop Task Generation API
+**Crop Task Generation:**
 ```bash
 cd crop_ai_api
 pip install flask requests
 python app.py
 # Runs on http://127.0.0.1:5000
 ```
-Requires **Ollama** running locally with a compatible model.
 
-### Plant Disease Detection API
+**Plant Disease Detection:**
 ```bash
 cd plant_ai_api
 pip install flask ultralytics pillow
 python main.py
 # Runs on http://127.0.0.1:5000/detect
 ```
-Uses a **YOLOv8** model trained on plant disease images.
 
----
+### External API Configuration
 
-## 🔑 External API Configuration
+| API | File | Where to get credentials |
+|---|---|---|
+| **Face++** | `FaceIdService.java` | [faceplusplus.com](https://www.faceplusplus.com/) — free 1000 calls/month |
+| **Groq AI** | env `GROQ_API_KEY` | [console.groq.com](https://console.groq.com) — free |
+| **PayPal** | `PayPalConfig.java` | [developer.paypal.com](https://developer.paypal.com) — sandbox |
+| **MailerSend** | `EmailService.java` | [mailersend.com](https://www.mailersend.com) — free tier |
 
-### Face++ (Face ID)
-1. Sign up at [faceplusplus.com](https://www.faceplusplus.com/) (free — 1000 calls/month)
-2. Update credentials in `FaceIdService.java`:
-```java
-public static final String API_KEY    = "YOUR_API_KEY";
-public static final String API_SECRET = "YOUR_API_SECRET";
-```
-
-### Groq AI (Forum title/tag generation)
-1. Get a free API key at [console.groq.com](https://console.groq.com)
-2. Set environment variable:
-```bash
-set GROQ_API_KEY=your_key_here   # Windows
-export GROQ_API_KEY=your_key_here # Linux/Mac
-```
-
-### PayPal (Marketplace checkout)
-1. Create a sandbox app at [developer.paypal.com](https://developer.paypal.com)
-2. Update credentials in `PayPalConfig.java`:
-```java
-public static final String CLIENT_ID     = "YOUR_CLIENT_ID";
-public static final String CLIENT_SECRET = "YOUR_CLIENT_SECRET";
-public static final String API_BASE      = "https://api-m.sandbox.paypal.com";
-```
-
-### MailerSend (Email / OTP)
-Update credentials in `EmailService.java`:
-```java
-private static final String SMTP_HOST     = "smtp.mailersend.net";
-private static final String FROM_EMAIL    = "your@domain.com";
-private static final String EMAIL_PASSWORD = "your_smtp_password";
-```
-
----
-
-## ▶️ Running the App
+### Run the App
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/AgriNova.git
-cd AgriNova
+git clone https://github.com/yourusername/Esprit-PIDEV-3A2-2026-AgriNova.git
+cd Esprit-PIDEV-3A2-2026-AgriNova
 
 # Build and run
 mvn clean javafx:run
@@ -223,11 +197,8 @@ mvn clean javafx:run
 
 Or open in **IntelliJ IDEA** and run `MainFX.java`.
 
----
+### Default Admin Account
 
-## 🔐 Default Admin Account
-
-After running the DB migration, create an admin account manually or via signup and update the role:
 ```sql
 UPDATE user SET role = 'ADMIN' WHERE email = 'your@email.com';
 ```
@@ -306,13 +277,68 @@ UPDATE user SET role = 'ADMIN' WHERE email = 'your@email.com';
 
 ---
 
-## 👥 Authors
+## 👥 Contributors
 
-Built by students at **ESPRIT** — School of Engineering, Tunisia.
+Developed by 3rd Year Engineering students — Class **3A2**
+
+| Name | Module |
+|---|---|
+| Team Member 1 | User Module & Authentication |
+| Team Member 2 | Crop Module & AI Integration |
+| Team Member 3 | Forum Module |
+| Team Member 4 | Marketplace & PayPal |
+
+> Replace with actual team member names and GitHub profiles.
+
+---
+
+## 🎓 Academic Context
+
+Developed at **Esprit School of Engineering – Tunisia**
+
+- **Program:** PIDEV – 3rd Year Engineering
+- **Class:** 3A2
+- **Academic Year:** 2025–2026
+- **Institution:** [Esprit School of Engineering](https://esprit.tn)
+
+This project was developed as part of the **PIDEV – 3rd Year Engineering Program** at **Esprit School of Engineering** (Academic Year 2025–2026), as a practical application of software engineering principles including layered architecture, design patterns, API integration, and full-stack desktop development.
+
+---
+
+## 🏷️ GitHub Topics
+
+```
+esprit-school-of-engineering
+academic-project
+esprit-pidev
+2025-2026
+javafx
+java
+mysql
+javafx-application
+desktop-application
+face-recognition
+ai-integration
+paypal
+yolov8
+```
+
+---
+
+## 🙏 Acknowledgments
+
+- **Esprit School of Engineering** — for the academic framework and guidance
+- **GitHub Education** — for providing free developer tools and resources to students
+- [Face++](https://www.faceplusplus.com/) — free face recognition API
+- [Groq](https://groq.com/) — free LLaMA inference API
+- [MailerSend](https://www.mailersend.com/) — transactional email service
+- [PayPal Developer](https://developer.paypal.com/) — sandbox payment API
+- [Sarxos Webcam Capture](https://github.com/sarxos/webcam-capture) — open-source webcam library
+- [Apache POI](https://poi.apache.org/) — open-source Excel library
+- [YOLOv8 / Ultralytics](https://ultralytics.com/) — open-source object detection
 
 ---
 
 ## 📄 License
 
-This project is for educational purposes.
-
+This project is for educational purposes at **Esprit School of Engineering**.
